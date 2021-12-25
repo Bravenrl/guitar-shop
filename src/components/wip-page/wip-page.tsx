@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
-function NotFoundPage(): JSX.Element {
+function WipPage(): JSX.Element {
   return (
     <div
       style={{
         textAlign: 'center',
       }}
     >
-      <h1>404. Этой страницы не существует</h1>
+      <h1>Эта страница находится в разработке</h1>
       <Link to={AppRoute.Main}>
         <h2>Перейти главную страницу</h2>
       </Link>
@@ -16,4 +16,4 @@ function NotFoundPage(): JSX.Element {
   );
 }
 
-export default NotFoundPage;
+export default WipPage;
