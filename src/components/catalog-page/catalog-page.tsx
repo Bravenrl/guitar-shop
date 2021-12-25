@@ -1,13 +1,13 @@
-// import MainLayout from '../common/main-layout/main-layout';
+import { Title } from '../../const';
 import PageContainer from '../common/page-container/page-container';
 import CatalogCards from './components/catalog-cards/catalog-cards';
 import CatalogFilter from './components/catalog-filter/catalog-filter';
 import CatalogSort from './components/catalog-sort/catalog-sort';
 import Pagination from './components/pagination/pagination';
 
-function MainPage() {
+function CatalogPage() {
   return (
-    <PageContainer>
+    <PageContainer title={Title.Catalog}>
       <div className='catalog'>
         <CatalogFilter />
         <CatalogSort />
@@ -18,4 +18,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export default CatalogPage;

@@ -1,10 +1,12 @@
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../../const';
 import FormSearch from '../form-search/form-search';
 
 function Header(): JSX.Element {
   return (
     <header className='header' id='header'>
       <div className='container header__wrapper'>
-        <a className='header__logo logo' href='/'>
+        <Link className='header__logo logo' to = {AppRoute.Root}>
           <img
             className='logo__img'
             width='70'
@@ -12,28 +14,28 @@ function Header(): JSX.Element {
             src='./img/svg/logo.svg'
             alt='Логотип'
           />
-        </a>
+        </Link>
         <nav className='main-nav'>
           <ul className='main-nav__list'>
             <li>
-              <a className='link main-nav__link link--current' href='todo'>
+              <Link className='link main-nav__link link--current' to = {AppRoute.MainPage}>
                 Каталог
-              </a>
+              </Link>
             </li>
             <li>
-              <a className='link main-nav__link' href='todo'>
+              <Link className='link main-nav__link' to = {AppRoute.NotFound}>
                 Где купить?
-              </a>
+              </Link>
             </li>
             <li>
-              <a className='link main-nav__link' href='todo'>
+              <Link className='link main-nav__link' to = {AppRoute.NotFound}>
                 О компании
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
         <FormSearch />
-        <a className='header__cart-link' href='todo' aria-label='Корзина'>
+        <Link className='header__cart-link' to = {AppRoute.Cart} aria-label='Корзина'>
           <svg
             className='header__cart-icon'
             width='14'
@@ -43,8 +45,8 @@ function Header(): JSX.Element {
             <use xlinkHref='#icon-basket'></use>
           </svg>
           <span className='visually-hidden'>Перейти в корзину</span>
-          <span className='header__cart-count'>2</span>
-        </a>
+          <span className='header__cart-count'></span>
+        </Link>
       </div>
     </header>
   );

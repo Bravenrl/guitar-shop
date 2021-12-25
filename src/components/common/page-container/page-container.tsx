@@ -1,15 +1,15 @@
-import { Title } from '../../../const';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import PageTitle from '../page-title/page-title';
 
 type PageContainerProps = {
   children: JSX.Element;
+  title: string;
 };
 
-function PageContainer({ children }: PageContainerProps): JSX.Element {
+function PageContainer({ children, title }: PageContainerProps): JSX.Element {
   return (
     <div className='container'>
-      <PageTitle>{Title.Main}</PageTitle>
+      <PageTitle title={title}/>
       <Breadcrumbs />
       {children}
     </div>

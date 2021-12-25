@@ -1,10 +1,10 @@
 type PageTitleProps = {
-  children: string;
+  title: string;
 };
 
-function PageTitle({ children }: PageTitleProps): JSX.Element {
+function PageTitle({title}: PageTitleProps): JSX.Element {
   return (
-    <h1 className='page-content__title title title--bigger'>{children}</h1>
+    <h1 className='page-content__title title title--bigger'>{title}</h1>
   );
 }
 
