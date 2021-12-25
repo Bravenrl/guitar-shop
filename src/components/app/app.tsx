@@ -10,19 +10,15 @@ import WipPage from '../wip-page/wip-page';
 function App(): JSX.Element {
   return (
     <Routes>
-      <Route path={AppRoute.Root} element={<MainLayout />}>
+      <Route element={<MainLayout />}>
         <Route index element={<Navigate to={AppRoute.Main} replace />} />
         <Route path={AppRoute.Catalog} element={<CatalogPage />} />
         <Route path={AppRoute.Product} element={<ProductPage />} />
         <Route path={AppRoute.Cart} element={<CartPage />} />
         <Route path={AppRoute.About} element={<WipPage />} />
         <Route path={AppRoute.Where} element={<WipPage />} />
-        <Route path={AppRoute.NotFoundPage} element={<NotFoundPage />} />
+        <Route path={AppRoute.NotFound} element={<NotFoundPage />} />
       </Route>
-      <Route
-        path={AppRoute.NotFoundPage}
-        element={<Navigate to={AppRoute.NotFoundPage} replace />}
-      />
     </Routes>
   );
 }

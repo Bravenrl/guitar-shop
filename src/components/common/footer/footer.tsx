@@ -1,8 +1,11 @@
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../../const';
+
 function Footer(): JSX.Element {
   return (
     <footer className='footer'>
       <div className='footer__container container'>
-        <a className='footer__logo logo' href='/'>
+        <Link className='footer__logo logo' to={AppRoute.Root}>
           <img
             className='logo__img'
             width='70'
@@ -10,7 +13,7 @@ function Footer(): JSX.Element {
             src='./img/svg/logo.svg'
             alt='Логотип'
           />
-        </a>
+        </Link>
         <div className='socials footer__socials'>
           <ul className='socials__list'>
             <li className='socials-item'>
@@ -77,29 +80,29 @@ function Footer(): JSX.Element {
           <h2 className='footer__nav-title'>Информация</h2>
           <ul className='footer__nav-list'>
             <li className='footer__nav-list-item'>
-              <a className='link' href='#top'>
+              <Link className='link' to={AppRoute.Where}>
                 Где купить?
-              </a>
+              </Link>
             </li>
             <li className='footer__nav-list-item'>
-              <a className='link' href='#top'>
+              <Link className='link' to={AppRoute.Root}>
                 Блог
-              </a>
+              </Link>
             </li>
             <li className='footer__nav-list-item'>
-              <a className='link' href='#top'>
+              <Link className='link' to={AppRoute.Root}>
                 Вопрос - ответ
-              </a>
+              </Link>
             </li>
             <li className='footer__nav-list-item'>
-              <a className='link' href='#top'>
+              <Link className='link' to={AppRoute.Root}>
                 Возврат
-              </a>
+              </Link>
             </li>
             <li className='footer__nav-list-item'>
-              <a className='link' href='#top'>
+              <Link className='link' to={AppRoute.Root}>
                 Сервис-центры
-              </a>
+              </Link>
             </li>
           </ul>
         </section>

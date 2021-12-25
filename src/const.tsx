@@ -9,9 +9,8 @@ export enum AppRoute {
   Catalog = 'catalog/page_:number',
   Product = 'product/:id',
   Cart = 'cart',
-  NotFoundPage = '*',
+  NotFound = '*',
   Main = 'catalog/page_1',
-  NotFound = '/notfound',
   About = 'about',
   Where = 'where',
 }
