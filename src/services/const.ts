@@ -1,7 +1,8 @@
 export const API_URL = 'https://accelerator-guitar-shop-api-v1.glitch.me';
 
 export enum ApiRoute {
-  Guitars = '/guitars',
+  ProductsInit = '/guitars?_sort=price',
+  ProductsShow = '/guitars',
 }
 
 export const enum HttpCode {

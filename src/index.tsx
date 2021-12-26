@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './components/app/app';
-import { fetchAllGuitars } from './store/api-actions';
+import { fetchProductsInit } from './store/api-actions';
 import { store } from './store/store';
 
-store.dispatch(fetchAllGuitars());
+store.dispatch(fetchProductsInit());
 
 ReactDOM.render(
   <React.StrictMode>

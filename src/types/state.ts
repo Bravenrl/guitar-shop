@@ -15,3 +15,11 @@ export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosIn
 export type AppData = {
   allGuitars: Guitar[];
 };
+
+export type AppUser = {
+  sort: string,
+  order: string;
+  type: string,
+  priceStart: number|null,
+  priceEnd: number|null,
+}
