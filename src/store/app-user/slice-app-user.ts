@@ -3,8 +3,8 @@ import { AppUser } from '../../types/state';
 import { Slice } from '../const';
 
 const initialState: AppUser = {
-  sort: '',
-  order: '',
+  sortKey: '',
+  orderKey: '',
   type: '',
   priceStart: null,
   priceEnd: null,
@@ -14,11 +14,11 @@ const appUserSlice = createSlice({
   name: Slice.AppUser,
   initialState,
   reducers: {
-    setSorting: (state, action: PayloadAction<string>) => {
-      state.sort = action.payload;
+    setSortKey: (state, action: PayloadAction<string>) => {
+      state.sortKey = action.payload;
     },
-    setOrder: (state, action: PayloadAction<string>) => {
-      state.order = action.payload;
+    setOrderKey: (state, action: PayloadAction<string>) => {
+      state.orderKey = action.payload;
     },
     setType: (state, action: PayloadAction<string>) => {
       state.type = action.payload;
@@ -40,7 +40,7 @@ const appUserSlice = createSlice({
   },
 });
 
-export const { setSorting, setOrder, setType, setPriceEnd, setPriceStart } =
+export const { setSortKey, setOrderKey, setType, setPriceEnd, setPriceStart } =
   appUserSlice.actions;
 
 export default appUserSlice.reducer;

@@ -20,3 +20,14 @@ export const HeaderLinks = new Map([
   ['where', { title: 'Где купить?', link: AppRoute.Where }],
   ['about', { title: 'О компании', link: AppRoute.About }],
 ]);
+
+export enum SortKey {
+  Rating = 'rating',
+  Price = 'price',
+}
+
+export enum OrderKey {
+  Asc = 'asc',
+  Desc = 'desc',
+}
+
