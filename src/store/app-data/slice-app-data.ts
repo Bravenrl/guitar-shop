@@ -18,6 +18,9 @@ const appDataSlice = createSlice({
     addProductsSearch: (state, action: PayloadAction<Guitar[]>) => {
       state.productsSearch = action.payload;
     },
+    clearProductsSearch: (state) => {
+      state.productsSearch = [];
+    },
     addProductsShow: (state, action: PayloadAction<Guitar[]>) => {
       state.productsShow = action.payload;
     },
@@ -33,6 +36,13 @@ const appDataSlice = createSlice({
   },
 });
 
-export const { addProductsSearch, addProductsShow, addPriceEnd, addPriceStart, addProductsCount } = appDataSlice.actions;
+export const {
+  addProductsSearch,
+  clearProductsSearch,
+  addProductsShow,
+  addPriceEnd,
+  addPriceStart,
+  addProductsCount,
+} = appDataSlice.actions;
 
 export default appDataSlice.reducer;

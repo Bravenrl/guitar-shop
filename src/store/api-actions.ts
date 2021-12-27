@@ -12,10 +12,10 @@ import {
 } from './app-data/slice-app-data';
 
 export const fetchProductsSearch =
-  (): ThunkActionResult =>
+  (searchKey: string): ThunkActionResult =>
     async (dispatch, _getState, api): Promise<void> => {
       try {
-        const { data } = await api.get<Guitar[]>(ApiRoute.Products);
+        const { data } = await api.get<Guitar[]>(`${ApiRoute.Products}?name_like=${searchKey}`);
         dispatch(addProductsSearch(data));
       } catch (err) {
       // eslint-disable-next-line no-console

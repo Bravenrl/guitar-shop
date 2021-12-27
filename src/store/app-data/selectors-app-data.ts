@@ -1,7 +1,7 @@
 import { Reducer } from '../const';
 import { State } from '../../types/state';
 
-export const getProductsInit = (state: State) =>
+export const getProductsSearch = (state: State) =>
   state[Reducer.Data].productsSearch;
 
 export const getProductsShow = (state: State) =>

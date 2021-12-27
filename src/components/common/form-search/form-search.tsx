@@ -1,12 +1,25 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { generatePath, useNavigate } from 'react-router-dom';
-import { AppRoute } from '../../../const';
-import useSearch from '../../../hooks/use-search';
+import { AppRoute, DELAY } from '../../../const';
+import useDebounce from '../../../hooks/use-debounce';
+import { fetchProductsSearch } from '../../../store/api-actions';
+import { getProductsSearch } from '../../../store/app-data/selectors-app-data';
+import { clearProductsSearch } from '../../../store/app-data/slice-app-data';
 
 function FormSearch(): JSX.Element {
   const navigate = useNavigate();
+  const productsSearch = useSelector(getProductsSearch);
   const [searchKey, setSearchKey] = useState('');
-  const searchedGuitars = useSearch(searchKey);
+  const dispatch = useDispatch();
+  const debouncedSearch = useDebounce(dispatch, searchKey, DELAY);
+
+  useEffect(() => {
+    debouncedSearch(fetchProductsSearch(searchKey));
+    if (searchKey === '') {
+      dispatch(clearProductsSearch());
+    }
+  }, [debouncedSearch, dispatch, searchKey]);
 
   return (
     <div className='form-search'>
@@ -44,14 +57,14 @@ function FormSearch(): JSX.Element {
       </form>
       <ul
         className={`form-search__select-list ${
-          searchedGuitars?.length ? '' : 'hidden'
+          productsSearch.length ? '' : 'hidden'
         }`}
         style={{
           zIndex: 1,
         }}
       >
-        {searchedGuitars?.map((guitar) => {
-          const { name, id } = guitar;
+        {productsSearch?.map((product) => {
+          const { name, id } = product;
           const path = generatePath(AppRoute.Product, { id: id.toString() });
           return (
             <li
