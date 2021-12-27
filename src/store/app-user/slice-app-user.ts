@@ -6,8 +6,6 @@ const initialState: AppUser = {
   sortKey: '',
   orderKey: '',
   type: '',
-  priceStart: null,
-  priceEnd: null,
 };
 
 const appUserSlice = createSlice({
@@ -23,24 +21,10 @@ const appUserSlice = createSlice({
     setType: (state, action: PayloadAction<string>) => {
       state.type = action.payload;
     },
-    setPriceStart: (state, action: PayloadAction<number>) => {
-      if (!state.priceStart) {
-        state.priceStart = action.payload;
-      } else if (state.priceStart > action.payload) {
-        state.priceStart = action.payload;
-      }
-    },
-    setPriceEnd: (state, action: PayloadAction<number>) => {
-      if (!state.priceEnd) {
-        state.priceEnd = action.payload;
-      } else if (state.priceEnd < action.payload) {
-        state.priceEnd = action.payload;
-      }
-    },
   },
 });
 
-export const { setSortKey, setOrderKey, setType, setPriceEnd, setPriceStart } =
+export const { setSortKey, setOrderKey, setType } =
   appUserSlice.actions;
 
 export default appUserSlice.reducer;

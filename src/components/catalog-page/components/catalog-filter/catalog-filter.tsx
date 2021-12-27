@@ -1,4 +1,20 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductsPrice } from '../../../../store/api-actions';
+import { getPriceEnd, getPriceStart, getProductsCount } from '../../../../store/app-data/selectors-app-data';
+
 function CatalogFilter(): JSX.Element {
+  const productsCount = useSelector(getProductsCount);
+  const priceStart = useSelector(getPriceStart);
+  const priceEnd = useSelector(getPriceEnd);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (productsCount) {
+      dispatch(fetchProductsPrice(productsCount));
+    }
+  }, [dispatch, productsCount]);
+
   return (
     <form className='catalog-filter'>
       <h2 className='title title--bigger catalog-filter__title'>Фильтр</h2>
@@ -7,11 +23,11 @@ function CatalogFilter(): JSX.Element {
         <div className='catalog-filter__price-range'>
           <div className='form-input'>
             <label className='visually-hidden'>Минимальная цена</label>
-            <input type='number' placeholder='1 000' id='priceMin' name='от' />
+            <input type='number' placeholder={priceStart?.toString()} id='priceMin' name='от' />
           </div>
           <div className='form-input'>
             <label className='visually-hidden'>Максимальная цена</label>
-            <input type='number' placeholder='30 000' id='priceMax' name='до' />
+            <input type='number' placeholder={priceEnd?.toString()} id='priceMax' name='до' />
           </div>
         </div>
       </fieldset>

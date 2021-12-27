@@ -8,14 +8,15 @@ export type State = RootState;
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;
 
 export type AppData = {
-  productsInit: Guitar[];
+  productsSearch: Guitar[];
   productsShow: Guitar[];
+  priceStart: number|null,
+  priceEnd: number|null,
+  productsCount: number|null,
 };
 
 export type AppUser = {
   sortKey: string,
   orderKey: string;
   type: string,
-  priceStart: number|null,
-  priceEnd: number|null,
 }

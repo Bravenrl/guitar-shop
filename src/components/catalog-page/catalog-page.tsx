@@ -10,6 +10,7 @@ import CatalogSort from './components/catalog-sort/catalog-sort';
 import Pagination from './components/pagination/pagination';
 
 function CatalogPage() {
+
   const query = useQuery();
   const dispatch = useDispatch();
 

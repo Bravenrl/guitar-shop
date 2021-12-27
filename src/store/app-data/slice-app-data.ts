@@ -4,23 +4,35 @@ import { Guitar } from '../../types/data';
 import { AppData } from '../../types/state';
 
 const initialState: AppData = {
-  productsInit: [],
+  productsSearch: [],
   productsShow: [],
+  priceEnd: null,
+  priceStart: null,
+  productsCount: null,
 };
 
 const appDataSlice = createSlice({
   name: Slice.AppData,
   initialState,
   reducers: {
-    addProductsInit: (state, action: PayloadAction<Guitar[]>) => {
-      state.productsInit = action.payload;
+    addProductsSearch: (state, action: PayloadAction<Guitar[]>) => {
+      state.productsSearch = action.payload;
     },
     addProductsShow: (state, action: PayloadAction<Guitar[]>) => {
       state.productsShow = action.payload;
     },
+    addPriceStart: (state, action: PayloadAction<number>) => {
+      state.priceStart = action.payload;
+    },
+    addPriceEnd: (state, action: PayloadAction<number>) => {
+      state.priceEnd = action.payload;
+    },
+    addProductsCount: (state, action: PayloadAction<number>) => {
+      state.productsCount = action.payload;
+    },
   },
 });
 
-export const { addProductsInit, addProductsShow } = appDataSlice.actions;
+export const { addProductsSearch, addProductsShow, addPriceEnd, addPriceStart, addProductsCount } = appDataSlice.actions;
 
 export default appDataSlice.reducer;
