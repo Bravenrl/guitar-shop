@@ -1,3 +1,5 @@
+export const PRODUCT_LIMIT = 10;
+
 export enum Title {
   Catalog = 'Каталог гитар',
   Product = 'Товар',

@@ -6,6 +6,7 @@ import CatalogSort from './components/catalog-sort/catalog-sort';
 import Pagination from './components/pagination/pagination';
 
 function CatalogPage() {
+
   return (
     <PageContainer title={Title.Catalog}>
       <div className='catalog'>
