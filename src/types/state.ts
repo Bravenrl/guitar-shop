@@ -8,7 +8,8 @@ export type State = RootState;
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;
 
 export type AppData = {
-  allGuitars: Guitar[];
+  productsInit: Guitar[];
+  productsShow: Guitar[];
 };
 
 export type AppUser = {

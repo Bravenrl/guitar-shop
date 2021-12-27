@@ -4,19 +4,23 @@ import { Guitar } from '../../types/data';
 import { AppData } from '../../types/state';
 
 const initialState: AppData = {
-  allGuitars: [],
+  productsInit: [],
+  productsShow: [],
 };
 
 const appDataSlice = createSlice({
   name: Slice.AppData,
   initialState,
   reducers: {
-    addAllGuitars: (state, action: PayloadAction<Guitar[]>) => {
-      state.allGuitars = action.payload;
+    addProductsInit: (state, action: PayloadAction<Guitar[]>) => {
+      state.productsInit = action.payload;
+    },
+    addProductsShow: (state, action: PayloadAction<Guitar[]>) => {
+      state.productsShow = action.payload;
     },
   },
 });
 
-export const { addAllGuitars } = appDataSlice.actions;
+export const { addProductsInit, addProductsShow } = appDataSlice.actions;
 
 export default appDataSlice.reducer;

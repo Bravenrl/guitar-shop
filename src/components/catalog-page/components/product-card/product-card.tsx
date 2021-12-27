@@ -1,11 +1,17 @@
-function ProductCard(): JSX.Element {
+import { Guitar } from '../../../../types/data';
+
+type ProductCardProps = {
+  product: Guitar;
+};
+function ProductCard({ product }: ProductCardProps): JSX.Element {
+  const {name, previewImg, price } = product;
   return (
     <div className='product-card'>
       <img
-        src='img/content/guitar-2.jpg'
+        src={previewImg}
         width='75'
         height='190'
-        alt='СURT Z30 Plus Acoustics'
+        alt={name}
       />
       <div className='product-card__info'>
         <div className='rate product-card__rate' aria-hidden='true'>
@@ -28,9 +34,9 @@ function ProductCard(): JSX.Element {
           <span className='rate__count'>9</span>
           <span className='rate__message'></span>
         </div>
-        <p className='product-card__title'>СURT Z30 Plus Acoustics</p>
+        <p className='product-card__title'>{name}</p>
         <p className='product-card__price'>
-          <span className='visually-hidden'>Цена:</span>129 500 ₽
+          <span className='visually-hidden'>Цена:</span>{price} ₽
         </p>
       </div>
       <div className='product-card__buttons'>
