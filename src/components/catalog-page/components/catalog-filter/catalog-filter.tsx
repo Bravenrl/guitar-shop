@@ -4,8 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import {
   ParamsKey,
   ProductType,
-  StringCount,
-  STRING_COUNT_ATTRIBUTE
+  StringCount
 } from '../../../../const';
 import useDisable from '../../../../hooks/use-disable';
 import {
@@ -18,6 +17,7 @@ import { Params } from '../../../../types/params';
 function CatalogFilter(): JSX.Element {
   const priceStart = useSelector(getPriceStart);
   const priceEnd = useSelector(getPriceEnd);
+
   const [searchParams, setSearchParams] = useSearchParams();
   const typeParams = searchParams.getAll(ParamsKey.Type) || [];
   const stringCountParams = searchParams.getAll(ParamsKey.String) || [];
@@ -36,10 +36,8 @@ function CatalogFilter(): JSX.Element {
       : setSearchParams({ ...params, type: [...typeParams, type] });
   };
 
-  const handleStringCountChange = (evt: ChangeEvent<HTMLFieldSetElement>) => {
-    const stringCount = evt.target.getAttribute(
-      STRING_COUNT_ATTRIBUTE,
-    ) as string;
+  const handleStringCountChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const stringCount = evt.target.value;
     stringCountParams.includes(stringCount)
       ? setSearchParams({
         ...params,
@@ -114,7 +112,7 @@ function CatalogFilter(): JSX.Element {
       </fieldset>
       <fieldset
         className='catalog-filter__block'
-        onChange={handleStringCountChange}
+
       >
         <legend className='catalog-filter__block-title'>
           Количество струн
@@ -122,6 +120,17 @@ function CatalogFilter(): JSX.Element {
 
         {[...StringCount.keys()].map((key) => {
           const { id, stringCount } = StringCount.get(key) as StringType;
+          const isDisable = checkIsDisable(stringCount);
+          // eslint-disable-next-line no-console
+          console.log(isDisable);
+          // if (isDisable) {
+          //   setSearchParams({
+          //     ...params,
+          //     stringCount: stringCountParams.filter(
+          //       (value) => value !== stringCount,
+          //     ),
+          //   });
+          // }
           return (
             <div key={id} className='form-checkbox catalog-filter__block-item'>
               <input
@@ -131,7 +140,8 @@ function CatalogFilter(): JSX.Element {
                 name={id}
                 value={stringCount}
                 checked={stringCountParams.includes(stringCount)}
-                disabled={checkIsDisable(stringCount)}
+                disabled={isDisable}
+                onChange={handleStringCountChange}
               />
               <label htmlFor={id}>{stringCount}</label>
             </div>
