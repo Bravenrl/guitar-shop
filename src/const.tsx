@@ -4,6 +4,7 @@ export const PRODUCT_LIMIT = 9;
 export const FIRST_PRODUCT = 0;
 export const DELAY = 180;
 
+
 export enum Title {
   Catalog = 'Каталог гитар',
   Product = 'Товар',

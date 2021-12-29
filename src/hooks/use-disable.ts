@@ -6,10 +6,10 @@ function useDisable(params: Params): (stringCount: string) => boolean {
 
   const checkIsDisable = useCallback(
     (stringCount: string) => {
-      if (params.type.length === 0) {
+      if (params.types.length === 0) {
         return false;
       }
-      const isDisable = !params.type
+      const isDisable = !params.types
         .reduce((acc: string[], item: string) => {
           const arr = ProductProperty.get(item) || [];
           return [...acc, ...arr];
@@ -17,7 +17,7 @@ function useDisable(params: Params): (stringCount: string) => boolean {
         .includes(stringCount);
       return isDisable;
     },
-    [params.type],
+    [params.types],
   );
 
   return checkIsDisable;

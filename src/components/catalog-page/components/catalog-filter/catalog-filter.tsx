@@ -1,54 +1,51 @@
-import { ChangeEvent } from 'react';
-import { useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
-import {
-  ParamsKey,
-  ProductType,
-  StringCount
-} from '../../../../const';
+import { ChangeEvent, memo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ProductType, StringCount } from '../../../../const';
 import useDisable from '../../../../hooks/use-disable';
 import {
   getPriceEnd,
   getPriceStart
 } from '../../../../store/app-data/selectors-app-data';
+import { getParams } from '../../../../store/app-user/selectors-app-user';
+import { setParams } from '../../../../store/app-user/slice-app-user';
 import { StringType } from '../../../../types/data';
-import { Params } from '../../../../types/params';
 
 function CatalogFilter(): JSX.Element {
   const priceStart = useSelector(getPriceStart);
   const priceEnd = useSelector(getPriceEnd);
-
-  const [searchParams, setSearchParams] = useSearchParams();
-  const typeParams = searchParams.getAll(ParamsKey.Type) || [];
-  const stringCountParams = searchParams.getAll(ParamsKey.String) || [];
-  const params: Params = {
-    type: typeParams,
-    stringCount: stringCountParams,
-  };
+  const params = useSelector(getParams);
+  const dispatch = useDispatch();
   const checkIsDisable = useDisable(params);
+
   const handleTypeChange = (evt: ChangeEvent<HTMLFieldSetElement>) => {
-    const type = evt.target.name;
-    typeParams.includes(type)
-      ? setSearchParams({
-        ...params,
-        type: typeParams.filter((value) => value !== type),
-      })
-      : setSearchParams({ ...params, type: [...typeParams, type] });
+    const currentType = evt.target.name;
+    params.types.includes(currentType)
+      ? dispatch(
+        setParams({
+          ...params,
+          types: params.types.filter((value) => value !== currentType),
+        }),
+      )
+      : dispatch(setParams({ ...params, types: [...params.types, currentType] }));
   };
 
   const handleStringCountChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const stringCount = evt.target.value;
-    stringCountParams.includes(stringCount)
-      ? setSearchParams({
-        ...params,
-        stringCount: stringCountParams.filter(
-          (value) => value !== stringCount,
-        ),
-      })
-      : setSearchParams({
-        ...params,
-        stringCount: [...stringCountParams, stringCount],
-      });
+    params.stringCounts.includes(stringCount)
+      ? dispatch(
+        setParams({
+          ...params,
+          stringCounts: params.stringCounts.filter(
+            (value) => value !== stringCount,
+          ),
+        }),
+      )
+      : dispatch(
+        setParams({
+          ...params,
+          stringCounts: [...params.stringCounts, stringCount],
+        }),
+      );
   };
 
   return (
@@ -81,7 +78,7 @@ function CatalogFilter(): JSX.Element {
         <legend className='catalog-filter__block-title'>Тип гитар</legend>
         <div className='form-checkbox catalog-filter__block-item'>
           <input
-            defaultChecked={typeParams.includes(ProductType.Acoustic)}
+            defaultChecked={params.types.includes(ProductType.Acoustic)}
             className='visually-hidden'
             type='checkbox'
             id='acoustic'
@@ -92,7 +89,7 @@ function CatalogFilter(): JSX.Element {
         <div className='form-checkbox catalog-filter__block-item'>
           <input
             className='visually-hidden'
-            defaultChecked={typeParams.includes(ProductType.Electric)}
+            defaultChecked={params.types.includes(ProductType.Electric)}
             type='checkbox'
             id='electric'
             name='electric'
@@ -101,7 +98,7 @@ function CatalogFilter(): JSX.Element {
         </div>
         <div className='form-checkbox catalog-filter__block-item'>
           <input
-            defaultChecked={typeParams.includes(ProductType.Ukulele)}
+            defaultChecked={params.types.includes(ProductType.Ukulele)}
             className='visually-hidden'
             type='checkbox'
             id='ukulele'
@@ -110,27 +107,25 @@ function CatalogFilter(): JSX.Element {
           <label htmlFor='ukulele'>Укулеле</label>
         </div>
       </fieldset>
-      <fieldset
-        className='catalog-filter__block'
-
-      >
+      <fieldset className='catalog-filter__block'>
         <legend className='catalog-filter__block-title'>
           Количество струн
         </legend>
 
-        {[...StringCount.keys()].map((key) => {
+        {[...StringCount.keys()].map((key, index) => {
           const { id, stringCount } = StringCount.get(key) as StringType;
           const isDisable = checkIsDisable(stringCount);
           // eslint-disable-next-line no-console
-          console.log(isDisable);
-          // if (isDisable) {
-          //   setSearchParams({
-          //     ...params,
-          //     stringCount: stringCountParams.filter(
-          //       (value) => value !== stringCount,
-          //     ),
-          //   });
-          // }
+          console.log('object');
+          if (isDisable && params.stringCounts.includes(stringCount)) {
+            // eslint-disable-next-line no-console
+            console.log('delete');
+            dispatch(
+              setParams({
+                ...params,
+                stringCounts: params.stringCounts.filter(
+                  (value) => value !== stringCount)}));
+          }
           return (
             <div key={id} className='form-checkbox catalog-filter__block-item'>
               <input
@@ -139,7 +134,7 @@ function CatalogFilter(): JSX.Element {
                 id={id}
                 name={id}
                 value={stringCount}
-                checked={stringCountParams.includes(stringCount)}
+                checked={params.stringCounts.includes(stringCount)}
                 disabled={isDisable}
                 onChange={handleStringCountChange}
               />
@@ -152,4 +147,4 @@ function CatalogFilter(): JSX.Element {
   );
 }
 
-export default CatalogFilter;
+export default memo(CatalogFilter);

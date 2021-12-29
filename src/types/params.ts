@@ -1,4 +1,6 @@
 export type Params = {
-  type: string[];
-  stringCount: string[];
+  types: string[];
+  stringCounts: string[];
+  priceMin: string,
+  priceMax: string,
 };

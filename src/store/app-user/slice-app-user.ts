@@ -1,11 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Params } from '../../types/params';
 import { AppUser } from '../../types/state';
 import { Slice } from '../const';
 
 const initialState: AppUser = {
   sortKey: '',
   orderKey: '',
-  type: '',
+  params: {
+    types: [],
+    stringCounts:[],
+    priceMax: '',
+    priceMin: '',
+  },
 };
 
 const appUserSlice = createSlice({
@@ -18,13 +24,13 @@ const appUserSlice = createSlice({
     setOrderKey: (state, action: PayloadAction<string>) => {
       state.orderKey = action.payload;
     },
-    setType: (state, action: PayloadAction<string>) => {
-      state.type = action.payload;
+    setParams: (state, action: PayloadAction<Params>) => {
+      state.params = action.payload;
     },
   },
 });
 
-export const { setSortKey, setOrderKey, setType } =
+export const { setSortKey, setOrderKey, setParams } =
   appUserSlice.actions;
 
 export default appUserSlice.reducer;

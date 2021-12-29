@@ -2,6 +2,7 @@ import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { RootState } from '../store/root-reducer';
 import { Guitar } from './data';
+import { Params } from './params';
 
 export type State = RootState;
 
@@ -18,5 +19,5 @@ export type AppData = {
 export type AppUser = {
   sortKey: string,
   orderKey: string;
-  type: string,
+  params: Params,
 }

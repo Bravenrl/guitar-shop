@@ -1,37 +1,25 @@
+import { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
+import { DELAY } from '../const';
+import { getParams } from '../store/app-user/selectors-app-user';
 
-function useQueryParam(): [
-  ParsedQuery<string> | Pizza,
-  (newQuery: Pizza, options?: NavigateOptions) => void
-] {
-  let [searchParams, setSearchParams] = useSearchParams();
-  const pizza: Pizza = {
-    toppings: [],
-    crust: 'regular',
-  };
-  let value =
-    searchParams.toString() === ''
-      ? pizza
-      : queryString.parse(`?${searchParams.toString()}`);
+function useQueryParams() {
+  const params = useSelector(getParams);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const timeout = useRef<NodeJS.Timeout | null>(null);
 
-  // React.useMemo(() => {
-  // if (searchParams.!==0) {
-  //   const ff = queryString.parse(`?${searchParams.toString()}`)
-  //   console.log(`1${ff}`);
-  //   return ff
-  // } else {
-  //   const params = queryString.stringify(pizza);
-  // setSearchParams(params);
-  // console.log(`2${params}`);
-  // return pizza;}}, [searchParams])
+  useEffect(() => {
+    if (timeout.current) {
+      clearTimeout(timeout.current);
+    }
+    timeout.current = setTimeout(() => {
+      setSearchParams(params);
+    }, DELAY);
+  }, [params, setSearchParams]);
 
-  let setValue = useCallback(
-    (newValue: Pizza, options?: NavigateOptions) => {
-      setSearchParams(queryString.stringify(newValue));
-    },
-    [setSearchParams]
-  );
-  return [value, setValue];
+  const value = searchParams.toString();
+  return value;
 }
 
-export default useQueryParam;
+export default useQueryParams;
