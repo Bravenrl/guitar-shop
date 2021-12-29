@@ -31,6 +31,7 @@ export const fetchProductsShow =
         dispatch(addProductsShow(data));
         const productsTotalCount = headers['x-total-count'];
         dispatch(addProductsCount(productsTotalCount));
+        dispatch(fetchProductsPrice(productsTotalCount));
       } catch (err) {
       // eslint-disable-next-line no-console
         console.log(err);

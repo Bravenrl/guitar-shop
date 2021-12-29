@@ -1,3 +1,5 @@
+import { StringType } from './types/data';
+
 export const PRODUCT_LIMIT = 9;
 export const FIRST_PRODUCT = 0;
 export const DELAY = 180;
@@ -35,3 +37,27 @@ export enum OrderKey {
   Desc = 'desc',
 }
 
+export enum ProductType {
+  Acoustic = 'acoustic',
+  Electric = 'electric',
+  Ukulele = 'ukulele',
+}
+
+export const StringCount = new Map<string, StringType>([
+  ['four', { id: '4-strings', stringCount: '4' }],
+  ['six', { id: '6-strings', stringCount: '6' }],
+  ['seven', { id: '7-strings', stringCount: '7' }],
+  ['tvelwe', { id: '12-strings', stringCount: '12' }],
+]);
+
+export const ProductProperty = new Map<string, string[]>([
+  ['acoustic', ['6', '7', '12']],
+  ['electric', ['4', '6', '7']],
+  ['ukulele', ['4']],
+]);
+
+export const STRING_COUNT_ATTRIBUTE = 'value';
+export const enum ParamsKey {
+  Type = 'type',
+  String = 'stringCount',
+}

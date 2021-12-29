@@ -1,19 +1,57 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProductsPrice } from '../../../../store/api-actions';
-import { getPriceEnd, getPriceStart, getProductsCount } from '../../../../store/app-data/selectors-app-data';
+import { ChangeEvent } from 'react';
+import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
+import {
+  ParamsKey,
+  ProductType,
+  StringCount,
+  STRING_COUNT_ATTRIBUTE
+} from '../../../../const';
+import useDisable from '../../../../hooks/use-disable';
+import {
+  getPriceEnd,
+  getPriceStart
+} from '../../../../store/app-data/selectors-app-data';
+import { StringType } from '../../../../types/data';
+import { Params } from '../../../../types/params';
 
 function CatalogFilter(): JSX.Element {
-  const productsCount = useSelector(getProductsCount);
   const priceStart = useSelector(getPriceStart);
   const priceEnd = useSelector(getPriceEnd);
-  const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const typeParams = searchParams.getAll(ParamsKey.Type) || [];
+  const stringCountParams = searchParams.getAll(ParamsKey.String) || [];
+  const params: Params = {
+    type: typeParams,
+    stringCount: stringCountParams,
+  };
+  const checkIsDisable = useDisable(params);
+  const handleTypeChange = (evt: ChangeEvent<HTMLFieldSetElement>) => {
+    const type = evt.target.name;
+    typeParams.includes(type)
+      ? setSearchParams({
+        ...params,
+        type: typeParams.filter((value) => value !== type),
+      })
+      : setSearchParams({ ...params, type: [...typeParams, type] });
+  };
 
-  useEffect(() => {
-    if (productsCount) {
-      dispatch(fetchProductsPrice(productsCount));
-    }
-  }, [dispatch, productsCount]);
+  const handleStringCountChange = (evt: ChangeEvent<HTMLFieldSetElement>) => {
+    const stringCount = evt.target.getAttribute(
+      STRING_COUNT_ATTRIBUTE,
+    ) as string;
+    stringCountParams.includes(stringCount)
+      ? setSearchParams({
+        ...params,
+        stringCount: stringCountParams.filter(
+          (value) => value !== stringCount,
+        ),
+      })
+      : setSearchParams({
+        ...params,
+        stringCount: [...stringCountParams, stringCount],
+      });
+  };
 
   return (
     <form className='catalog-filter'>
@@ -23,18 +61,29 @@ function CatalogFilter(): JSX.Element {
         <div className='catalog-filter__price-range'>
           <div className='form-input'>
             <label className='visually-hidden'>Минимальная цена</label>
-            <input type='number' placeholder={priceStart?.toString()} id='priceMin' name='от' />
+            <input
+              type='number'
+              placeholder={priceStart?.toString()}
+              id='priceMin'
+              name='от'
+            />
           </div>
           <div className='form-input'>
             <label className='visually-hidden'>Максимальная цена</label>
-            <input type='number' placeholder={priceEnd?.toString()} id='priceMax' name='до' />
+            <input
+              type='number'
+              placeholder={priceEnd?.toString()}
+              id='priceMax'
+              name='до'
+            />
           </div>
         </div>
       </fieldset>
-      <fieldset className='catalog-filter__block'>
+      <fieldset className='catalog-filter__block' onChange={handleTypeChange}>
         <legend className='catalog-filter__block-title'>Тип гитар</legend>
         <div className='form-checkbox catalog-filter__block-item'>
           <input
+            defaultChecked={typeParams.includes(ProductType.Acoustic)}
             className='visually-hidden'
             type='checkbox'
             id='acoustic'
@@ -45,67 +94,49 @@ function CatalogFilter(): JSX.Element {
         <div className='form-checkbox catalog-filter__block-item'>
           <input
             className='visually-hidden'
+            defaultChecked={typeParams.includes(ProductType.Electric)}
             type='checkbox'
             id='electric'
             name='electric'
-            checked
           />
           <label htmlFor='electric'>Электрогитары</label>
         </div>
         <div className='form-checkbox catalog-filter__block-item'>
           <input
+            defaultChecked={typeParams.includes(ProductType.Ukulele)}
             className='visually-hidden'
             type='checkbox'
             id='ukulele'
             name='ukulele'
-            checked
           />
           <label htmlFor='ukulele'>Укулеле</label>
         </div>
       </fieldset>
-      <fieldset className='catalog-filter__block'>
+      <fieldset
+        className='catalog-filter__block'
+        onChange={handleStringCountChange}
+      >
         <legend className='catalog-filter__block-title'>
           Количество струн
         </legend>
-        <div className='form-checkbox catalog-filter__block-item'>
-          <input
-            className='visually-hidden'
-            type='checkbox'
-            id='4-strings'
-            name='4-strings'
-            checked
-          />
-          <label htmlFor='4-strings'>4</label>
-        </div>
-        <div className='form-checkbox catalog-filter__block-item'>
-          <input
-            className='visually-hidden'
-            type='checkbox'
-            id='6-strings'
-            name='6-strings'
-            checked
-          />
-          <label htmlFor='6-strings'>6</label>
-        </div>
-        <div className='form-checkbox catalog-filter__block-item'>
-          <input
-            className='visually-hidden'
-            type='checkbox'
-            id='7-strings'
-            name='7-strings'
-          />
-          <label htmlFor='7-strings'>7</label>
-        </div>
-        <div className='form-checkbox catalog-filter__block-item'>
-          <input
-            className='visually-hidden'
-            type='checkbox'
-            id='12-strings'
-            name='12-strings'
-            disabled
-          />
-          <label htmlFor='12-strings'>12</label>
-        </div>
+
+        {[...StringCount.keys()].map((key) => {
+          const { id, stringCount } = StringCount.get(key) as StringType;
+          return (
+            <div key={id} className='form-checkbox catalog-filter__block-item'>
+              <input
+                className='visually-hidden'
+                type='checkbox'
+                id={id}
+                name={id}
+                value={stringCount}
+                checked={stringCountParams.includes(stringCount)}
+                disabled={checkIsDisable(stringCount)}
+              />
+              <label htmlFor={id}>{stringCount}</label>
+            </div>
+          );
+        })}
       </fieldset>
     </form>
   );
