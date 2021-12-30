@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Title } from '../../const';
+import { DELAY, Title } from '../../const';
+import useDebounce from '../../hooks/use-debounce';
 import useQuery from '../../hooks/use-query';
-import useQueryParams from '../../hooks/use-query-params';
 import { fetchProductsShow } from '../../store/api-actions';
 import PageContainer from '../common/page-container/page-container';
 import CatalogCards from './components/catalog-cards/catalog-cards';
@@ -11,13 +11,13 @@ import CatalogSort from './components/catalog-sort/catalog-sort';
 import Pagination from './components/pagination/pagination';
 
 function CatalogPage() {
-  const params = useQueryParams();
-  const query = useQuery(params);
+  const query = useQuery();
   const dispatch = useDispatch();
+  const debouncedFetch = useDebounce(dispatch, DELAY);
 
   useEffect(() => {
-    dispatch(fetchProductsShow(query));
-  }, [dispatch, query]);
+    debouncedFetch(fetchProductsShow(query));
+  }, [debouncedFetch, dispatch, query]);
 
   return (
     <PageContainer title={Title.Catalog}>

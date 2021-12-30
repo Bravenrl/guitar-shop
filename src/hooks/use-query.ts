@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { PRODUCT_LIMIT } from '../const';
 import { getOrderKey, getSortKey } from '../store/app-user/selectors-app-user';
+import useQueryParams from './use-query-params';
 
-function useQuery(query: string): string {
-  // eslint-disable-next-line no-console
-  console.log(query);
+function useQuery(): string {
+  const params = useQueryParams();
   const { number } = useParams();
   const sortKey = useSelector(getSortKey);
   const orderKey = useSelector(getOrderKey);
@@ -16,8 +16,8 @@ function useQuery(query: string): string {
     const startQuery = `_start=${productStart}&_end=${productEnd}`;
     const sortQuery = sortKey !== '' ? `_sort=${sortKey}` : null;
     const orderQuery = orderKey !== '' ? `_order=${orderKey}` : null;
-    return `/?${[startQuery, sortQuery, orderQuery].filter((value) => !!value).join('&')}`;
-  }, [productStart, productEnd, sortKey, orderKey]);
+    return `/?${[startQuery, sortQuery, orderQuery, params.toString()].filter((value) => !!value).join('&')}`;
+  }, [productStart, productEnd, sortKey, orderKey, params]);
   return generateQuery;
 }
 

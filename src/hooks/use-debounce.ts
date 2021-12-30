@@ -4,7 +4,7 @@ import { ThunkActionResult } from '../types/state';
 
 type CallbackType = (thunkAction:ThunkActionResult<Promise<void>>) => void;
 
-function useDebounce(callback: CallbackType, searchKey: string, delay: number) {
+function useDebounce(callback: CallbackType, delay: number, searchKey?: string) {
 
   const timeout = useRef<NodeJS.Timeout | null>(null);
 

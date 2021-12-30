@@ -6,8 +6,8 @@ import { AppData } from '../../types/state';
 const initialState: AppData = {
   productsSearch: [],
   productsShow: [],
-  priceEnd: null,
-  priceStart: null,
+  priceEnd: 0,
+  priceStart: 0,
   productsCount: null,
 };
 

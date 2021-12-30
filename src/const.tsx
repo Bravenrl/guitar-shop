@@ -1,4 +1,4 @@
-import { StringType } from './types/data';
+import { GuitarType, StringType } from './types/data';
 
 export const PRODUCT_LIMIT = 9;
 export const FIRST_PRODUCT = 0;
@@ -57,8 +57,13 @@ export const ProductProperty = new Map<string, string[]>([
   ['ukulele', ['4']],
 ]);
 
-export const STRING_COUNT_ATTRIBUTE = 'value';
 export const enum ParamsKey {
   Type = 'type',
   String = 'stringCount',
 }
+
+export const GuitarsType = new Map<string, GuitarType>([
+  ['acoustic', {id: 'acoustic', title: 'Акустические гитары'}],
+  ['electric', {id: 'electric', title: 'Электрогитары'}],
+  ['ukulele', {id: 'ukulele', title: 'Укулеле'}],
+]);

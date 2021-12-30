@@ -25,13 +25,18 @@ export const fetchProductsSearch =
 
 export const fetchProductsShow =
   (query: string): ThunkActionResult =>
-    async (dispatch, _getState, api): Promise<void> => {
+    async (dispatch, getState, api): Promise<void> => {
       try {
         const { data, headers } = await api.get<Guitar[]>(`${ApiRoute.Products}${query}`);
         dispatch(addProductsShow(data));
         const productsTotalCount = headers['x-total-count'];
+        const isFirstFetch = (!getState().DATA.productsCount);
         dispatch(addProductsCount(productsTotalCount));
-        dispatch(fetchProductsPrice(productsTotalCount));
+        if (isFirstFetch) {
+          // eslint-disable-next-line no-console
+          console.log('object');
+          dispatch(fetchProductsPrice(productsTotalCount));
+        }
       } catch (err) {
       // eslint-disable-next-line no-console
         console.log(err);

@@ -12,7 +12,7 @@ function FormSearch(): JSX.Element {
   const productsSearch = useSelector(getProductsSearch);
   const [searchKey, setSearchKey] = useState('');
   const dispatch = useDispatch();
-  const debouncedSearch = useDebounce(dispatch, searchKey, DELAY);
+  const debouncedSearch = useDebounce(dispatch, DELAY, searchKey);
 
   useEffect(() => {
     debouncedSearch(fetchProductsSearch(searchKey));
