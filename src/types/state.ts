@@ -19,10 +19,13 @@ export type AppData = {
 export type AppUser = {
   sortKey: string,
   orderKey: string;
-  productTypes: string[];
-  stringCounts: string[];
-  priceMin: string|null;
-  priceMax: string|null;
-}
+  filter: FilterState;
+};
 
+export type FilterState = {
+  productTypes: string [],
+  stringCounts: string [],
+  priceMin: string,
+  priceMax: string,
+}
 

@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { FIRST_PRODUCT } from '../const';
 import { ApiRoute } from '../services/const';
 import { Guitar } from '../types/data';
-import { ThunkActionResult } from '../types/state';
+import { FilterState, ThunkActionResult } from '../types/state';
 import {
   addPriceEnd,
   addPriceStart,
@@ -10,6 +10,7 @@ import {
   addProductsSearch,
   addProductsShow
 } from './app-data/slice-app-data';
+import { setFilter } from './app-user/slice-app-user';
 
 export const fetchProductsSearch =
   (searchKey: string): ThunkActionResult =>
@@ -24,7 +25,7 @@ export const fetchProductsSearch =
     };
 
 export const fetchProductsShow =
-  (query: string): ThunkActionResult =>
+  (query: string, filter: FilterState): ThunkActionResult =>
     async (dispatch, getState, api): Promise<void> => {
       try {
         const { data, headers } = await api.get<Guitar[]>(`${ApiRoute.Products}${query}`);
@@ -32,6 +33,7 @@ export const fetchProductsShow =
         const productsTotalCount = headers['x-total-count'];
         const isFirstFetch = (!getState().DATA.productsCount);
         dispatch(addProductsCount(productsTotalCount));
+        dispatch(setFilter(filter));
         if (isFirstFetch) {
           // eslint-disable-next-line no-console
           console.log('object');

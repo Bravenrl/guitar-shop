@@ -2,29 +2,32 @@ import { ChangeEvent, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StringCount } from '../../../../const';
 import useDisable from '../../../../hooks/use-disable';
-import { getStringCounts } from '../../../../store/app-user/selectors-app-user';
-import { setStringCounts } from '../../../../store/app-user/slice-app-user';
+import useQuery from '../../../../hooks/use-query';
+import { fetchProductsShow } from '../../../../store/api-actions';
+import { getFilter } from '../../../../store/app-user/selectors-app-user';
 import { StringType } from '../../../../types/data';
 
 function StringFilter(): JSX.Element {
   const dispatch = useDispatch();
-  const stringCounts = useSelector(getStringCounts);
+  const filter = useSelector(getFilter);
+  const { stringCounts } = filter;
   const checkIsDisable = useDisable();
+  const query = useQuery();
 
   const handleStringCountChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const stringCount = evt.target.value;
-    stringCounts.includes(stringCount)
-      ? dispatch(
-        setStringCounts(
-          stringCounts.filter((value) => value !== stringCount)),
-      )
-      : dispatch(setStringCounts([...stringCounts, stringCount]));
+    const actualCounts = stringCounts.includes(stringCount)
+      ? stringCounts.filter((value) => value !== stringCount)
+      : [...stringCounts, stringCount];
+    const actualFilter = { ...filter, stringCounts: actualCounts };
+    dispatch(fetchProductsShow(query, actualFilter));
   };
+
   return (
     <fieldset className='catalog-filter__block'>
       <legend className='catalog-filter__block-title'>Количество струн</legend>
 
-      {[...StringCount.keys()].map((key, index) => {
+      {[...StringCount.keys()].map((key) => {
         const { id, stringCount } = StringCount.get(key) as StringType;
         return (
           <div key={id} className='form-checkbox catalog-filter__block-item'>
@@ -34,7 +37,7 @@ function StringFilter(): JSX.Element {
               id={id}
               name={id}
               value={stringCount}
-              checked={stringCounts.includes(stringCount)}
+              checked={stringCounts.includes(stringCount)&&!checkIsDisable(stringCount)}
               disabled={checkIsDisable(stringCount)}
               onChange={handleStringCountChange}
             />

@@ -1,16 +1,11 @@
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ProductProperty } from '../const';
-import {
-  getProductTypes,
-  getStringCounts
-} from '../store/app-user/selectors-app-user';
-import { setStringCounts } from '../store/app-user/slice-app-user';
+import { getFilter } from '../store/app-user/selectors-app-user';
 
 function useDisable(): (stringCount: string) => boolean {
-  const productTypes = useSelector(getProductTypes);
-  const stringCounts = useSelector(getStringCounts);
-  const dispatch = useDispatch();
+  const {productTypes} = useSelector(getFilter);
+
   const checkIsDisable = useCallback(
     (stringCount: string) => {
       if (productTypes.length === 0) {
@@ -18,18 +13,14 @@ function useDisable(): (stringCount: string) => boolean {
       }
       const isDisable = !productTypes
         .reduce((acc: string[], item: string) => {
-          const arr = ProductProperty.get(item) || [];
-          return [...acc, ...arr];
+          const counts = ProductProperty.get(item) || [];
+          return [...acc, ...counts];
         }, [])
         .includes(stringCount);
 
-      if (isDisable && stringCounts.includes(stringCount)) {
-        dispatch(
-          setStringCounts(stringCounts.filter((value) => value !== stringCount)));
-      }
       return isDisable;
     },
-    [dispatch, productTypes, stringCounts]);
+    [productTypes]);
 
   return checkIsDisable;
 }

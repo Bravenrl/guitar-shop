@@ -67,3 +67,4 @@ export const GuitarsType = new Map<string, GuitarType>([
   ['electric', {id: 'electric', title: 'Электрогитары'}],
   ['ukulele', {id: 'ukulele', title: 'Укулеле'}],
 ]);
+

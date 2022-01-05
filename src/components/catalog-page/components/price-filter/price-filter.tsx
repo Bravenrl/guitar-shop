@@ -1,33 +1,32 @@
 import { ChangeEvent, memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import useQuery from '../../../../hooks/use-query';
+import { fetchProductsShow } from '../../../../store/api-actions';
 import {
   getPriceEnd,
   getPriceStart
 } from '../../../../store/app-data/selectors-app-data';
 import {
-  getPriceMax,
-  getPriceMin
+  getFilter
 } from '../../../../store/app-user/selectors-app-user';
-import {
-  setPriceMax,
-  setPriceMin
-} from '../../../../store/app-user/slice-app-user';
+
 
 function PriceFilter(): JSX.Element {
   const dispatch = useDispatch();
-  const initPriceMax = useSelector(getPriceMax);
-  const initPriceMin = useSelector(getPriceMin);
+  const filter = useSelector(getFilter);
+  const {priceMax, priceMin} = filter;
   const priceStart = useSelector(getPriceStart);
   const priceEnd = useSelector(getPriceEnd);
-  const [curPriceMin, setCurPriceMin] = useState('');
-  const [curPriceMax, setCurPriceMax] = useState('');
-
+  const [curPriceMin, setCurPriceMin] = useState(priceMin);
+  const [curPriceMax, setCurPriceMax] = useState(priceMax);
+  const query = useQuery();
   useEffect(() => {
-    setCurPriceMin(initPriceMin ?? '');
-    setCurPriceMax(initPriceMax ?? '');
-  }, [initPriceMax, initPriceMin]);
+    setCurPriceMin(priceMin);
+    setCurPriceMax(priceMax);
+  }, [priceMax, priceMin]);
 
   const handleInputMinBlur = (evt: ChangeEvent<HTMLInputElement>) => {
+    let actualFilter = filter;
     let price = evt.target.value;
     if (price === '') {
       setCurPriceMin(price);
@@ -43,13 +42,12 @@ function PriceFilter(): JSX.Element {
       price = curPriceMax;
     }
     setCurPriceMin(price);
-    if (curPriceMax !== '') {
-      dispatch(setPriceMin(price));
-      dispatch(setPriceMax(curPriceMax));
-    }
+    actualFilter = {...actualFilter, priceMin: price};
+    dispatch(fetchProductsShow(query, actualFilter));
   };
 
   const handleInputMaxBlur = (evt: ChangeEvent<HTMLInputElement>) => {
+    let actualFilter = filter;
     let price = evt.target.value;
     if (price === '') {
       setCurPriceMax(price);
@@ -62,11 +60,10 @@ function PriceFilter(): JSX.Element {
       price = curPriceMin;
     }
     setCurPriceMax(price);
-    if (curPriceMin !== '') {
-      dispatch(setPriceMax(price));
-      dispatch(setPriceMin(curPriceMin));
-    }
+    actualFilter = {...actualFilter, priceMax: price};
+    dispatch(fetchProductsShow(query, actualFilter));
   };
+
   return (
     <fieldset className='catalog-filter__block'>
       <legend className='catalog-filter__block-title'>Цена, ₽</legend>
