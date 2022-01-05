@@ -1,9 +1,10 @@
+/* eslint-disable no-console */
 import axios, { AxiosResponse } from 'axios';
 import { FIRST_PRODUCT } from '../const';
 import { ApiRoute } from '../services/const';
 import { Guitar } from '../types/data';
 import { FilterState, SortState, ThunkActionResult } from '../types/state';
-import { setFilterQuery, setPageQuery, setSortQuery } from '../utils';
+import { createQuery } from '../utils';
 import {
   addPriceEnd,
   addPriceStart,
@@ -12,6 +13,7 @@ import {
   addProductsShow
 } from './app-data/slice-app-data';
 import { setFilter, setSort } from './app-user/slice-app-user';
+
 
 export const fetchProductsSearch =
   (searchKey: string): ThunkActionResult =>
@@ -22,7 +24,6 @@ export const fetchProductsSearch =
         );
         dispatch(addProductsSearch(data));
       } catch (err) {
-      // eslint-disable-next-line no-console
         console.log(err);
       }
     };
@@ -30,12 +31,11 @@ export const fetchProductsSearch =
 export const fetchFilteredProducts =
   (page: number, filter: FilterState): ThunkActionResult =>
     async (dispatch, getState, api): Promise<void> => {
-      const pageQuery = setPageQuery(page);
-      const sortQuery = setSortQuery(getState().USER.sort);
-      const filterQuery = setFilterQuery(filter);
+      const sort = getState().USER.sort;
+      const query = createQuery(page, filter, sort);
       try {
         const { data, headers } = await api.get<Guitar[]>(
-          `${ApiRoute.Products}/?${pageQuery}&${sortQuery}&${filterQuery}`,
+          `${ApiRoute.Products}${query}`,
         );
         dispatch(addProductsShow(data));
         const productsTotalCount = headers['x-total-count'];
@@ -43,12 +43,10 @@ export const fetchFilteredProducts =
         dispatch(addProductsCount(productsTotalCount));
         dispatch(setFilter(filter));
         if (isFirstFetch) {
-        // eslint-disable-next-line no-console
-          console.log('object');
+          console.log('first');
           dispatch(fetchProductsPrice(productsTotalCount));
         }
       } catch (err) {
-      // eslint-disable-next-line no-console
         console.log(err);
       }
     };
@@ -56,25 +54,15 @@ export const fetchFilteredProducts =
 export const fetchSortedProducts =
     (page: number, sort: SortState): ThunkActionResult =>
       async (dispatch, getState, api): Promise<void> => {
-        const pageQuery = setPageQuery(page);
-        const sortQuery = setSortQuery(sort);
-        const filterQuery = setFilterQuery(getState().USER.filter);
+        const filter = getState().USER.filter;
+        const query = createQuery(page, filter, sort);
         try {
-          const { data, headers } = await api.get<Guitar[]>(
-            `${ApiRoute.Products}/?${pageQuery}&${sortQuery}&${filterQuery}`,
+          const { data } = await api.get<Guitar[]>(
+            `${ApiRoute.Products}${query}`,
           );
           dispatch(addProductsShow(data));
-          const productsTotalCount = headers['x-total-count'];
-          const isFirstFetch = !getState().DATA.productsCount;
-          dispatch(addProductsCount(productsTotalCount));
           dispatch(setSort(sort));
-          if (isFirstFetch) {
-          // eslint-disable-next-line no-console
-            console.log('object');
-            dispatch(fetchProductsPrice(productsTotalCount));
-          }
         } catch (err) {
-        // eslint-disable-next-line no-console
           console.log(err);
         }
       };
@@ -99,7 +87,6 @@ export const fetchProductsPrice =
         dispatch(addPriceEnd(priceEnd[FIRST_PRODUCT].price));
         dispatch(addPriceStart(priceStart[FIRST_PRODUCT].price));
       } catch (err) {
-      // eslint-disable-next-line no-console
         console.log(err);
       }
     };

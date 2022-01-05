@@ -25,9 +25,15 @@ const appUserSlice = createSlice({
     setFilter: (state, action: PayloadAction<FilterState>) => {
       state.filter = action.payload;
     },
+    resetFilter: (state) => {
+      state.filter = initialState.filter;
+    },
+    resetSort: (state) => {
+      state.sort = initialState.sort;
+    },
   },
 });
 
-export const { setSort, setFilter } = appUserSlice.actions;
+export const { setSort, setFilter, resetSort, resetFilter } = appUserSlice.actions;
 
 export default appUserSlice.reducer;

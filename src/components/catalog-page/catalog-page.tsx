@@ -1,4 +1,3 @@
-
 import { Title } from '../../const';
 import PageContainer from '../common/page-container/page-container';
 import CatalogCards from './components/catalog-cards/catalog-cards';
@@ -11,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { fetchFilteredProducts } from '../../store/api-actions';
 import { useEffect } from 'react';
+import { resetFilter, resetSort } from '../../store/app-user/slice-app-user';
 
 
 function CatalogPage() {
@@ -41,7 +41,13 @@ function CatalogPage() {
       actualFilter = { ...actualFilter, priceMax: priceMaxSearch };
     }
     dispatch(fetchFilteredProducts(page, actualFilter));
-  }, []);
+
+    return ()=>{
+      dispatch(resetFilter());
+      dispatch(resetSort());
+    };
+  },
+  []);
 
   useEffect(() => {
     const params = queryString.stringify(
