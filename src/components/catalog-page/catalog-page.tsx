@@ -8,7 +8,7 @@ import Pagination from './components/pagination/pagination';
 import queryString from 'query-string';
 import { getFilter } from '../../store/app-user/selectors-app-user';
 import { useDispatch, useSelector } from 'react-redux';
-import useQuery from '../../hooks/use-query';
+import useSortQuery from '../../hooks/use-sort-query';
 import { useSearchParams } from 'react-router-dom';
 import { fetchProductsShow } from '../../store/api-actions';
 import { useEffect } from 'react';
@@ -18,7 +18,7 @@ function CatalogPage() {
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
   const { productTypes, stringCounts, priceMin, priceMax } = filter;
-  const query = useQuery();
+  const query = useSortQuery();
 
   useEffect(() => {
     let actualFilter = filter;

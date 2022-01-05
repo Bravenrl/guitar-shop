@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { PRODUCT_LIMIT } from '../const';
 import { getOrderKey, getSortKey } from '../store/app-user/selectors-app-user';
 
-function useQuery(): string {
+function useSortQuery(): string {
   const { number } = useParams();
   const sortKey = useSelector(getSortKey);
   const orderKey = useSelector(getOrderKey);
@@ -19,5 +19,5 @@ function useQuery(): string {
   return generateQuery;
 }
 
-export default useQuery;
+export default useSortQuery;
 

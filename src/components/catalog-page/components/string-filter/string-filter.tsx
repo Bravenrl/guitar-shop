@@ -2,7 +2,7 @@ import { ChangeEvent, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StringCount } from '../../../../const';
 import useDisable from '../../../../hooks/use-disable';
-import useQuery from '../../../../hooks/use-query';
+import useFilterQuery from '../../../../hooks/use-filter-query';
 import { fetchProductsShow } from '../../../../store/api-actions';
 import { getFilter } from '../../../../store/app-user/selectors-app-user';
 import { StringType } from '../../../../types/data';
@@ -12,7 +12,7 @@ function StringFilter(): JSX.Element {
   const filter = useSelector(getFilter);
   const { stringCounts } = filter;
   const checkIsDisable = useDisable();
-  const query = useQuery();
+  const setFilterQuery = useFilterQuery();
 
   const handleStringCountChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const stringCount = evt.target.value;
@@ -20,7 +20,8 @@ function StringFilter(): JSX.Element {
       ? stringCounts.filter((value) => value !== stringCount)
       : [...stringCounts, stringCount];
     const actualFilter = { ...filter, stringCounts: actualCounts };
-    dispatch(fetchProductsShow(query, actualFilter));
+    const filterQuery = setFilterQuery(actualFilter);
+    dispatch(fetchProductsShow(filterQuery, actualFilter));
   };
 
   return (

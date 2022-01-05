@@ -1,6 +1,6 @@
 import { ChangeEvent, memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import useQuery from '../../../../hooks/use-query';
+import useFilterQuery from '../../../../hooks/use-filter-query';
 import { fetchProductsShow } from '../../../../store/api-actions';
 import {
   getPriceEnd,
@@ -19,7 +19,7 @@ function PriceFilter(): JSX.Element {
   const priceEnd = useSelector(getPriceEnd);
   const [curPriceMin, setCurPriceMin] = useState(priceMin);
   const [curPriceMax, setCurPriceMax] = useState(priceMax);
-  const query = useQuery();
+  const setFilterQuery = useFilterQuery();
   useEffect(() => {
     setCurPriceMin(priceMin);
     setCurPriceMax(priceMax);
@@ -43,7 +43,8 @@ function PriceFilter(): JSX.Element {
     }
     setCurPriceMin(price);
     actualFilter = {...actualFilter, priceMin: price};
-    dispatch(fetchProductsShow(query, actualFilter));
+    const filterQuery = setFilterQuery(actualFilter);
+    dispatch(fetchProductsShow(filterQuery, actualFilter));
   };
 
   const handleInputMaxBlur = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +62,8 @@ function PriceFilter(): JSX.Element {
     }
     setCurPriceMax(price);
     actualFilter = {...actualFilter, priceMax: price};
-    dispatch(fetchProductsShow(query, actualFilter));
+    const filterQuery = setFilterQuery(actualFilter);
+    dispatch(fetchProductsShow(filterQuery, actualFilter));
   };
 
   return (
