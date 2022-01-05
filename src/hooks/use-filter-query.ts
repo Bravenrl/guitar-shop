@@ -1,28 +1,26 @@
-import { useCallback } from 'react';
 import { FilterState } from '../types/state';
-import useSortQuery from './use-sort-query';
 import queryString from 'query-string';
+import { getFilter } from '../store/app-user/selectors-app-user';
+import { useSelector } from 'react-redux';
 
-function useFilterQuery(): (filter: FilterState) => string {
-  const sortQuery = useSortQuery();
+function useFilterQuery(): (filter?: FilterState) => string {
+  const filter = useSelector(getFilter);
 
-  const setFilterQuery = useCallback(
-    (filter: FilterState) => {
-      const {productTypes, stringCounts, priceMax, priceMin} = filter;
+  const setFilterQuery =  (actualFilter?: FilterState) => {
+    const {productTypes, stringCounts, priceMax, priceMin} = actualFilter ?? filter;
 
-      const query = queryString.stringify(
-        {
-          'type': productTypes,
-          'stringCount': stringCounts,
-          'price_gte': priceMin,
-          'price_lte': priceMax,
-        },
-        { skipEmptyString: true, skipNull: true },
-      );
+    const filterQuery = queryString.stringify(
+      {
+        'type': productTypes,
+        'stringCount': stringCounts,
+        'price_gte': priceMin,
+        'price_lte': priceMax,
+      },
+      { skipEmptyString: true, skipNull: true },
+    );
 
-      return [sortQuery, query].join('&');
-    },
-    [sortQuery]);
+    return filterQuery;
+  };
 
   return setFilterQuery;
 }

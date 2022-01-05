@@ -2,17 +2,19 @@ import { ChangeEvent, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StringCount } from '../../../../const';
 import useDisable from '../../../../hooks/use-disable';
-import useFilterQuery from '../../../../hooks/use-filter-query';
-import { fetchProductsShow } from '../../../../store/api-actions';
+import { fetchFilteredProducts } from '../../../../store/api-actions';
 import { getFilter } from '../../../../store/app-user/selectors-app-user';
 import { StringType } from '../../../../types/data';
 
-function StringFilter(): JSX.Element {
+type StringFilterProps = {
+  page: number
+}
+
+function StringFilter({page}: StringFilterProps): JSX.Element {
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
   const { stringCounts } = filter;
   const checkIsDisable = useDisable();
-  const setFilterQuery = useFilterQuery();
 
   const handleStringCountChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const stringCount = evt.target.value;
@@ -20,8 +22,7 @@ function StringFilter(): JSX.Element {
       ? stringCounts.filter((value) => value !== stringCount)
       : [...stringCounts, stringCount];
     const actualFilter = { ...filter, stringCounts: actualCounts };
-    const filterQuery = setFilterQuery(actualFilter);
-    dispatch(fetchProductsShow(filterQuery, actualFilter));
+    dispatch(fetchFilteredProducts(page, actualFilter));
   };
 
   return (

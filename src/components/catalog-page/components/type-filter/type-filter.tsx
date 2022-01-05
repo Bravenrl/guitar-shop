@@ -1,19 +1,21 @@
 import { ChangeEvent, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GuitarsType } from '../../../../const';
-import useFilterQuery from '../../../../hooks/use-filter-query';
 import useUncheck from '../../../../hooks/use-uncheck';
-import { fetchProductsShow } from '../../../../store/api-actions';
+import { fetchFilteredProducts } from '../../../../store/api-actions';
 import { getFilter } from '../../../../store/app-user/selectors-app-user';
 import { GuitarType } from '../../../../types/data';
 import { FilterState } from '../../../../types/state';
 
-function TypeFilter(): JSX.Element {
+type TypeFilterProps = {
+  page: number
+}
+
+function TypeFilter({page}:TypeFilterProps): JSX.Element {
   const filter = useSelector(getFilter);
   const { productTypes } = filter;
   const dispatch = useDispatch();
   const setUnchecked = useUncheck();
-  const setFilterQuery = useFilterQuery();
 
   const handleTypeChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const currentType = evt.target.value;
@@ -22,8 +24,7 @@ function TypeFilter(): JSX.Element {
       : [...productTypes, currentType];
     const actualCounts = setUnchecked(actualTypes);
     const actualFilter = { ...filter, productTypes: actualTypes, stringCounts: actualCounts} as FilterState;
-    const filterQuery = setFilterQuery(actualFilter);
-    dispatch(fetchProductsShow(filterQuery, actualFilter));
+    dispatch(fetchFilteredProducts(page, actualFilter));
   };
 
   return (

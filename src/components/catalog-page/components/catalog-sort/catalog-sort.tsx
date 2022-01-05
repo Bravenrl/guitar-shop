@@ -1,18 +1,28 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { OrderKey, SortKey } from '../../../../const';
-import { getOrderKey, getSortKey } from '../../../../store/app-user/selectors-app-user';
-import { setOrderKey, setSortKey } from '../../../../store/app-user/slice-app-user';
+import { fetchSortedProducts } from '../../../../store/api-actions';
+import { getSort } from '../../../../store/app-user/selectors-app-user';
 
 function CatalogSort(): JSX.Element {
-  const sortKey = useSelector(getSortKey);
-  const orderKey = useSelector(getOrderKey);
+  const sort = useSelector(getSort);
+  const {sortKey, orderKey} = sort;
   const dispatch = useDispatch();
+  const { number } = useParams();
+  const page = Number(number);
 
   const handleOrderButton = (key:OrderKey) => {
+    let actualSort = sort;
     if (sortKey === '') {
-      dispatch(setSortKey(SortKey.Price));
+      actualSort = {...actualSort, sortKey: SortKey.Price};
     }
-    dispatch(setOrderKey(key));
+    actualSort = {...actualSort, orderKey: key};
+    dispatch(fetchSortedProducts(page, actualSort));
+  };
+
+  const handleSortButton = (key: SortKey) => {
+    const actualSort = {...sort, sortKey: key};
+    dispatch(fetchSortedProducts(page, actualSort));
   };
 
   return (
@@ -24,7 +34,7 @@ function CatalogSort(): JSX.Element {
             ${(sortKey===SortKey.Price)?'catalog-sort__type-button--active':''}`}
           aria-label='по цене'
           tabIndex={-1}
-          onClick={()=>dispatch(setSortKey(SortKey.Price))}
+          onClick={()=>handleSortButton(SortKey.Price)}
         >
           по цене
         </button>
@@ -32,7 +42,7 @@ function CatalogSort(): JSX.Element {
           className={`catalog-sort__type-button
             ${(sortKey===SortKey.Rating)?'catalog-sort__type-button--active':''}`}
           aria-label='по популярности'
-          onClick={()=>dispatch(setSortKey(SortKey.Rating))}
+          onClick={()=>handleSortButton(SortKey.Rating)}
         >
           по популярности
         </button>

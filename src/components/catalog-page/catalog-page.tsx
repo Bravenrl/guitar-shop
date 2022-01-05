@@ -8,17 +8,19 @@ import Pagination from './components/pagination/pagination';
 import queryString from 'query-string';
 import { getFilter } from '../../store/app-user/selectors-app-user';
 import { useDispatch, useSelector } from 'react-redux';
-import useSortQuery from '../../hooks/use-sort-query';
-import { useSearchParams } from 'react-router-dom';
-import { fetchProductsShow } from '../../store/api-actions';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { fetchFilteredProducts } from '../../store/api-actions';
 import { useEffect } from 'react';
+
 
 function CatalogPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
   const { productTypes, stringCounts, priceMin, priceMax } = filter;
-  const query = useSortQuery();
+  const { number } = useParams();
+  const page = Number(number);
+
 
   useEffect(() => {
     let actualFilter = filter;
@@ -38,7 +40,7 @@ function CatalogPage() {
     if (priceMaxSearch !== '') {
       actualFilter = { ...actualFilter, priceMax: priceMaxSearch };
     }
-    dispatch(fetchProductsShow(query, actualFilter));
+    dispatch(fetchFilteredProducts(page, actualFilter));
   }, []);
 
   useEffect(() => {

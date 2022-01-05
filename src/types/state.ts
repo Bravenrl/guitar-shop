@@ -17,8 +17,7 @@ export type AppData = {
 };
 
 export type AppUser = {
-  sortKey: string,
-  orderKey: string;
+  sort: SortState,
   filter: FilterState;
 };
 
@@ -27,5 +26,10 @@ export type FilterState = {
   stringCounts: string [],
   priceMin: string,
   priceMax: string,
+}
+
+export type SortState = {
+  sortKey: string,
+  orderKey: string,
 }
 

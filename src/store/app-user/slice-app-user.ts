@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppUser, FilterState } from '../../types/state';
+import { AppUser, FilterState, SortState } from '../../types/state';
 import { Slice } from '../const';
 
 const initialState: AppUser = {
-  sortKey: '',
-  orderKey: '',
+  sort: {
+    sortKey: '',
+    orderKey: '',
+  },
   filter: {
     productTypes: [],
     stringCounts: [],
@@ -17,11 +19,8 @@ const appUserSlice = createSlice({
   name: Slice.AppUser,
   initialState,
   reducers: {
-    setSortKey: (state, action: PayloadAction<string>) => {
-      state.sortKey = action.payload;
-    },
-    setOrderKey: (state, action: PayloadAction<string>) => {
-      state.orderKey = action.payload;
+    setSort: (state, action: PayloadAction<SortState>) => {
+      state.sort = action.payload;
     },
     setFilter: (state, action: PayloadAction<FilterState>) => {
       state.filter = action.payload;
@@ -29,6 +28,6 @@ const appUserSlice = createSlice({
   },
 });
 
-export const { setSortKey, setOrderKey, setFilter } = appUserSlice.actions;
+export const { setSort, setFilter } = appUserSlice.actions;
 
 export default appUserSlice.reducer;

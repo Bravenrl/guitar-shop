@@ -1,7 +1,6 @@
 import { ChangeEvent, memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import useFilterQuery from '../../../../hooks/use-filter-query';
-import { fetchProductsShow } from '../../../../store/api-actions';
+import { fetchFilteredProducts } from '../../../../store/api-actions';
 import {
   getPriceEnd,
   getPriceStart
@@ -10,16 +9,19 @@ import {
   getFilter
 } from '../../../../store/app-user/selectors-app-user';
 
+type PriceFilterProps = {
+  page: number
+}
 
-function PriceFilter(): JSX.Element {
+function PriceFilter({page}: PriceFilterProps): JSX.Element {
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
   const {priceMax, priceMin} = filter;
-  const priceStart = useSelector(getPriceStart);
-  const priceEnd = useSelector(getPriceEnd);
+  const pricePlaceholderStart = useSelector(getPriceStart);
+  const pricePlaceholderEnd = useSelector(getPriceEnd);
   const [curPriceMin, setCurPriceMin] = useState(priceMin);
   const [curPriceMax, setCurPriceMax] = useState(priceMax);
-  const setFilterQuery = useFilterQuery();
+
   useEffect(() => {
     setCurPriceMin(priceMin);
     setCurPriceMax(priceMax);
@@ -32,19 +34,18 @@ function PriceFilter(): JSX.Element {
       setCurPriceMin(price);
       return;
     }
-    if (+price < priceStart) {
-      price = priceStart.toString();
+    if (+price < pricePlaceholderStart) {
+      price = pricePlaceholderStart.toString();
     }
-    if (+price > priceEnd) {
-      price = priceEnd.toString();
+    if (+price > pricePlaceholderEnd) {
+      price = pricePlaceholderEnd.toString();
     }
     if (+price > +curPriceMax&&curPriceMax!=='') {
       price = curPriceMax;
     }
     setCurPriceMin(price);
     actualFilter = {...actualFilter, priceMin: price};
-    const filterQuery = setFilterQuery(actualFilter);
-    dispatch(fetchProductsShow(filterQuery, actualFilter));
+    dispatch(fetchFilteredProducts(page, actualFilter));
   };
 
   const handleInputMaxBlur = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -54,16 +55,15 @@ function PriceFilter(): JSX.Element {
       setCurPriceMax(price);
       return;
     }
-    if (+price > priceEnd || +price === 0 || +price < priceStart) {
-      price = priceEnd.toString();
+    if (+price > pricePlaceholderEnd || +price === 0 || +price < pricePlaceholderStart) {
+      price = pricePlaceholderEnd.toString();
     }
     if (+price < +curPriceMin) {
       price = curPriceMin;
     }
     setCurPriceMax(price);
     actualFilter = {...actualFilter, priceMax: price};
-    const filterQuery = setFilterQuery(actualFilter);
-    dispatch(fetchProductsShow(filterQuery, actualFilter));
+    dispatch(fetchFilteredProducts(page, actualFilter));
   };
 
   return (
@@ -74,7 +74,7 @@ function PriceFilter(): JSX.Element {
           <label className='visually-hidden'>Минимальная цена</label>
           <input
             type='number'
-            placeholder={priceStart.toString()}
+            placeholder={pricePlaceholderStart.toString()}
             id='priceMin'
             name='от'
             onBlur={handleInputMinBlur}
@@ -86,7 +86,7 @@ function PriceFilter(): JSX.Element {
           <label className='visually-hidden'>Максимальная цена</label>
           <input
             type='number'
-            placeholder={priceEnd.toString()}
+            placeholder={pricePlaceholderEnd.toString()}
             id='priceMax'
             name='до'
             onBlur={handleInputMaxBlur}
