@@ -69,7 +69,7 @@ function CatalogPage() {
         <CatalogFilter />
         <CatalogSort />
         <CatalogCards />
-        <Pagination />
+        <Pagination page = {page}/>
       </div>
     </PageContainer>
   );

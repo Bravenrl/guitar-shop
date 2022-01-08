@@ -1,5 +1,5 @@
 import queryString from 'query-string';
-import { PRODUCT_LIMIT } from './const';
+import { PRODUCT_PAGE_LIMIT } from './const';
 import { FilterState, SortState } from './types/state';
 
 const createFilterQuery = (filter: FilterState) : string =>  {
@@ -27,8 +27,8 @@ const createSortQuery =  (sort: SortState) => {
 };
 
 const createPageQuery = (page: number | undefined): string => {
-  const productEnd = page ? + page * PRODUCT_LIMIT : PRODUCT_LIMIT;
-  const productStart = productEnd - PRODUCT_LIMIT;
+  const productEnd = page ? + page * PRODUCT_PAGE_LIMIT : PRODUCT_PAGE_LIMIT;
+  const productStart = productEnd - PRODUCT_PAGE_LIMIT;
   return queryString.stringify(
     {
       _end: productEnd,
