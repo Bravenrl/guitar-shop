@@ -45,7 +45,7 @@ function PriceFilter({page}: PriceFilterProps): JSX.Element {
     }
     setCurPriceMin(price);
     actualFilter = {...actualFilter, priceMin: price};
-    dispatch(fetchFilteredProducts(page, actualFilter));
+    dispatch(fetchFilteredProducts(actualFilter));
   };
 
   const handleInputMaxBlur = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +63,7 @@ function PriceFilter({page}: PriceFilterProps): JSX.Element {
     }
     setCurPriceMax(price);
     actualFilter = {...actualFilter, priceMax: price};
-    dispatch(fetchFilteredProducts(page, actualFilter));
+    dispatch(fetchFilteredProducts(actualFilter));
   };
 
   return (

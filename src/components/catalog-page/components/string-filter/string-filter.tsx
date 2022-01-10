@@ -22,7 +22,7 @@ function StringFilter({page}: StringFilterProps): JSX.Element {
       ? stringCounts.filter((value) => value !== stringCount)
       : [...stringCounts, stringCount];
     const actualFilter = { ...filter, stringCounts: actualCounts };
-    dispatch(fetchFilteredProducts(page, actualFilter));
+    dispatch(fetchFilteredProducts(actualFilter));
   };
 
   return (

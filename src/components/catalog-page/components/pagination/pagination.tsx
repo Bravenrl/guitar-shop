@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { generatePath, Link } from 'react-router-dom';
 import {
   AppRoute,
@@ -7,6 +7,7 @@ import {
   PRODUCT_PAGE_LIMIT
 } from '../../../../const';
 import usePages from '../../../../hooks/use-pages';
+import { fetchOnPageProducts } from '../../../../store/api-actions';
 import { getProductsCount } from '../../../../store/app-data/selectors-app-data';
 
 type PaginationProps = {
@@ -14,13 +15,16 @@ type PaginationProps = {
 };
 
 function Pagination({ page }: PaginationProps): JSX.Element | null {
+  const dispatch = useDispatch();
   const productsCount = useSelector(getProductsCount);
   const pages = usePages(page);
+  const prevPage = page - 1;
+  const nextPage = page + 1;
   const prevPagePath = generatePath(`${AppRoute.Root}${AppRoute.Catalog}`, {
-    number: (page - 1).toString(),
+    number: prevPage.toString(),
   });
   const nextPagePath = generatePath(`${AppRoute.Root}${AppRoute.Catalog}`, {
-    number: (page + 1).toString(),
+    number: nextPage.toString(),
   });
 
   if (productsCount === null) {
@@ -31,13 +35,22 @@ function Pagination({ page }: PaginationProps): JSX.Element | null {
   return (
     <div className='pagination page-content__pagination'>
       <ul className='pagination__list'>
-        {page !== FIRST_PAGE_NUM && (
-          <li className='pagination__page pagination__page--prev' id='prev'>
-            <Link to={prevPagePath} className='link pagination__page-link'>
-              Назад
-            </Link>
-          </li>
-        )}
+        <li
+          className='pagination__page pagination__page--prev'
+          id='prev'
+          style={{ visibility: page === FIRST_PAGE_NUM ? 'hidden' : 'visible' }}
+        >
+          <Link
+            to={prevPagePath}
+            className='link pagination__page-link'
+            onClick={() => {
+              dispatch(fetchOnPageProducts(prevPage));
+            }}
+          >
+            Назад
+          </Link>
+        </li>
+
         {pages.map((value) => {
           const pagePath = generatePath(`${AppRoute.Root}${AppRoute.Catalog}`, {
             number: value.toString(),
@@ -51,19 +64,29 @@ function Pagination({ page }: PaginationProps): JSX.Element | null {
               className={`pagination__page
           ${value === page ? 'pagination__page--active' : ''}`}
             >
-              <Link to={pagePath} className='link pagination__page-link'>
+              <Link
+                to={pagePath}
+                className='link pagination__page-link'
+                onClick={() => dispatch(fetchOnPageProducts(value))}
+              >
                 {value}
               </Link>
             </li>
           );
         })}
-        {page < lastPage && (
-          <li className='pagination__page pagination__page--next' id='next'>
-            <Link to={nextPagePath} className='link pagination__page-link'>
-              Далее
-            </Link>
-          </li>
-        )}
+        <li
+          className='pagination__page pagination__page--next'
+          id='next'
+          style={{ visibility: page >= lastPage ? 'hidden' : 'visible' }}
+        >
+          <Link
+            to={nextPagePath}
+            className='link pagination__page-link'
+            onClick={() => dispatch(fetchOnPageProducts(nextPage))}
+          >
+            Далее
+          </Link>
+        </li>
       </ul>
     </div>
   );

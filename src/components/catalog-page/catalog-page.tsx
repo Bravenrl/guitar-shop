@@ -8,7 +8,7 @@ import queryString from 'query-string';
 import { getFilter } from '../../store/app-user/selectors-app-user';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { fetchFilteredProducts } from '../../store/api-actions';
+import { fetchFilteredProducts, fetchProductsPrice } from '../../store/api-actions';
 import { useEffect } from 'react';
 import { resetFilter, resetSort } from '../../store/app-user/slice-app-user';
 
@@ -40,13 +40,15 @@ function CatalogPage() {
     if (priceMaxSearch !== '') {
       actualFilter = { ...actualFilter, priceMax: priceMaxSearch };
     }
-    dispatch(fetchFilteredProducts(page, actualFilter));
+    dispatch(fetchProductsPrice());
+    dispatch(fetchFilteredProducts(actualFilter, page));
 
     return ()=>{
       dispatch(resetFilter());
       dispatch(resetSort());
     };
   },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   []);
 
   useEffect(() => {

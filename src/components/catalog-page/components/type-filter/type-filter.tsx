@@ -24,7 +24,7 @@ function TypeFilter({page}:TypeFilterProps): JSX.Element {
       : [...productTypes, currentType];
     const actualCounts = setUnchecked(actualTypes);
     const actualFilter = { ...filter, productTypes: actualTypes, stringCounts: actualCounts} as FilterState;
-    dispatch(fetchFilteredProducts(page, actualFilter));
+    dispatch(fetchFilteredProducts(actualFilter));
   };
 
   return (
