@@ -31,7 +31,7 @@ function Pagination({ page }: PaginationProps): JSX.Element | null {
     return null;
   }
 
-  const lastPage = productsCount / PRODUCT_PAGE_LIMIT;
+  const lastPage = Math.ceil(productsCount / PRODUCT_PAGE_LIMIT);
   return (
     <div className='pagination page-content__pagination'>
       <ul className='pagination__list'>
