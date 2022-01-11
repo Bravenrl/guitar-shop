@@ -4,7 +4,9 @@ type ProductCardProps = {
   product: Guitar;
 };
 function ProductCard({ product }: ProductCardProps): JSX.Element {
+
   const {name, previewImg, price } = product;
+
   return (
     <div className='product-card'>
       <img

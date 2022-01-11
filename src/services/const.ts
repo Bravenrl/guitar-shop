@@ -4,6 +4,7 @@ export const HEADER_TOTAL_COUNT = 'x-total-count';
 
 export enum ApiRoute {
   Products = '/guitars',
+  Comments = '/comments',
 
 }
 

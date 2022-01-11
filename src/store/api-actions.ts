@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { AppRoute, FIRST_PAGE_NUM, FIRST_PRODUCT } from '../const';
 import { ApiRoute, HEADER_TOTAL_COUNT } from '../services/const';
-import { Guitar } from '../types/data';
+import { Comment, Guitar } from '../types/data';
 import { FilterState, SortState, ThunkActionResult } from '../types/state';
 import { createQuery } from '../utils';
 import {
@@ -37,13 +37,19 @@ export const fetchFilteredProducts =
         dispatch(redirectToRoute(AppRoute.Main));
       }
       try {
-        const { data, headers } = await api.get<Guitar[]>(`${ApiRoute.Products}${query}`);
+        const { data, headers } = await api.get<Guitar[]>(
+          `${ApiRoute.Products}${query}`,
+        );
         const productsTotalCount = headers[HEADER_TOTAL_COUNT];
+        if (data.length === 0) {
+          throw new Error();
+        }
+        console.log(data.length);
         dispatch(addProductsCount(productsTotalCount));
         dispatch(addProductsShow(data));
         dispatch(setFilter(filter));
       } catch (err) {
-        console.log(err);
+        dispatch(redirectToRoute(AppRoute.NotFounPage));
       }
     };
 
@@ -105,3 +111,14 @@ export const fetchProductsPriceMax =
         console.log(err);
       }
     };
+
+export const fetchCommentsCount = (id: number): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    try {
+      await api.get<Comment[]>(
+        `${ApiRoute.Products}/${id}${ApiRoute.Comments}`,
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
