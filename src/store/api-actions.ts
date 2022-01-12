@@ -1,7 +1,7 @@
-/* eslint-disable no-console */
+import { toast } from 'react-toastify';
 import { AppRoute, FIRST_PAGE_NUM, FIRST_PRODUCT } from '../const';
-import { ApiRoute, HEADER_TOTAL_COUNT } from '../services/const';
-import { Comment, Guitar } from '../types/data';
+import { ApiRoute, ERROR_MESSAGE, HEADER_TOTAL_COUNT } from '../services/const';
+import { Guitar } from '../types/data';
 import { FilterState, SortState, ThunkActionResult } from '../types/state';
 import { createQuery } from '../utils';
 import {
@@ -23,7 +23,12 @@ export const fetchProductsSearch =
         );
         dispatch(addProductsSearch(data));
       } catch (err) {
-        console.log(err);
+        if (err instanceof Error) {
+          if  (err.message === ERROR_MESSAGE) {
+            toast.error(err.message);
+            toast.clearWaitingQueue();
+          }
+        }
       }
     };
 
@@ -44,12 +49,16 @@ export const fetchFilteredProducts =
         if (data.length === 0) {
           throw new Error();
         }
-        console.log(data.length);
         dispatch(addProductsCount(productsTotalCount));
         dispatch(addProductsShow(data));
         dispatch(setFilter(filter));
       } catch (err) {
         dispatch(redirectToRoute(AppRoute.NotFounPage));
+        if (err instanceof Error) {
+          if  (err.message === ERROR_MESSAGE) {
+            toast.error(err.message);
+          }
+        }
       }
     };
 
@@ -63,7 +72,11 @@ export const fetchSortedProducts =
         dispatch(addProductsShow(data));
         dispatch(setSort(sort));
       } catch (err) {
-        console.log(err);
+        if (err instanceof Error) {
+          if  (err.message === ERROR_MESSAGE) {
+            toast.error(err.message);
+          }
+        }
       }
     };
 
@@ -77,7 +90,11 @@ export const fetchOnPageProducts =
         const { data } = await api.get<Guitar[]>(`${ApiRoute.Products}${query}`);
         dispatch(addProductsShow(data));
       } catch (err) {
-        console.log(err);
+        if (err instanceof Error) {
+          if  (err.message === ERROR_MESSAGE) {
+            toast.error(err.message);
+          }
+        }
       }
     };
 
@@ -93,7 +110,11 @@ export const fetchProductsPrice =
         dispatch(addPriceStart(data[FIRST_PRODUCT].price));
         dispatch(fetchProductsPriceMax(headers[HEADER_TOTAL_COUNT]));
       } catch (err) {
-        console.log(err);
+        if (err instanceof Error) {
+          if  (err.message === ERROR_MESSAGE) {
+            toast.error(err.message);
+          }
+        }
       }
     };
 
@@ -108,17 +129,11 @@ export const fetchProductsPriceMax =
         );
         dispatch(addPriceEnd(data[FIRST_PRODUCT].price));
       } catch (err) {
-        console.log(err);
+        if (err instanceof Error) {
+          if  (err.message === ERROR_MESSAGE) {
+            toast.error(err.message);
+          }
+        }
       }
     };
 
-export const fetchCommentsCount = (id: number): ThunkActionResult =>
-  async (dispatch, _getState, api): Promise<void> => {
-    try {
-      await api.get<Comment[]>(
-        `${ApiRoute.Products}/${id}${ApiRoute.Comments}`,
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };

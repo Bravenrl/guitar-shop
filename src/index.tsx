@@ -5,13 +5,16 @@ import browserHistory from './browser-history';
 import App from './components/app/app';
 import { store } from './store/store';
 import {HistoryRouter} from 'react-router-dom';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { TOAST_LIMIT } from './const';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <HistoryRouter history ={browserHistory}>
         <App />
+        <ToastContainer limit={TOAST_LIMIT}/>
       </HistoryRouter >
     </Provider>
   </React.StrictMode>,
