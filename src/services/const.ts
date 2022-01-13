@@ -8,3 +8,8 @@ export enum ApiRoute {
   Products = '/guitars',
   Comments = '/comments',
 }
+
+export const enum HttpCode {
+  NotFound = 404,
+  OK = 200,
+}
