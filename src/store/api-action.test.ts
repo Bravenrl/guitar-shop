@@ -85,7 +85,7 @@ describe('Async actions', () => {
     store.dispatch(fetchFilteredProducts(MockUSER.filter));
     expect(store.getActions()).toEqual([
       redirectToRoute(AppRoute.Main),
-      redirectToRoute(AppRoute.NotFounPage),
+      redirectToRoute(AppRoute.NotFoundPage),
     ]);
   });
 

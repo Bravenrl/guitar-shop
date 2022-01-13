@@ -24,7 +24,7 @@ export enum AppRoute {
   Main = 'catalog/page_1',
   About = 'about',
   Where = 'where',
-  NotFounPage = 'page404'
+  NotFoundPage = 'page404'
 }
 
 export const HeaderLinks = new Map([

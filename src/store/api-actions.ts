@@ -53,7 +53,7 @@ export const fetchFilteredProducts =
         dispatch(addProductsShow(data));
         dispatch(setFilter(filter));
       } catch (err) {
-        dispatch(redirectToRoute(AppRoute.NotFounPage));
+        dispatch(redirectToRoute(AppRoute.NotFoundPage));
         if (err instanceof Error) {
           if  (err.message === ERROR_MESSAGE) {
             toast.error(err.message);
