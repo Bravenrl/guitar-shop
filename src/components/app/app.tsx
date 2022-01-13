@@ -10,7 +10,7 @@ import WipPage from '../wip-page/wip-page';
 function App(): JSX.Element {
   return (
     <Routes>
-      <Route element={<MainLayout />}>
+      <Route path = {AppRoute.Root} element={<MainLayout />}>
         <Route index element={<Navigate to={AppRoute.Main} replace />} />
         <Route path={AppRoute.Catalog} element={<CatalogPage />} />
         <Route path={AppRoute.Product} element={<ProductPage />} />
