@@ -1,7 +1,7 @@
 import { ChangeEvent, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GuitarsType } from '../../../../const';
-import useUncheck from '../../../../hooks/use-uncheck';
+import useUncheck from '../../../../hooks/use-uncheck/use-uncheck';
 import { fetchFilteredProducts } from '../../../../store/api-actions';
 import { getFilter } from '../../../../store/app-user/selectors-app-user';
 import { GuitarType } from '../../../../types/data';
@@ -15,7 +15,7 @@ function TypeFilter({page}:TypeFilterProps): JSX.Element {
   const filter = useSelector(getFilter);
   const { productTypes } = filter;
   const dispatch = useDispatch();
-  const setUnchecked = useUncheck();
+  const setUnchecked = useUncheck(filter);
 
   const handleTypeChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const currentType = evt.target.value;

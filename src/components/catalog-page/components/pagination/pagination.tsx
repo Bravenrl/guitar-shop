@@ -6,7 +6,7 @@ import {
   FIRST_PAGE_NUM,
   PRODUCT_PAGE_LIMIT
 } from '../../../../const';
-import usePages from '../../../../hooks/use-pages';
+import usePages from '../../../../hooks/use-pages/use-pages';
 import { fetchOnPageProducts } from '../../../../store/api-actions';
 import { getProductsCount } from '../../../../store/app-data/selectors-app-data';
 

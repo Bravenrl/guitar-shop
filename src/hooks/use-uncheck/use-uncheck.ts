@@ -1,10 +1,9 @@
 import { useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import { ProductProperty } from '../const';
-import { getFilter } from '../store/app-user/selectors-app-user';
+import { ProductProperty } from '../../const';
+import { FilterState } from '../../types/state';
 
-function useUncheck(): (productTypes: string[]) => string[] {
-  const {stringCounts} = useSelector(getFilter);
+function useUncheck(filter: FilterState): (productTypes: string[]) => string[] {
+  const {stringCounts} = filter;
 
   const setUnchecked = useCallback(
     (productTypes: string[]) => {

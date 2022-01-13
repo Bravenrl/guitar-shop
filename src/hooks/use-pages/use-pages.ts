@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { PAGE_COUNT } from '../const';
+import { PAGE_COUNT } from '../../const';
 
 function usePages (page: number): number[] {
   return useMemo(() => {

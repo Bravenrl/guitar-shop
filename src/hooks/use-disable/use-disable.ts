@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import { ProductProperty } from '../const';
-import { getFilter } from '../store/app-user/selectors-app-user';
+import { ProductProperty } from '../../const';
+import { FilterState } from '../../types/state';
 
-function useDisable(): (stringCount: string) => boolean {
-  const {productTypes} = useSelector(getFilter);
+
+function useDisable(filter: FilterState): (stringCount: string) => boolean {
+  const {productTypes} = filter;
 
   const checkIsDisable = useCallback(
     (stringCount: string) => {

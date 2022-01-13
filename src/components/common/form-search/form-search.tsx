@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { AppRoute, DELAY } from '../../../const';
-import useDebounce from '../../../hooks/use-debounce';
+import useDebounce from '../../../hooks/use-debounce/use-debounce';
 import { fetchProductsSearch } from '../../../store/api-actions';
 import { getProductsSearch } from '../../../store/app-data/selectors-app-data';
 import { clearProductsSearch } from '../../../store/app-data/slice-app-data';

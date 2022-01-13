@@ -1,8 +1,7 @@
 import { useCallback, useRef } from 'react';
-import { ThunkActionResult } from '../types/state';
+import { CallbackType } from '../../types/callback';
+import { ThunkActionResult } from '../../types/state';
 
-
-type CallbackType = (thunkAction:ThunkActionResult<Promise<void>>) => void;
 
 function useDebounce(callback: CallbackType, delay: number, searchKey?: string) {
 
