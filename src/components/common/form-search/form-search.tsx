@@ -15,9 +15,11 @@ function FormSearch(): JSX.Element {
   const debouncedSearch = useDebounce(dispatch, DELAY, searchKey);
 
   useEffect(() => {
-    debouncedSearch(fetchProductsSearch(searchKey));
+
     if (searchKey === '') {
       dispatch(clearProductsSearch());
+    } else {
+      debouncedSearch(fetchProductsSearch(searchKey));
     }
   }, [debouncedSearch, dispatch, searchKey]);
 
@@ -72,13 +74,13 @@ function FormSearch(): JSX.Element {
               tabIndex={0}
               key={id}
               onClick={() => {
-                navigate(path);
+                navigate(`/${path}`);
                 setSearchKey('');
               }}
               onKeyPress={(evt) => {
                 evt.preventDefault();
                 if (evt.key === 'Enter') {
-                  navigate(path);
+                  navigate(`/${path}`);
                   setSearchKey('');
                 }
               }}

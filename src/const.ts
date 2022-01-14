@@ -28,9 +28,9 @@ export enum AppRoute {
 }
 
 export const HeaderLinks = new Map([
-  ['catalog', { title: 'Каталог', link: AppRoute.Main }],
-  ['where', { title: 'Где купить?', link: AppRoute.Where }],
-  ['about', { title: 'О компании', link: AppRoute.About }],
+  ['catalog', { title: 'Каталог', link: `/${AppRoute.Main}` }],
+  ['where', { title: 'Где купить?', link: `/${AppRoute.Where}`}],
+  ['about', { title: 'О компании', link: `/${AppRoute.About }`}],
 ]);
 
 export enum SortKey {

@@ -40,7 +40,7 @@ function Header(): JSX.Element {
         <FormSearch />
         <Link
           className='header__cart-link'
-          to={AppRoute.Cart}
+          to={`/${AppRoute.Cart}`}
           aria-label='Корзина'
         >
           <svg

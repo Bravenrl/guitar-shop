@@ -80,7 +80,7 @@ function Footer(): JSX.Element {
           <h2 className='footer__nav-title'>Информация</h2>
           <ul className='footer__nav-list'>
             <li className='footer__nav-list-item'>
-              <Link className='link' to={AppRoute.Where}>
+              <Link className='link' to={`/${AppRoute.Where}`}>
                 Где купить?
               </Link>
             </li>
