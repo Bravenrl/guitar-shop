@@ -7,11 +7,8 @@ import { getFilter } from '../../../../store/app-user/selectors-app-user';
 import { GuitarType } from '../../../../types/data';
 import { FilterState } from '../../../../types/state';
 
-type TypeFilterProps = {
-  page: number
-}
 
-function TypeFilter({page}:TypeFilterProps): JSX.Element {
+function TypeFilter(): JSX.Element {
   const filter = useSelector(getFilter);
   const { productTypes } = filter;
   const dispatch = useDispatch();
@@ -43,6 +40,7 @@ function TypeFilter({page}:TypeFilterProps): JSX.Element {
               name={id}
               value={id}
               onChange={handleTypeChange}
+              data-testid={id}
             />
             <label htmlFor={id}>{title}</label>
           </div>

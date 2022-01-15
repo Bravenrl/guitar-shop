@@ -1,5 +1,6 @@
 import { ChangeEvent, memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { TestID } from '../../../../const-test';
 import { fetchFilteredProducts } from '../../../../store/api-actions';
 import {
   getPriceEnd,
@@ -9,11 +10,8 @@ import {
   getFilter
 } from '../../../../store/app-user/selectors-app-user';
 
-type PriceFilterProps = {
-  page: number
-}
 
-function PriceFilter({page}: PriceFilterProps): JSX.Element {
+function PriceFilter(): JSX.Element {
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
   const {priceMax, priceMin} = filter;
@@ -80,6 +78,7 @@ function PriceFilter({page}: PriceFilterProps): JSX.Element {
             onBlur={handleInputMinBlur}
             value={curPriceMin}
             onChange={(evt) => setCurPriceMin(evt.target.value)}
+            data-testid = {TestID.PriceMin}
           />
         </div>
         <div className='form-input'>
@@ -92,6 +91,7 @@ function PriceFilter({page}: PriceFilterProps): JSX.Element {
             onBlur={handleInputMaxBlur}
             value={curPriceMax}
             onChange={(evt) => setCurPriceMax(evt.target.value)}
+            data-testid = {TestID.PriceMax}
           />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute, STAR_NUMBERS } from '../../../../const';
 import { api } from '../../../../services/api';
@@ -48,7 +48,7 @@ function ProductCard({ product }: ProductCardProps): JSX.Element | null {
         </p>
       </div>
       <div className='product-card__buttons'>
-        <Link className='button button--mini' to={productInfoPath}>
+        <Link className='button button--mini' to={`/${productInfoPath}`}>
           Подробнее
         </Link>
         <a
@@ -62,4 +62,4 @@ function ProductCard({ product }: ProductCardProps): JSX.Element | null {
   );
 }
 
-export default ProductCard;
+export default memo(ProductCard);

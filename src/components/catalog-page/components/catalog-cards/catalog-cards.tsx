@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { getProductsShow } from '../../../../store/app-data/selectors-app-data';
 import ProductCard from '../product-card/product-card';
@@ -12,4 +11,4 @@ function CatalogCards(): JSX.Element {
   );
 }
 
-export default memo(CatalogCards);
+export default CatalogCards;

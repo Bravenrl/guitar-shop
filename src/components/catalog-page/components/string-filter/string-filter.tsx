@@ -6,11 +6,7 @@ import { fetchFilteredProducts } from '../../../../store/api-actions';
 import { getFilter } from '../../../../store/app-user/selectors-app-user';
 import { StringType } from '../../../../types/data';
 
-type StringFilterProps = {
-  page: number
-}
-
-function StringFilter({page}: StringFilterProps): JSX.Element {
+function StringFilter(): JSX.Element {
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
   const { stringCounts } = filter;
@@ -42,6 +38,7 @@ function StringFilter({page}: StringFilterProps): JSX.Element {
               checked={stringCounts.includes(stringCount)&&!checkIsDisable(stringCount)}
               disabled={checkIsDisable(stringCount)}
               onChange={handleStringCountChange}
+              data-testid = {id}
             />
             <label htmlFor={id}>{stringCount}</label>
           </div>

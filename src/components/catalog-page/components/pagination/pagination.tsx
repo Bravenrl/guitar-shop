@@ -6,6 +6,7 @@ import {
   FIRST_PAGE_NUM,
   PRODUCT_PAGE_LIMIT
 } from '../../../../const';
+import { TestID } from '../../../../const-test';
 import usePages from '../../../../hooks/use-pages/use-pages';
 import { fetchOnPageProducts } from '../../../../store/api-actions';
 import { getProductsCount } from '../../../../store/app-data/selectors-app-data';
@@ -39,6 +40,7 @@ function Pagination({ page }: PaginationProps): JSX.Element | null {
           className='pagination__page pagination__page--prev'
           id='prev'
           style={{ visibility: page === FIRST_PAGE_NUM ? 'hidden' : 'visible' }}
+          data-testid = {TestID.Back}
         >
           <Link
             to={prevPagePath}
@@ -52,7 +54,7 @@ function Pagination({ page }: PaginationProps): JSX.Element | null {
         </li>
 
         {pages.map((value) => {
-          const pagePath = generatePath(`${AppRoute.Root}${AppRoute.Catalog}`, {
+          const pagePath = generatePath(`${AppRoute.Catalog}`, {
             number: value.toString(),
           });
           if (value > lastPage) {
@@ -65,9 +67,10 @@ function Pagination({ page }: PaginationProps): JSX.Element | null {
           ${value === page ? 'pagination__page--active' : ''}`}
             >
               <Link
-                to={pagePath}
+                to={`/${pagePath}`}
                 className='link pagination__page-link'
                 onClick={() => dispatch(fetchOnPageProducts(value))}
+                data-testid = {TestID.Pagination}
               >
                 {value}
               </Link>
@@ -78,6 +81,7 @@ function Pagination({ page }: PaginationProps): JSX.Element | null {
           className='pagination__page pagination__page--next'
           id='next'
           style={{ visibility: page >= lastPage ? 'hidden' : 'visible' }}
+          data-testid = {TestID.Next}
         >
           <Link
             to={nextPagePath}

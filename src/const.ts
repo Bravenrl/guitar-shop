@@ -53,7 +53,7 @@ export const StringCount = new Map<string, StringType>([
   ['four', { id: '4-strings', stringCount: '4' }],
   ['six', { id: '6-strings', stringCount: '6' }],
   ['seven', { id: '7-strings', stringCount: '7' }],
-  ['tvelwe', { id: '12-strings', stringCount: '12' }],
+  ['twelve', { id: '12-strings', stringCount: '12' }],
 ]);
 
 export const ProductProperty = new Map<string, string[]>([
