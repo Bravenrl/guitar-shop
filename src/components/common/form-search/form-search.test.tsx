@@ -15,19 +15,21 @@ import { fetchProductsSearch } from '../../../store/api-actions';
 import { clearProductsSearch } from '../../../store/app-data/slice-app-data';
 import { Provider } from 'react-redux';
 
+const NAME_COUNT = 3;
+const NAME = 'name';
+const ID = 1;
+const FIRST_ELEMENT = 0;
 
 jest.mock('../../../store/api-actions');
 jest.mock('../../../store/app-data/slice-app-data');
 const fakeFetchProductsSearch = fetchProductsSearch as jest.MockedFunction<typeof fetchProductsSearch>;
 const fakeClearProductsSearch = clearProductsSearch as jest.MockedFunction<typeof clearProductsSearch>;
 const history = createMemoryHistory();
-
-const NAME_COUNT = 3;
-const NAME = 'name';
-const ID = 1;
-const FIRST_ELEMENT = 0;
+const dispatch = jest.fn();
+const useDispatch = jest.spyOn(Redux, 'useDispatch');
 
 const mockStore = configureMockStore();
+
 const productsWithFirstName = new Array(NAME_COUNT)
   .fill(null)
   .map((product, index) => {
@@ -42,8 +44,7 @@ const componentState = {
   USER: MockUSER,
 };
 
-const dispatch = jest.fn();
-const useDispatch = jest.spyOn(Redux, 'useDispatch');
+
 describe('Component: FormSearch', () => {
   it('should render correctly', () => {
     useDispatch.mockReturnValue(dispatch);

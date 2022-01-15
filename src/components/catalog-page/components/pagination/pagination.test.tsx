@@ -10,12 +10,13 @@ import Pagination from './pagination';
 import * as Redux from 'react-redux';
 import { fetchOnPageProducts } from '../../../../store/api-actions';
 
+const COUNT = 54;
+
 jest.mock('../../../../store/api-actions');
 const fakeFetchOnPageProducts = fetchOnPageProducts as jest.MockedFunction<typeof fetchOnPageProducts>;
 const dispatch = jest.fn();
 const useDispatch = jest.spyOn(Redux, 'useDispatch');
 
-const COUNT = 54;
 const prevPage = (page: number) => (page - 1).toString();
 const nextPage = (page: number) => (page + 1).toString();
 const mockStore = configureMockStore();

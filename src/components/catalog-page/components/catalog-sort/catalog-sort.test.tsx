@@ -13,15 +13,17 @@ import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { HistoryRouter, Route, Routes } from 'react-router-dom';
 
+const SORT_ACTIVE = 'catalog-sort__type-button--active';
+const ORDER_ACTIVE = 'catalog-sort__order-button--active';
+const PAGE = 1;
 
 jest.mock('../../../../store/api-actions');
 const fakeFetchSortedProducts = fetchSortedProducts as jest.MockedFunction<typeof fetchSortedProducts>;
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
+const dispatch = jest.fn();
+const useDispatch = jest.spyOn(Redux, 'useDispatch');
 
-const SORT_ACTIVE = 'catalog-sort__type-button--active';
-const ORDER_ACTIVE = 'catalog-sort__order-button--active';
-const PAGE = 1;
 const sort:SortState = {
   sortKey: SortKey.Price,
   orderKey: OrderKey.Asc,
@@ -32,8 +34,6 @@ const componentState = {
   USER: {...MockUSER, sort: sort},
 };
 
-const dispatch = jest.fn();
-const useDispatch = jest.spyOn(Redux, 'useDispatch');
 describe('Component: CatalogSort', () => {
   it('should render correctly', () => {
     const store = mockStore(componentState);

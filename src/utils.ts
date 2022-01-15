@@ -2,7 +2,7 @@ import queryString from 'query-string';
 import { PRODUCT_PAGE_LIMIT } from './const';
 import { FilterState, SortState } from './types/state';
 
-const createFilterQuery = (filter: FilterState) : string =>  {
+export const createFilterQuery = (filter: FilterState) : string =>  {
   const {productTypes, stringCounts, priceMax, priceMin} = filter;
   return queryString.stringify(
     {
@@ -15,7 +15,7 @@ const createFilterQuery = (filter: FilterState) : string =>  {
   );
 };
 
-const createSortQuery =  (sort: SortState) => {
+export const createSortQuery =  (sort: SortState) => {
   const {sortKey, orderKey} = sort;
   return queryString.stringify(
     {
@@ -26,13 +26,13 @@ const createSortQuery =  (sort: SortState) => {
   );
 };
 
-const createPageQuery = (page: number | undefined): string => {
+export const createPageQuery = (page: number | undefined): string => {
   const productEnd = page ? + page * PRODUCT_PAGE_LIMIT : PRODUCT_PAGE_LIMIT;
   const productStart = productEnd - PRODUCT_PAGE_LIMIT;
   return queryString.stringify(
     {
-      _end: productEnd,
       _start: productStart,
+      _end: productEnd,
     },
     { skipEmptyString: true, skipNull: true },
   );

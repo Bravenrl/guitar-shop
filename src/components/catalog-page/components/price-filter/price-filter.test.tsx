@@ -8,6 +8,11 @@ import { customRenderWithProvider } from '../../../../render-test';
 import PriceFilter from './price-filter';
 import userEvent from '@testing-library/user-event';
 
+const USER_PRICE = '150';
+const PRICE_MIN = '100';
+const PRICE_MAX = '200';
+const INPUTS_COUNT = 2;
+
 jest.mock('../../../../store/api-actions');
 const fakeFetchFilteredProducts = fetchFilteredProducts as jest.MockedFunction<
   typeof fetchFilteredProducts
@@ -22,10 +27,6 @@ const componentState = {
   USER: MockUSER,
 };
 
-const USER_PRICE = '150';
-const PRICE_MIN = '100';
-const PRICE_MAX = '200';
-const INPUTS_COUNT = 2;
 
 describe('Component: PriceFilter', () => {
   afterEach(cleanup);
