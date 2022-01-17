@@ -49,6 +49,9 @@ export const createQuery = (page: number | undefined, filter: FilterState, sort:
 };
 
 export const getSortedProducts = (products: Guitar[], key: string): Guitar[] => {
+  if (key === '') {
+    return [];
+  }
   const searchKey = key.toLowerCase();
   return [...products].sort((a,b)=>a.name.toLowerCase().indexOf(searchKey)-b.name.toLowerCase().indexOf(searchKey));
 };

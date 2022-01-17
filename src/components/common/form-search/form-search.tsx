@@ -21,10 +21,11 @@ function FormSearch(): JSX.Element {
 
   useEffect(() => {
     if (searchKey === '') {
+
       clearProductsSearch();
-      return;
+    } else {
+      debouncedSearch(fetchProductsSearch(searchKey));
     }
-    debouncedSearch(fetchProductsSearch(searchKey));
   }, [debouncedSearch, dispatch, searchKey]);
 
   return (

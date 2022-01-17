@@ -56,4 +56,8 @@ describe('Utils function', () => {
     const sortedProducts = getSortedProducts(fakeProductsNonSort, KEY);
     expect(sortedProducts).toEqual(fakeProductsSort);
   });
+  test('Function: getSortedProducts return []', () => {
+    const sortedProducts = getSortedProducts(fakeProductsNonSort, '');
+    expect(sortedProducts).toEqual([]);
+  });
 });

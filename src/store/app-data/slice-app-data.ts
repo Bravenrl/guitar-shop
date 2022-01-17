@@ -20,7 +20,7 @@ const appDataSlice = createSlice({
       state.productsSearch = action.payload;
     },
     clearProductsSearch: (state) => {
-      state.productsSearch = [];
+      state.productsSearch = initialState.productsSearch;
     },
     addProductsShow: (state, action: PayloadAction<Guitar[]>) => {
       state.productsShow = action.payload;
