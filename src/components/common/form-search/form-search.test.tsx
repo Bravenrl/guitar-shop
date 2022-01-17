@@ -14,16 +14,22 @@ import * as Redux from 'react-redux';
 import { fetchProductsSearch } from '../../../store/api-actions';
 import { clearProductsSearch } from '../../../store/app-data/slice-app-data';
 import { Provider } from 'react-redux';
+import { resetSearchKey, setSearchKey } from '../../../store/app-user/slice-app-user';
 
 const NAME_COUNT = 3;
 const NAME = 'name';
 const ID = 1;
 const FIRST_ELEMENT = 0;
 
+jest.mock('../../../store/app-user/slice-app-user');
 jest.mock('../../../store/api-actions');
 jest.mock('../../../store/app-data/slice-app-data');
 const fakeFetchProductsSearch = fetchProductsSearch as jest.MockedFunction<typeof fetchProductsSearch>;
 const fakeClearProductsSearch = clearProductsSearch as jest.MockedFunction<typeof clearProductsSearch>;
+const fakeSetSearchKey = setSearchKey as jest.MockedFunction<typeof setSearchKey>;
+const fakeResetSearchKey = resetSearchKey as jest.MockedFunction<typeof resetSearchKey>;
+
+
 const history = createMemoryHistory();
 const dispatch = jest.fn();
 const useDispatch = jest.spyOn(Redux, 'useDispatch');
@@ -43,6 +49,7 @@ const componentState = {
   DATA: MockDATA,
   USER: MockUSER,
 };
+const KEY = 'key';
 
 
 describe('Component: FormSearch', () => {
@@ -64,18 +71,24 @@ describe('Component: FormSearch', () => {
     expect(screen.getAllByText(NAME).length).toEqual(NAME_COUNT);
   });
 
-  it('should dispatch actions correctly', () => {
+  it('should dispatch setSearchKey correctly', () => {
     useDispatch.mockReturnValue(dispatch);
-    const store = mockStore({...componentState, DATA: {MockDATA, productsSearch: [...productsWithFirstName]}});
+    const store = mockStore(componentState);
     customRenderWithProvider(<FormSearch/>, store);
+    expect(fakeClearProductsSearch).toBeCalled();
     userEvent.type(screen.getByRole('textbox'), 'a');
     userEvent.type(screen.getByRole('textbox'), 'b');
-    userEvent.type(screen.getByRole('textbox'), 'c');
     userEvent.type(screen.getByRole('textbox'), '');
-    expect(fakeFetchProductsSearch).toBeCalledTimes(3);
-    expect(fakeClearProductsSearch).toBeCalledTimes(1);
+    userEvent.type(screen.getByRole('textbox'), '');
+    expect(fakeSetSearchKey).toBeCalledTimes(2);
   });
 
+  it('should dispatch fetchProductsSearch correctly', () => {
+    useDispatch.mockReturnValue(dispatch);
+    const store = mockStore({...componentState, USER: {MockUSER, searchKey: KEY}});
+    customRenderWithProvider(<FormSearch/>, store);
+    expect(fakeFetchProductsSearch).toBeCalledTimes(1);
+  });
 
   it('should redirect when user clicked on links', () => {
     useDispatch.mockReturnValue(dispatch);
@@ -94,6 +107,7 @@ describe('Component: FormSearch', () => {
     expect(screen.queryByAltText(Title.Product)).not.toBeInTheDocument();
     userEvent.click(screen.getAllByText(NAME)[FIRST_ELEMENT]);
     expect(screen.getByText(Title.Product)).toBeInTheDocument();
+    expect(fakeResetSearchKey).toBeCalled();
   });
 });
 

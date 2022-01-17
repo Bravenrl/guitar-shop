@@ -19,4 +19,5 @@ export const MockUSER: AppUser = {
     priceMin: '',
     priceMax: '',
   },
+  searchKey: '',
 };

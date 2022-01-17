@@ -31,15 +31,24 @@ describe('Async actions', () => {
   const FAKE_COUNT = 20;
   const FAKE_PAGE = 1;
 
-  it('should dispatch addProductsSearch when GET /name_like & HttpCode.OK', async () => {
+  it('should dispatch addProductsSearch with fakeProductsSearch when GET /name_like & HttpCode.OK', async () => {
     mockAPI
       .onGet(`${ApiRoute.Products}?name_like=${PRODUCT_KEY}`)
       .reply(HttpCode.OK, fakeProducts);
-    const store = mockStore();
+    const store = mockStore({USER: {...MockUSER, searchKey:PRODUCT_KEY}});
     await store.dispatch(fetchProductsSearch(PRODUCT_KEY));
     expect(store.getActions()).toEqual([
       { payload: fakeProducts, type: addProductsSearch.type },
     ]);
+  });
+
+  it('shouldnt dispatch addProductsSearch GET /name_like & HttpCode.OK but searchKey already is empty', async () => {
+    mockAPI
+      .onGet(`${ApiRoute.Products}?name_like=${PRODUCT_KEY}`)
+      .reply(HttpCode.OK, fakeProducts);
+    const store = mockStore({USER: {...MockUSER, searchKey:''}});
+    await store.dispatch(fetchProductsSearch(PRODUCT_KEY));
+    expect(store.getActions()).toEqual([]);
   });
 
   it('should dispatch addProductsCount, addProductsShow, setFilter and redirect to first page when GET filter & HttpCode.OK', async () => {

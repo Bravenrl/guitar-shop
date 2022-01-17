@@ -1,5 +1,8 @@
 import { Reducer } from '../const';
 import { State } from '../../types/state';
+import { createSelector } from 'reselect';
+import { getSearchKey } from '../app-user/selectors-app-user';
+import { getSortedProducts } from '../../utils';
 
 export const getProductsSearch = (state: State) =>
   state[Reducer.Data].productsSearch;
@@ -13,3 +16,6 @@ export const getPriceStart = (state: State) => state[Reducer.Data].priceStart;
 
 export const getProductsCount = (state: State) =>
   state[Reducer.Data].productsCount;
+
+export const getSortedProductsSearch = createSelector(
+  [getProductsSearch, getSearchKey], getSortedProducts);

@@ -13,6 +13,7 @@ const initialState: AppUser = {
     priceMin: '',
     priceMax: '',
   },
+  searchKey: '',
 };
 
 const appUserSlice = createSlice({
@@ -31,9 +32,15 @@ const appUserSlice = createSlice({
     resetSort: (state) => {
       state.sort = initialState.sort;
     },
+    setSearchKey: (state, action: PayloadAction<string>) => {
+      state.searchKey = action.payload;
+    },
+    resetSearchKey: (state) => {
+      state.searchKey = initialState.searchKey;
+    },
   },
 });
 
-export const { setSort, setFilter, resetSort, resetFilter } = appUserSlice.actions;
+export const { setSort, setFilter, setSearchKey, resetSort, resetFilter, resetSearchKey } = appUserSlice.actions;
 
 export default appUserSlice.reducer;

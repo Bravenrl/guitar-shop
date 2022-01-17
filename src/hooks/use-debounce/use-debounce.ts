@@ -3,7 +3,7 @@ import { CallbackType } from '../../types/callback';
 import { ThunkActionResult } from '../../types/state';
 
 
-function useDebounce(callback: CallbackType, delay: number, searchKey?: string) {
+function useDebounce(callback: CallbackType, delay: number) {
 
   const timeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -11,14 +11,10 @@ function useDebounce(callback: CallbackType, delay: number, searchKey?: string) 
     if (timeout.current) {
       clearTimeout(timeout.current);
     }
-    if (searchKey==='') {
-      return;
-    }
-
     timeout.current = setTimeout(() => {
       callback(thunkAction);
     }, delay);
-  }, [callback, delay, searchKey]);
+  }, [callback, delay]);
   return debouncedCallback;
 }
 

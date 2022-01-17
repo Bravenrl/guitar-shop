@@ -1,7 +1,7 @@
 
 import { OrderKey, ProductType, SortKey } from '../../const';
 import { AppUser } from '../../types/state';
-import appUser, { setSort, resetSort, setFilter, resetFilter} from './slice-app-user';
+import appUser, { setSort, resetSort, setFilter, resetFilter, resetSearchKey, setSearchKey} from './slice-app-user';
 
 const initialState: AppUser = {
   sort: {
@@ -14,6 +14,7 @@ const initialState: AppUser = {
     priceMin: '',
     priceMax: '',
   },
+  searchKey: '',
 };
 
 const FAKE_SORT = {
@@ -26,6 +27,7 @@ const FAKE_FILTER = {
   priceMin: '1',
   priceMax: '10',
 };
+const FAKE_KEY = 'key';
 
 
 describe('Reducer: appUser', () => {
@@ -52,4 +54,15 @@ describe('Reducer: appUser', () => {
     expect(appUser(state, resetFilter()))
       .toEqual(initialState);
   });
+  it('should clear searchKey by resetSearchKey', () => {
+    state = {...initialState, searchKey: FAKE_KEY };
+    expect(appUser(state, resetSearchKey()))
+      .toEqual(initialState);
+  });
+  it('should update searchKey by setSearchKey', () => {
+    state = {...initialState, searchKey: FAKE_KEY };
+    expect(appUser(state, setSearchKey(FAKE_KEY)))
+      .toEqual({...initialState, searchKey: FAKE_KEY });
+  });
+
 });

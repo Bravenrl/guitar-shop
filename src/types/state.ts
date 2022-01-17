@@ -18,7 +18,8 @@ export type AppData = {
 
 export type AppUser = {
   sort: SortState,
-  filter: FilterState;
+  filter: FilterState,
+  searchKey: string,
 };
 
 export type FilterState = {

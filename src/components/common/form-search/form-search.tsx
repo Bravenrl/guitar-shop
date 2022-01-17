@@ -1,26 +1,30 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { AppRoute, DELAY } from '../../../const';
 import useDebounce from '../../../hooks/use-debounce/use-debounce';
 import { fetchProductsSearch } from '../../../store/api-actions';
-import { getProductsSearch } from '../../../store/app-data/selectors-app-data';
+import { getSortedProductsSearch } from '../../../store/app-data/selectors-app-data';
 import { clearProductsSearch } from '../../../store/app-data/slice-app-data';
+import { getSearchKey } from '../../../store/app-user/selectors-app-user';
+import {
+  resetSearchKey,
+  setSearchKey
+} from '../../../store/app-user/slice-app-user';
 
 function FormSearch(): JSX.Element {
   const navigate = useNavigate();
-  const productsSearch = useSelector(getProductsSearch);
-  const [searchKey, setSearchKey] = useState('');
+  const productsSearch = useSelector(getSortedProductsSearch);
+  const searchKey = useSelector(getSearchKey);
   const dispatch = useDispatch();
-  const debouncedSearch = useDebounce(dispatch, DELAY, searchKey);
+  const debouncedSearch = useDebounce(dispatch, DELAY);
 
   useEffect(() => {
-
     if (searchKey === '') {
-      dispatch(clearProductsSearch());
-    } else {
-      debouncedSearch(fetchProductsSearch(searchKey));
+      clearProductsSearch();
+      return;
     }
+    debouncedSearch(fetchProductsSearch(searchKey));
   }, [debouncedSearch, dispatch, searchKey]);
 
   return (
@@ -50,7 +54,7 @@ function FormSearch(): JSX.Element {
           autoComplete='off'
           placeholder='что вы ищите?'
           onChange={(evt: ChangeEvent<HTMLInputElement>) => {
-            setSearchKey(evt.target.value);
+            dispatch(setSearchKey(evt.target.value));
           }}
         />
         <label className='visually-hidden' htmlFor='search'>
@@ -75,13 +79,13 @@ function FormSearch(): JSX.Element {
               key={id}
               onClick={() => {
                 navigate(`/${path}`);
-                setSearchKey('');
+                dispatch(resetSearchKey());
               }}
               onKeyPress={(evt) => {
                 evt.preventDefault();
                 if (evt.key === 'Enter') {
                   navigate(`/${path}`);
-                  setSearchKey('');
+                  dispatch(resetSearchKey());
                 }
               }}
             >

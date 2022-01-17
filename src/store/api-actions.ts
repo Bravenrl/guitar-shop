@@ -16,11 +16,14 @@ import { redirectToRoute } from './middlewares/middleware-action';
 
 export const fetchProductsSearch =
   (searchKey: string): ThunkActionResult =>
-    async (dispatch, _getState, api): Promise<void> => {
+    async (dispatch, getState, api): Promise<void> => {
       try {
         const { data } = await api.get<Guitar[]>(
           `${ApiRoute.Products}?name_like=${searchKey}`,
         );
+        if (getState().USER.searchKey === '') {
+          return;
+        }
         dispatch(addProductsSearch(data));
       } catch (err) {
         if (err instanceof Error) {
@@ -57,6 +60,7 @@ export const fetchFilteredProducts =
         if (err instanceof Error) {
           if  (err.message === ERROR_MESSAGE) {
             toast.error(err.message);
+            toast.clearWaitingQueue();
           }
         }
       }
@@ -75,6 +79,7 @@ export const fetchSortedProducts =
         if (err instanceof Error) {
           if  (err.message === ERROR_MESSAGE) {
             toast.error(err.message);
+            toast.clearWaitingQueue();
           }
         }
       }
@@ -93,6 +98,7 @@ export const fetchOnPageProducts =
         if (err instanceof Error) {
           if  (err.message === ERROR_MESSAGE) {
             toast.error(err.message);
+            toast.clearWaitingQueue();
           }
         }
       }
@@ -113,6 +119,7 @@ export const fetchProductsPrice =
         if (err instanceof Error) {
           if  (err.message === ERROR_MESSAGE) {
             toast.error(err.message);
+            toast.clearWaitingQueue();
           }
         }
       }
@@ -132,6 +139,7 @@ export const fetchProductsPriceMax =
         if (err instanceof Error) {
           if  (err.message === ERROR_MESSAGE) {
             toast.error(err.message);
+            toast.clearWaitingQueue();
           }
         }
       }

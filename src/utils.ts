@@ -1,5 +1,6 @@
 import queryString from 'query-string';
 import { PRODUCT_PAGE_LIMIT } from './const';
+import { Guitar } from './types/data';
 import { FilterState, SortState } from './types/state';
 
 export const createFilterQuery = (filter: FilterState) : string =>  {
@@ -46,3 +47,9 @@ export const createQuery = (page: number | undefined, filter: FilterState, sort:
   const fullQuery = [pageQuery, filterQuery, sortQuery].filter((query) => query !== '').join('&');
   return `/?${fullQuery}`;
 };
+
+export const getSortedProducts = (products: Guitar[], key: string): Guitar[] => {
+  const searchKey = key.toLowerCase();
+  return [...products].sort((a,b)=>a.name.toLowerCase().indexOf(searchKey)-b.name.toLowerCase().indexOf(searchKey));
+};
+
