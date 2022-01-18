@@ -1,12 +1,18 @@
 import { ChangeEvent, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { StringCount } from '../../../../const';
 import useDisable from '../../../../hooks/use-disable/use-disable';
 import { fetchFilteredProducts } from '../../../../store/api-actions';
 import { getFilter } from '../../../../store/app-user/selectors-app-user';
 import { StringType } from '../../../../types/data';
 
-function StringFilter(): JSX.Element {
+type StringFilterProps = {
+  page:number
+}
+
+function StringFilter({page}: StringFilterProps): JSX.Element {
+
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
   const { stringCounts } = filter;
@@ -18,7 +24,7 @@ function StringFilter(): JSX.Element {
       ? stringCounts.filter((value) => value !== stringCount)
       : [...stringCounts, stringCount];
     const actualFilter = { ...filter, stringCounts: actualCounts };
-    dispatch(fetchFilteredProducts(actualFilter));
+    dispatch(fetchFilteredProducts(actualFilter, page));
   };
 
   return (

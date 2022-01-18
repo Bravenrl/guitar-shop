@@ -22,6 +22,7 @@ jest.mock('../../store/api-actions');
 const PRODUCTS = 50;
 const PAGE = 1;
 const PATH = '/catalog/page_1?stringCount=6&type=electric';
+const IS_FAKE_QUERY = true;
 
 const ExpectObject = {
   priceMax: '',
@@ -97,7 +98,7 @@ describe('Component: CatalogPage', () => {
     jest.spyOn(api, 'get').mockResolvedValue(fakeAxiosResponse);
     const store = mockStore(componentState);
     const { unmount } = renderCatalogPage(store);
-    expect(fakeFetchFilteredProducts).toHaveBeenCalledWith(ExpectObject, PAGE);
+    expect(fakeFetchFilteredProducts).toHaveBeenCalledWith(ExpectObject, PAGE , IS_FAKE_QUERY);
     expect(fakeFetchProductsPrice).toHaveBeenCalled();
     unmount();
     expect(fakeResetFilter).toBeCalled();

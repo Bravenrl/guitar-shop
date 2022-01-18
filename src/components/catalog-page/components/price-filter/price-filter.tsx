@@ -10,8 +10,11 @@ import {
   getFilter
 } from '../../../../store/app-user/selectors-app-user';
 
+type PriceFilterProps = {
+  page: number
+}
 
-function PriceFilter(): JSX.Element {
+function PriceFilter({page}: PriceFilterProps): JSX.Element {
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
   const {priceMax, priceMin} = filter;
@@ -30,20 +33,12 @@ function PriceFilter(): JSX.Element {
     let price = evt.target.value;
     if (price === '') {
       setCurPriceMin(price);
-      return;
-    }
-    if (+price < pricePlaceholderStart) {
+    } else if (+price < pricePlaceholderStart || +price < 0) {
       price = pricePlaceholderStart.toString();
-    }
-    if (+price > pricePlaceholderEnd) {
-      price = pricePlaceholderEnd.toString();
-    }
-    if (+price > +curPriceMax&&curPriceMax!=='') {
-      price = curPriceMax;
     }
     setCurPriceMin(price);
     actualFilter = {...actualFilter, priceMin: price};
-    dispatch(fetchFilteredProducts(actualFilter));
+    dispatch(fetchFilteredProducts(actualFilter, page));
   };
 
   const handleInputMaxBlur = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -51,17 +46,12 @@ function PriceFilter(): JSX.Element {
     let price = evt.target.value;
     if (price === '') {
       setCurPriceMax(price);
-      return;
-    }
-    if (+price > pricePlaceholderEnd || +price === 0 || +price < pricePlaceholderStart) {
+    } else if (+price > pricePlaceholderEnd || +price < 0) {
       price = pricePlaceholderEnd.toString();
-    }
-    if (+price < +curPriceMin) {
-      price = curPriceMin;
     }
     setCurPriceMax(price);
     actualFilter = {...actualFilter, priceMax: price};
-    dispatch(fetchFilteredProducts(actualFilter));
+    dispatch(fetchFilteredProducts(actualFilter, page));
   };
 
   return (

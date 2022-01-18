@@ -13,6 +13,7 @@ import { fetchFilteredProducts, fetchOnPageProducts, fetchProductsPrice, fetchPr
 import { createQuery } from '../utils';
 import { AppRoute, FIRST_PRODUCT } from '../const';
 import { redirectToRoute } from './middlewares/middleware-action';
+import { Guitar } from '../types/data';
 
 jest.mock('../utils');
 const createFakeQuery = createQuery as jest.MockedFunction<typeof createQuery>;
@@ -30,6 +31,9 @@ describe('Async actions', () => {
   const FAKE_QUERY = '?name=СURT&type=electric';
   const FAKE_COUNT = 20;
   const FAKE_PAGE = 1;
+  const FAKE_NEW_PAGE = 5;
+  const EMPTY_DATA = [] as Guitar[];
+  const FAKE_SEARCH_QUERY = true;
 
   it('should dispatch addProductsSearch with fakeProductsSearch when GET /name_like & HttpCode.OK', async () => {
     mockAPI
@@ -58,7 +62,7 @@ describe('Async actions', () => {
     const store = mockStore({USER: MockUSER});
     createFakeQuery.mockReturnValue(FAKE_QUERY);
     await
-    store.dispatch(fetchFilteredProducts(MockUSER.filter));
+    store.dispatch(fetchFilteredProducts(MockUSER.filter, FAKE_NEW_PAGE));
     expect(store.getActions()).toEqual([
       redirectToRoute(AppRoute.Main),
       { payload: FAKE_COUNT, type: addProductsCount.type },
@@ -84,16 +88,15 @@ describe('Async actions', () => {
     expect(createFakeQuery).toBeCalled();
   });
 
-  it('should redirect to not found page when GET filter & HttpCode.NotFound', async () => {
+  it('should redirect to not found page when GET filter & data: empty [] & firstQuery', async () => {
     mockAPI
       .onGet(`${ApiRoute.Products}${FAKE_QUERY}`)
-      .reply(HttpCode.NotFound);
+      .reply(HttpCode.OK, EMPTY_DATA, {[HEADER_TOTAL_COUNT]:FAKE_COUNT});
     const store = mockStore({USER: MockUSER});
     createFakeQuery.mockReturnValue(FAKE_QUERY);
     await
-    store.dispatch(fetchFilteredProducts(MockUSER.filter));
+    store.dispatch(fetchFilteredProducts(MockUSER.filter, FAKE_NEW_PAGE, FAKE_SEARCH_QUERY));
     expect(store.getActions()).toEqual([
-      redirectToRoute(AppRoute.Main),
       redirectToRoute(AppRoute.NotFoundPage),
     ]);
   });
@@ -154,94 +157,3 @@ describe('Async actions', () => {
     ]);
   });
 });
-
-
-//   it('should dispatch postCommentAction when POST /comments', async () => {
-//     mockAPI
-//       .onPost(`${ApiRoute.Reviews}/${id}`)
-//       .reply(HttpCode.OK, fakeReviews);
-//     const store = mockStore();
-//     fakeAdaptReviewToCient.mockReturnValue(fakeReview);
-//     await store.dispatch(postCommentAction(fakeComment, `${id}`));
-//     expect(store.getActions()).toEqual(
-//       [toggleIsPosting(true), addComment(EmptyComment.comment),
-//         addComentRating(EmptyComment.rating),
-//         loadReviews(fakeReviews), toggleIsPosting(false)]);
-//     expect(fakeAdaptReviewToCient).toBeCalledTimes(4);
-//   });
-
-//   it('should dispatch postFavoriteAction when POST /favorite', async () => {
-//     mockAPI
-//       .onPost(`${ApiRoute.Favorite}/${id}/${Status.add}`)
-//       .reply(HttpCode.OK, fakeOffer);
-//     const store = mockStore();
-//     fakeAdaptOfferToCient.mockReturnValue(fakeOffer);
-//     await store.dispatch(postFavoriteAction(Status.add, `${id}`));
-//     expect(store.getActions()).toEqual(
-//       [toggleIsPosting(true), changeIsFavorite(fakeOffer),
-//         toggleIsFavorite(fakeOffer.isFavorite, fakeOffer.id), toggleIsPosting(false)]);
-//     expect(fakeAdaptOfferToCient).toBeCalledTimes(1);
-//   });
-
-//   it('should dispatch loadFavoriteOffersAction when GET /favorite', async () => {
-//     mockAPI
-//       .onGet(ApiRoute.Favorite)
-//       .reply(HttpCode.OK, fakeOffers);
-//     const store = mockStore();
-//     fakeAdaptOfferToCient.mockReturnValue(fakeOffer);
-//     await store.dispatch(loadFavoriteOffersAction());
-//     expect(store.getActions()).toEqual(
-//       [toggleIsLoading(true), loadFavoriteOffers(fakeOffers), toggleIsLoading(false)]);
-//     expect(fakeAdaptOfferToCient).toBeCalledTimes(4);
-//   });
-
-//   it('should dispatch checkAuthStatusAction when GET /login', async () => {
-//     mockAPI
-//       .onGet(ApiRoute.Login)
-//       .reply(HttpCode.OK, fakeAuthInfo);
-//     const store = mockStore();
-//     Storage.prototype.setItem = jest.fn();
-//     expect(store.getActions()).toEqual([]);
-//     fakeAdaptAuthInfoToClient.mockReturnValue(fakeAuthInfo);
-//     await store.dispatch(checkAuthStatusAction());
-//     expect(store.getActions()).toEqual([
-//       requireAuthorization(AuthorizationStatus.Auth), addUserEmail(fakeAuthInfo.email)]);
-//     expect(Storage.prototype.setItem).toBeCalled();
-//     expect(fakeAdaptAuthInfoToClient).toBeCalled();
-//     expect(Storage.prototype.setItem).toBeCalledWith(AUTN_TOKEN_NAME, fakeAuthInfo.token);
-//   });
-
-//   it('should dispatch loginAction when POST /login', async () => {
-//     mockAPI
-//       .onPost(ApiRoute.Login, fakeUser)
-//       .reply(200, {token: fakeAuthInfo.token});
-//     const store = mockStore();
-//     Storage.prototype.setItem = jest.fn();
-//     fakeAdaptAuthInfoToClient.mockReturnValue(fakeAuthInfo);
-//     await store.dispatch(loginAction(fakeUser));
-//     expect(store.getActions()).toEqual([
-//       toggleIsLoading(true),
-//       requireAuthorization(AuthorizationStatus.Auth),
-//       addUserEmail(fakeAuthInfo.email),
-//       historyBack(),
-//       toggleIsLoading(false)]);
-//     expect(Storage.prototype.setItem).toBeCalled();
-//     expect(Storage.prototype.setItem).toBeCalledWith(AUTN_TOKEN_NAME, fakeAuthInfo.token);
-//     expect(fakeAdaptAuthInfoToClient).toBeCalled();
-//   });
-
-//   it('should dispatch Logout when Delete /logout', async () => {
-//     mockAPI
-//       .onDelete(ApiRoute.Logout)
-//       .reply(204);
-//     const store = mockStore();
-//     Storage.prototype.removeItem = jest.fn();
-//     await store.dispatch(logoutAction());
-//     expect(store.getActions()).toEqual([
-//       requireLogout(),
-//       addUserEmail(''),
-//     ]);
-//     expect(Storage.prototype.removeItem).toBeCalledTimes(1);
-//     expect(Storage.prototype.removeItem).toBeCalledWith(AUTN_TOKEN_NAME);
-//   });
-// });

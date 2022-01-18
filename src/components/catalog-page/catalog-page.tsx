@@ -24,6 +24,7 @@ function CatalogPage() {
 
   useEffect(() => {
     let actualFilter = filter;
+    const isSearchQuery = true;
     const typesSearch = searchParams.getAll('type') || [];
     const strigCountsSearch = searchParams.getAll('stringCount') || [];
     const priceMinSearch = searchParams.get('price_gte') || '';
@@ -41,7 +42,7 @@ function CatalogPage() {
       actualFilter = { ...actualFilter, priceMax: priceMaxSearch };
     }
     dispatch(fetchProductsPrice());
-    dispatch(fetchFilteredProducts(actualFilter, page));
+    dispatch(fetchFilteredProducts(actualFilter, page, isSearchQuery));
 
     return ()=>{
       dispatch(resetFilter());

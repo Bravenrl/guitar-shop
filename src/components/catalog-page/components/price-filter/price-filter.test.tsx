@@ -26,45 +26,45 @@ const componentState = {
   DATA: MockDATA,
   USER: MockUSER,
 };
-
+const FAKE_PAGE = 1;
 
 describe('Component: PriceFilter', () => {
   afterEach(cleanup);
   it('should render correctly with value null in inputs & placeholders value 0', () => {
     const store = mockStore(componentState);
-    customRenderWithProvider(<PriceFilter/>, store);
+    customRenderWithProvider(<PriceFilter page={FAKE_PAGE}/>, store);
     expect(screen.getByTestId(TestID.PriceMin)).toHaveValue(null);
     expect(screen.getByTestId(TestID.PriceMax)).toHaveValue(null);
     expect(screen.getAllByPlaceholderText('0').length).toEqual(INPUTS_COUNT);
   });
   it('should render correctly with placeholders value PRICE_MIN, PRICE_MAX', () => {
     const store = mockStore({...componentState, DATA: {...MockDATA, priceStart: PRICE_MIN, priceEnd: PRICE_MAX}});
-    customRenderWithProvider(<PriceFilter/>, store);
+    customRenderWithProvider(<PriceFilter page={FAKE_PAGE}/>, store);
     expect(screen.getByPlaceholderText(`${PRICE_MIN}`)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(`${PRICE_MAX}`)).toBeInTheDocument();
   });
-  it('should dispatch correctly & dispatch value !==0', () => {
+  it('should dispatch correctly & dispatch value < 0', () => {
     useDispatch.mockReturnValue(dispatch);
     const store = mockStore({...componentState, DATA: {...MockDATA, priceStart: PRICE_MIN, priceEnd: PRICE_MAX}});
-    customRenderWithProvider(<PriceFilter/>, store);
+    customRenderWithProvider(<PriceFilter page={FAKE_PAGE}/>, store);
     expect(screen.getByTestId(TestID.PriceMin)).toHaveValue(null);
     expect(screen.getByTestId(TestID.PriceMax)).toHaveValue(null);
-    userEvent.type(screen.getByTestId(TestID.PriceMin), '0');
+    userEvent.type(screen.getByTestId(TestID.PriceMin), '-1');
     fireEvent.focusOut(screen.getByTestId(TestID.PriceMin));
-    expect(fakeFetchFilteredProducts).toBeCalledWith({...MockUSER.filter, priceMin: PRICE_MIN});
-    userEvent.type(screen.getByTestId(TestID.PriceMax), '0');
+    expect(fakeFetchFilteredProducts).toBeCalledWith({...MockUSER.filter, priceMin: PRICE_MIN}, FAKE_PAGE);
+    userEvent.type(screen.getByTestId(TestID.PriceMax), '-1');
     fireEvent.focusOut(screen.getByTestId(TestID.PriceMax));
-    expect(fakeFetchFilteredProducts).toBeCalledWith({...MockUSER.filter, priceMax: PRICE_MAX});
+    expect(fakeFetchFilteredProducts).toBeCalledWith({...MockUSER.filter, priceMax: PRICE_MAX}, FAKE_PAGE);
   });
 
   it('should dispatch correctly when user type', () => {
     useDispatch.mockReturnValue(dispatch);
     const store = mockStore({...componentState, DATA: {...MockDATA, priceStart: PRICE_MIN, priceEnd: PRICE_MAX}});
-    customRenderWithProvider(<PriceFilter/>, store);
+    customRenderWithProvider(<PriceFilter page={FAKE_PAGE}/>, store);
     expect(screen.getByTestId(TestID.PriceMin)).toHaveValue(null);
     expect(screen.getByTestId(TestID.PriceMax)).toHaveValue(null);
     userEvent.type(screen.getByTestId(TestID.PriceMax), USER_PRICE);
     fireEvent.focusOut(screen.getByTestId(TestID.PriceMax));
-    expect(fakeFetchFilteredProducts).toBeCalledWith({...MockUSER.filter, priceMax: USER_PRICE});
+    expect(fakeFetchFilteredProducts).toBeCalledWith({...MockUSER.filter, priceMax: USER_PRICE}, FAKE_PAGE);
   });
 });

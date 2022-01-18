@@ -34,12 +34,13 @@ const currentState = {
   USER: {...MockUSER, filter: filterCurrent},
 };
 
+const FAKE_PAGE = 1;
 
 describe('Component: TypeFilter', () => {
   afterEach(cleanup);
   it('should render correctly with all unchecked', () => {
     const store = mockStore(componentState);
-    customRenderWithProvider(<TypeFilter />, store);
+    customRenderWithProvider(<TypeFilter page={FAKE_PAGE}/>, store);
     expect(screen.getByTestId(TestID.Acoustic)).not.toHaveAttribute('checked');
     expect(screen.getByTestId(TestID.Ukulele)).not.toHaveAttribute('checked');
     expect(screen.getByTestId(TestID.Electric)).not.toHaveAttribute('checked');
@@ -50,7 +51,7 @@ describe('Component: TypeFilter', () => {
 
   it('should render correctly with electric & ukulele checked', () => {
     const store = mockStore(currentState);
-    customRenderWithProvider(<TypeFilter />, store);
+    customRenderWithProvider(<TypeFilter page={FAKE_PAGE} />, store);
     expect(screen.getByTestId(TestID.Acoustic)).not.toHaveAttribute('checked');
     expect(screen.getByTestId(TestID.Ukulele)).toHaveAttribute('checked');
     expect(screen.getByTestId(TestID.Electric)).toHaveAttribute('checked');
@@ -59,9 +60,9 @@ describe('Component: TypeFilter', () => {
   it('should dispatch correctly with stringCounts: [4] when only ukulele checked', () => {
     useDispatch.mockReturnValue(dispatch);
     const store = mockStore(currentState);
-    customRenderWithProvider(<TypeFilter />, store);
+    customRenderWithProvider(<TypeFilter page={FAKE_PAGE} />, store);
     expect(screen.getByTestId(TestID.Electric)).toHaveAttribute('checked');
     userEvent.click(screen.getByTestId(TestID.Electric));
-    expect(fakeFetchFilteredProducts).toBeCalledWith({...filterCurrent, productTypes:['ukulele'], stringCounts: ['4']});
+    expect(fakeFetchFilteredProducts).toBeCalledWith({...filterCurrent, productTypes:['ukulele'], stringCounts: ['4']}, FAKE_PAGE);
   });
 });

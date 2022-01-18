@@ -16,6 +16,7 @@ const dispatch = jest.fn();
 const useDispatch = jest.spyOn(Redux, 'useDispatch');
 
 const mockStore = configureMockStore();
+const FAKE_PAGE = 1;
 
 const componentState = {
   DATA: MockDATA,
@@ -39,7 +40,7 @@ describe('Component: StringFilter', () => {
   afterEach(cleanup);
   it('should render correctly with all unchecked', () => {
     const store = mockStore(componentState);
-    customRenderWithProvider(<StringFilter />, store);
+    customRenderWithProvider(<StringFilter page = {FAKE_PAGE}/>, store);
     expect(screen.getByTestId(TestID.Four)).not.toHaveAttribute('checked');
     expect(screen.getByTestId(TestID.Six)).not.toHaveAttribute('checked');
     expect(screen.getByTestId(TestID.Seven)).not.toHaveAttribute('checked');
@@ -52,7 +53,7 @@ describe('Component: StringFilter', () => {
 
   it('should render correctly with 4 & 6 checked and 12 disabled', () => {
     const store = mockStore(currentState);
-    customRenderWithProvider(<StringFilter />, store);
+    customRenderWithProvider(<StringFilter page = {FAKE_PAGE}/>, store);
     expect(screen.getByTestId(TestID.Four)).toHaveAttribute('checked');
     expect(screen.getByTestId(TestID.Six)).toHaveAttribute('checked');
     expect(screen.getByTestId(TestID.Twelve)).toHaveAttribute('disabled');
@@ -61,9 +62,9 @@ describe('Component: StringFilter', () => {
   it('should dispatch correctly with stringCounts: [4]', () => {
     useDispatch.mockReturnValue(dispatch);
     const store = mockStore(currentState);
-    customRenderWithProvider(<StringFilter />, store);
+    customRenderWithProvider(<StringFilter page = {FAKE_PAGE}/>, store);
     expect(screen.getByTestId(TestID.Six)).toHaveAttribute('checked');
     userEvent.click(screen.getByTestId(TestID.Six));
-    expect(fakeFetchFilteredProducts).toBeCalledWith({...filterCurrent, stringCounts: ['4']});
+    expect(fakeFetchFilteredProducts).toBeCalledWith({...filterCurrent, stringCounts: ['4']}, FAKE_PAGE);
   });
 });

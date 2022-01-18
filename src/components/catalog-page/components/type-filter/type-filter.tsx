@@ -7,8 +7,11 @@ import { getFilter } from '../../../../store/app-user/selectors-app-user';
 import { GuitarType } from '../../../../types/data';
 import { FilterState } from '../../../../types/state';
 
+type TypeFilterProps = {
+  page:number
+}
 
-function TypeFilter(): JSX.Element {
+function TypeFilter({page}: TypeFilterProps): JSX.Element {
   const filter = useSelector(getFilter);
   const { productTypes } = filter;
   const dispatch = useDispatch();
@@ -21,7 +24,7 @@ function TypeFilter(): JSX.Element {
       : [...productTypes, currentType];
     const actualCounts = setUnchecked(actualTypes);
     const actualFilter = { ...filter, productTypes: actualTypes, stringCounts: actualCounts} as FilterState;
-    dispatch(fetchFilteredProducts(actualFilter));
+    dispatch(fetchFilteredProducts(actualFilter, page));
   };
 
   return (

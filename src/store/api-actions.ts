@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import { AppRoute, FIRST_PAGE_NUM, FIRST_PRODUCT } from '../const';
-import { ApiRoute, ERROR_MESSAGE, HEADER_TOTAL_COUNT } from '../services/const';
+import { ApiRoute, ErrorMessage, HEADER_TOTAL_COUNT } from '../services/const';
 import { Guitar } from '../types/data';
 import { FilterState, SortState, ThunkActionResult } from '../types/state';
 import { createQuery } from '../utils';
@@ -27,7 +27,7 @@ export const fetchProductsSearch =
         dispatch(addProductsSearch(data));
       } catch (err) {
         if (err instanceof Error) {
-          if  (err.message === ERROR_MESSAGE) {
+          if  (err.message === ErrorMessage.NetworkError) {
             toast.error(err.message);
             toast.clearWaitingQueue();
           }
@@ -36,31 +36,33 @@ export const fetchProductsSearch =
     };
 
 export const fetchFilteredProducts =
-  (filter: FilterState, page?: number): ThunkActionResult =>
+  (filter: FilterState, page: number, isSearchQuery?:boolean): ThunkActionResult =>
     async (dispatch, getState, api): Promise<void> => {
-      const currentPage = page ?? FIRST_PAGE_NUM;
+      const currentPage = isSearchQuery ? page : FIRST_PAGE_NUM;
       const sort = getState().USER.sort;
       const query = createQuery(currentPage, filter, sort);
-      if (!page) {
-        dispatch(redirectToRoute(AppRoute.Main));
-      }
       try {
         const { data, headers } = await api.get<Guitar[]>(
           `${ApiRoute.Products}${query}`,
         );
         const productsTotalCount = headers[HEADER_TOTAL_COUNT];
-        if (data.length === 0) {
-          throw new Error();
+        if ((data.length === 0)&&(isSearchQuery)) {
+          throw new Error(ErrorMessage.Redirect);
+        }
+        if (page !== FIRST_PAGE_NUM) {
+          dispatch(redirectToRoute(AppRoute.Main));
         }
         dispatch(addProductsCount(productsTotalCount));
         dispatch(addProductsShow(data));
         dispatch(setFilter(filter));
       } catch (err) {
-        dispatch(redirectToRoute(AppRoute.NotFoundPage));
         if (err instanceof Error) {
-          if  (err.message === ERROR_MESSAGE) {
+          if  (err.message === ErrorMessage.NetworkError) {
             toast.error(err.message);
             toast.clearWaitingQueue();
+          }
+          if (err.message === ErrorMessage.Redirect) {
+            dispatch(redirectToRoute(AppRoute.NotFoundPage));
           }
         }
       }
@@ -77,7 +79,7 @@ export const fetchSortedProducts =
         dispatch(setSort(sort));
       } catch (err) {
         if (err instanceof Error) {
-          if  (err.message === ERROR_MESSAGE) {
+          if  (err.message === ErrorMessage.NetworkError) {
             toast.error(err.message);
             toast.clearWaitingQueue();
           }
@@ -96,7 +98,7 @@ export const fetchOnPageProducts =
         dispatch(addProductsShow(data));
       } catch (err) {
         if (err instanceof Error) {
-          if  (err.message === ERROR_MESSAGE) {
+          if  (err.message === ErrorMessage.NetworkError) {
             toast.error(err.message);
             toast.clearWaitingQueue();
           }
@@ -117,7 +119,7 @@ export const fetchProductsPrice =
         dispatch(fetchProductsPriceMax(headers[HEADER_TOTAL_COUNT]));
       } catch (err) {
         if (err instanceof Error) {
-          if  (err.message === ERROR_MESSAGE) {
+          if  (err.message === ErrorMessage.NetworkError) {
             toast.error(err.message);
             toast.clearWaitingQueue();
           }
@@ -137,7 +139,7 @@ export const fetchProductsPriceMax =
         dispatch(addPriceEnd(data[FIRST_PRODUCT].price));
       } catch (err) {
         if (err instanceof Error) {
-          if  (err.message === ERROR_MESSAGE) {
+          if  (err.message === ErrorMessage.NetworkError) {
             toast.error(err.message);
             toast.clearWaitingQueue();
           }
