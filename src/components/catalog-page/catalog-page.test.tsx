@@ -43,7 +43,7 @@ const fakeResetSort = resetSort as jest.MockedFunction<typeof resetSort>;
 
 const mockStore = configureMockStore();
 const componentState = {
-  DATA: { ...MockDATA, productsShow: fakeProducts, productsCount: PRODUCTS },
+  DATA: { ...MockDATA, productsShow: fakeProducts, productsCount: PRODUCTS, isLoading: false},
   USER: MockUSER,
 };
 const history = createMemoryHistory();

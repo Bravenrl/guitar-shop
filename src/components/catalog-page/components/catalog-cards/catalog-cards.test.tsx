@@ -10,7 +10,7 @@ import { MockDATA, MockUSER } from '../../../../mock/mockStore';
 
 const mockStore = configureMockStore();
 const componentState = {
-  DATA: {...MockDATA, productsShow: fakeProducts},
+  DATA: {...MockDATA, productsShow: fakeProducts, isLoading: false},
   USER: MockUSER,
 };
 const store = mockStore(componentState);

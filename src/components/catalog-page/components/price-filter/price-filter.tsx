@@ -33,21 +33,38 @@ function PriceFilter({page}: PriceFilterProps): JSX.Element {
     let price = evt.target.value;
     if (price === '') {
       setCurPriceMin(price);
-    } else if (+price < pricePlaceholderStart || +price < 0) {
+      return;
+    }
+    if (+price < pricePlaceholderStart) {
       price = pricePlaceholderStart.toString();
+    }
+    if (+price > pricePlaceholderEnd) {
+      price = pricePlaceholderEnd.toString();
+    }
+    if (+price > +curPriceMax&&curPriceMax!=='') {
+      price = curPriceMax;
     }
     setCurPriceMin(price);
     actualFilter = {...actualFilter, priceMin: price};
     dispatch(fetchFilteredProducts(actualFilter, page));
   };
 
+
   const handleInputMaxBlur = (evt: ChangeEvent<HTMLInputElement>) => {
     let actualFilter = filter;
     let price = evt.target.value;
     if (price === '') {
       setCurPriceMax(price);
-    } else if (+price > pricePlaceholderEnd || +price < 0) {
+      return;
+    }
+    if (+price > pricePlaceholderEnd) {
       price = pricePlaceholderEnd.toString();
+    }
+    if (+price < pricePlaceholderStart) {
+      price = pricePlaceholderStart.toString();
+    }
+    if (+price < +curPriceMin&&curPriceMin!=='') {
+      price = curPriceMin;
     }
     setCurPriceMax(price);
     actualFilter = {...actualFilter, priceMax: price};

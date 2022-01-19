@@ -54,7 +54,7 @@ describe('Component: PriceFilter', () => {
     expect(fakeFetchFilteredProducts).toBeCalledWith({...MockUSER.filter, priceMin: PRICE_MIN}, FAKE_PAGE);
     userEvent.type(screen.getByTestId(TestID.PriceMax), '-1');
     fireEvent.focusOut(screen.getByTestId(TestID.PriceMax));
-    expect(fakeFetchFilteredProducts).toBeCalledWith({...MockUSER.filter, priceMax: PRICE_MAX}, FAKE_PAGE);
+    expect(fakeFetchFilteredProducts).toBeCalledWith({...MockUSER.filter, priceMax: PRICE_MIN}, FAKE_PAGE);
   });
 
   it('should dispatch correctly when user type', () => {
