@@ -38,6 +38,7 @@ export const TestReg = {
   StringSeven: new RegExp('7', 'i'),
   StringTwelve: new RegExp('12', 'i'),
   FilterTitle: new RegExp('Фильтр', 'i'),
+  Preloader: new RegExp('Loading', 'i'),
 };
 
 export const ROOT = `${TestReg.Root}`;

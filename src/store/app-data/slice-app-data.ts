@@ -9,7 +9,7 @@ const initialState: AppData = {
   priceEnd: 0,
   priceStart: 0,
   productsCount: null,
-
+  isLoading: false,
 };
 
 const appDataSlice = createSlice({
@@ -34,6 +34,12 @@ const appDataSlice = createSlice({
     addProductsCount: (state, action: PayloadAction<number>) => {
       state.productsCount = action.payload;
     },
+    clearProductsCount: (state) => {
+      state.productsCount = initialState.productsCount;
+    },
+    toggleIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
@@ -44,6 +50,8 @@ export const {
   addPriceEnd,
   addPriceStart,
   addProductsCount,
+  toggleIsLoading,
+  clearProductsCount,
 } = appDataSlice.actions;
 
 export default appDataSlice.reducer;

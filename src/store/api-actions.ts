@@ -9,7 +9,9 @@ import {
   addPriceStart,
   addProductsCount,
   addProductsSearch,
-  addProductsShow
+  addProductsShow,
+  clearProductsCount,
+  toggleIsLoading
 } from './app-data/slice-app-data';
 import { setFilter, setSort } from './app-user/slice-app-user';
 import { redirectToRoute } from './middlewares/middleware-action';
@@ -38,6 +40,8 @@ export const fetchProductsSearch =
 export const fetchFilteredProducts =
   (filter: FilterState, page: number, isSearchQuery?:boolean): ThunkActionResult =>
     async (dispatch, getState, api): Promise<void> => {
+      dispatch(toggleIsLoading(true));
+      dispatch(clearProductsCount());
       const currentPage = isSearchQuery ? page : FIRST_PAGE_NUM;
       const sort = getState().USER.sort;
       const query = createQuery(currentPage, filter, sort);
@@ -66,11 +70,13 @@ export const fetchFilteredProducts =
           }
         }
       }
+      dispatch(toggleIsLoading(false));
     };
 
 export const fetchSortedProducts =
   (page: number, sort: SortState): ThunkActionResult =>
     async (dispatch, getState, api): Promise<void> => {
+      dispatch(toggleIsLoading(true));
       const filter = getState().USER.filter;
       const query = createQuery(page, filter, sort);
       try {
@@ -85,11 +91,13 @@ export const fetchSortedProducts =
           }
         }
       }
+      dispatch(toggleIsLoading(false));
     };
 
 export const fetchOnPageProducts =
   (page: number): ThunkActionResult =>
     async (dispatch, getState, api): Promise<void> => {
+      dispatch(toggleIsLoading(true));
       const filter = getState().USER.filter;
       const sort = getState().USER.sort;
       const query = createQuery(page, filter, sort);
@@ -104,11 +112,13 @@ export const fetchOnPageProducts =
           }
         }
       }
+      dispatch(toggleIsLoading(false));
     };
 
 export const fetchProductsPrice =
   (): ThunkActionResult =>
     async (dispatch, _getState, api): Promise<void> => {
+      dispatch(toggleIsLoading(true));
       try {
         const { data, headers } = await api.get<Guitar[]>(
           `${ApiRoute.Products}?_sort=price&_start=${FIRST_PRODUCT}&_end=${
@@ -125,6 +135,7 @@ export const fetchProductsPrice =
           }
         }
       }
+      dispatch(toggleIsLoading(false));
     };
 
 export const fetchProductsPriceMax =

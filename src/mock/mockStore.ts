@@ -6,6 +6,7 @@ export const MockDATA: AppData = {
   priceEnd: 0,
   priceStart: 0,
   productsCount: null,
+  isLoading: false,
 };
 
 export const MockUSER: AppUser = {

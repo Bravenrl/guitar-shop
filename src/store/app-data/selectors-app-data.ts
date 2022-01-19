@@ -17,5 +17,8 @@ export const getPriceStart = (state: State) => state[Reducer.Data].priceStart;
 export const getProductsCount = (state: State) =>
   state[Reducer.Data].productsCount;
 
+export const getIsLoading = (state: State) =>
+  state[Reducer.Data].isLoading;
+
 export const getSortedProductsSearch = createSelector(
   [getProductsSearch, getSearchKey], getSortedProducts);

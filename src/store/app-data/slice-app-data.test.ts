@@ -9,6 +9,7 @@ export const initialState: AppData = {
   priceEnd: 0,
   priceStart: 0,
   productsCount: null,
+  isLoading: false,
 };
 
 const FAKE_PRICE = 1;

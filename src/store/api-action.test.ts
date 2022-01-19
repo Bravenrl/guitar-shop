@@ -5,7 +5,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { State } from '../types/state';
 import { ApiRoute, HEADER_TOTAL_COUNT, HttpCode } from '../services/const';
 import { fakeProducts } from '../mock/fakeData';
-import { addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow } from './app-data/slice-app-data';
+import { addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearProductsCount, toggleIsLoading } from './app-data/slice-app-data';
 import { api } from '../services/api';
 import { setFilter, setSort } from './app-user/slice-app-user';
 import { MockUSER} from '../mock/mockStore';
@@ -64,10 +64,13 @@ describe('Async actions', () => {
     await
     store.dispatch(fetchFilteredProducts(MockUSER.filter, FAKE_NEW_PAGE));
     expect(store.getActions()).toEqual([
+      toggleIsLoading(true),
+      clearProductsCount(),
       redirectToRoute(AppRoute.Main),
       { payload: FAKE_COUNT, type: addProductsCount.type },
       { payload: fakeProducts, type: addProductsShow.type },
       { payload: MockUSER.filter, type: setFilter.type },
+      toggleIsLoading(false),
     ]);
     expect(createFakeQuery).toBeCalled();
   });
@@ -81,9 +84,12 @@ describe('Async actions', () => {
     await
     store.dispatch(fetchFilteredProducts(MockUSER.filter, FAKE_PAGE));
     expect(store.getActions()).toEqual([
+      toggleIsLoading(true),
+      clearProductsCount(),
       { payload: FAKE_COUNT, type: addProductsCount.type },
       { payload: fakeProducts, type: addProductsShow.type },
       { payload: MockUSER.filter, type: setFilter.type },
+      toggleIsLoading(false),
     ]);
     expect(createFakeQuery).toBeCalled();
   });
@@ -97,7 +103,10 @@ describe('Async actions', () => {
     await
     store.dispatch(fetchFilteredProducts(MockUSER.filter, FAKE_NEW_PAGE, FAKE_SEARCH_QUERY));
     expect(store.getActions()).toEqual([
+      toggleIsLoading(true),
+      clearProductsCount(),
       redirectToRoute(AppRoute.NotFoundPage),
+      toggleIsLoading(false),
     ]);
   });
 
@@ -110,8 +119,10 @@ describe('Async actions', () => {
     await
     store.dispatch(fetchSortedProducts(FAKE_PAGE, MockUSER.sort));
     expect(store.getActions()).toEqual([
+      toggleIsLoading(true),
       addProductsShow(fakeProducts),
       setSort(MockUSER.sort),
+      toggleIsLoading(false),
     ]);
     expect(createFakeQuery).toBeCalled();
   });
@@ -125,7 +136,9 @@ describe('Async actions', () => {
     await
     store.dispatch(fetchOnPageProducts(FAKE_PAGE));
     expect(store.getActions()).toEqual([
+      toggleIsLoading(true),
       addProductsShow(fakeProducts),
+      toggleIsLoading(false),
     ]);
     expect(createFakeQuery).toBeCalled();
   });
@@ -153,7 +166,9 @@ describe('Async actions', () => {
     await
     store.dispatch(fetchProductsPrice());
     expect(store.getActions()).toEqual([
+      toggleIsLoading(true),
       addPriceStart(fakeProducts[FIRST_PRODUCT].price),
+      toggleIsLoading(false),
     ]);
   });
 });

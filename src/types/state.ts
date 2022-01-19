@@ -14,6 +14,7 @@ export type AppData = {
   priceStart: number,
   priceEnd: number,
   productsCount: number|null,
+  isLoading: boolean;
 };
 
 export type AppUser = {
