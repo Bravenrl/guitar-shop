@@ -20,10 +20,7 @@ function FormSearch(): JSX.Element {
   const debouncedSearch = useDebounce(dispatch, DELAY);
 
   useEffect(() => {
-    if (searchKey === '') {
-
-      clearProductsSearch();
-    } else {
+    if (searchKey !== '') {
       debouncedSearch(fetchProductsSearch(searchKey));
     }
   }, [debouncedSearch, dispatch, searchKey]);
@@ -55,6 +52,9 @@ function FormSearch(): JSX.Element {
           autoComplete='off'
           placeholder='что вы ищите?'
           onChange={(evt: ChangeEvent<HTMLInputElement>) => {
+            if (evt.target.value==='') {
+              dispatch(clearProductsSearch());
+            }
             dispatch(setSearchKey(evt.target.value));
           }}
         />
