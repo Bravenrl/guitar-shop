@@ -9,7 +9,7 @@ const initialState: AppData = {
   priceEnd: 0,
   priceStart: 0,
   productsCount: null,
-  isLoading: false,
+  isLoading: true,
 };
 
 const appDataSlice = createSlice({

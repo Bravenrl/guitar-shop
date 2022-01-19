@@ -39,6 +39,7 @@ export const TestReg = {
   StringTwelve: new RegExp('12', 'i'),
   FilterTitle: new RegExp('Фильтр', 'i'),
   Preloader: new RegExp('Loading', 'i'),
+  NoProduct: new RegExp('Нет гитар с заданными параметрами', 'i'),
 };
 
 export const ROOT = `${TestReg.Root}`;

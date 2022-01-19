@@ -1,4 +1,4 @@
-function Preloader(): JSX.Element | null {
+function NoProduct(): JSX.Element | null {
   return (
     <div
       style={{
@@ -10,8 +10,8 @@ function Preloader(): JSX.Element | null {
         height: '500px',
       }}
     >
-      <img src='./img/svg/preloader.svg' alt='Loading' />
+      <h2>Нет гитар с заданными параметрами</h2>
     </div>
   );
 }
-export default Preloader;
+export default NoProduct;
