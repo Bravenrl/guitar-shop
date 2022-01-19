@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { OrderKey, SortKey } from '../../../../const';
 import { fetchSortedProducts } from '../../../../store/api-actions';
 import { getSort } from '../../../../store/app-user/selectors-app-user';
+import './catalog-sort.css';
 
 function CatalogSort(): JSX.Element {
   const sort = useSelector(getSort);
