@@ -88,10 +88,9 @@ describe('Component: FormSearch', () => {
     useDispatch.mockReturnValue(dispatch);
     const store = mockStore(componentState);
     customRenderWithProvider(<FormSearch />, store);
-    expect(fakeClearProductsSearch).toBeCalled();
     userEvent.type(screen.getByRole('textbox'), 'a');
     userEvent.type(screen.getByRole('textbox'), 'b');
-    userEvent.type(screen.getByRole('textbox'), '');
+    expect(fakeClearProductsSearch).not.toBeCalled();
     userEvent.type(screen.getByRole('textbox'), '');
     expect(fakeSetSearchKey).toBeCalledTimes(2);
   });

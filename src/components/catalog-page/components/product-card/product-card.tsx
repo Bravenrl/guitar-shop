@@ -1,5 +1,5 @@
 
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute, STAR_NUMBERS } from '../../../../const';
 import { api } from '../../../../services/api';
@@ -14,16 +14,22 @@ function ProductCard({ product }: ProductCardProps): JSX.Element | null {
   const [commentsCount, setCommentsCount] = useState(0);
   const [isCommentsGet, setIsCommentsGet] = useState(false);
   const productInfoPath = generatePath(AppRoute.Product, { id: id.toString() });
-
+  const mountedRef = useRef(true);
   useEffect(() => {
     api
       .get<Comment[]>(`${ApiRoute.Products}/${id}${ApiRoute.Comments}`, {
       })
       .then(({ data }) => {
+        if  (!mountedRef.current) {
+          return;
+        }
         setCommentsCount(data.length);
         setIsCommentsGet(true);
       })
       .catch();
+    return () => {
+      mountedRef.current = false;
+    };
   }, [id]);
 
   if (!isCommentsGet) {
