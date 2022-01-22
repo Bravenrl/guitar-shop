@@ -47,3 +47,5 @@ export const fakeComments = new Array(COMMENTS_LENGTH)
 export const fakeProducts = new Array(PRODUCTS_LENGTH)
   .fill(null)
   .map(CreateFakeProduct);
+
+export const fakeProduct = {...CreateFakeProduct(), comments: fakeComments};

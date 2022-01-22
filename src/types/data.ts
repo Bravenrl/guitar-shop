@@ -29,5 +29,6 @@ export type Comment = {
   rating: number;
   createAt: string;
   guitarId: number;
-}
+};
 
+export type Product = Guitar & { comments: Comment[] };

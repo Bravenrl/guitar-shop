@@ -1,7 +1,7 @@
 import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { RootState } from '../store/root-reducer';
-import { Guitar } from './data';
+import { Guitar, Product } from './data';
 
 
 export type State = RootState;
@@ -14,7 +14,8 @@ export type AppData = {
   priceStart: number,
   priceEnd: number,
   productsCount: number|null,
-  isLoading: boolean;
+  isLoading: boolean,
+  currentProduct: Product,
 };
 
 export type AppUser = {

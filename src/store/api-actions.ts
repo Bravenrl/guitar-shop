@@ -1,10 +1,11 @@
 import { toast } from 'react-toastify';
 import { AppRoute, FIRST_PAGE_NUM, FIRST_PRODUCT } from '../const';
 import { ApiRoute, ErrorMessage, HEADER_TOTAL_COUNT } from '../services/const';
-import { Guitar } from '../types/data';
+import { Guitar, Product } from '../types/data';
 import { FilterState, SortState, ThunkActionResult } from '../types/state';
 import { createQuery } from '../utils';
 import {
+  addCurrentProduct,
   addPriceEnd,
   addPriceStart,
   addProductsCount,
@@ -158,3 +159,20 @@ export const fetchProductsPriceMax =
       }
     };
 
+export const fetchCurrentProduct =
+    (id: string): ThunkActionResult =>
+      async (dispatch, getState, api): Promise<void> => {
+        try {
+          const { data } = await api.get<Product>(
+            `${ApiRoute.Products}/${id}?_embed=comments`,
+          );
+          dispatch(addCurrentProduct(data));
+        } catch (err) {
+          if (err instanceof Error) {
+            if  (err.message === ErrorMessage.NetworkError) {
+              toast.error(err.message);
+              toast.clearWaitingQueue();
+            }
+          }
+        }
+      };

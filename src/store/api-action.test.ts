@@ -4,12 +4,12 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import { State } from '../types/state';
 import { ApiRoute, HEADER_TOTAL_COUNT, HttpCode } from '../services/const';
-import { fakeProducts } from '../mock/fakeData';
-import { addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearProductsCount, toggleIsLoading } from './app-data/slice-app-data';
+import { fakeProduct, fakeProducts } from '../mock/fakeData';
+import { addCurrentProduct, addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearProductsCount, toggleIsLoading } from './app-data/slice-app-data';
 import { api } from '../services/api';
 import { setFilter, setSort } from './app-user/slice-app-user';
 import { MockUSER} from '../mock/mockStore';
-import { fetchFilteredProducts, fetchOnPageProducts, fetchProductsPrice, fetchProductsPriceMax, fetchProductsSearch, fetchSortedProducts } from './api-actions';
+import { fetchCurrentProduct, fetchFilteredProducts, fetchOnPageProducts, fetchProductsPrice, fetchProductsPriceMax, fetchProductsSearch, fetchSortedProducts } from './api-actions';
 import { createQuery } from '../utils';
 import { AppRoute, FIRST_PRODUCT } from '../const';
 import { redirectToRoute } from './middlewares/middleware-action';
@@ -34,6 +34,7 @@ describe('Async actions', () => {
   const FAKE_NEW_PAGE = 5;
   const EMPTY_DATA = [] as Guitar[];
   const FAKE_SEARCH_QUERY = true;
+  const FAKE_ID = '1';
 
   it('should dispatch addProductsSearch with fakeProductsSearch when GET /name_like & HttpCode.OK', async () => {
     mockAPI
@@ -169,6 +170,17 @@ describe('Async actions', () => {
       toggleIsLoading(true),
       addPriceStart(fakeProducts[FIRST_PRODUCT].price),
       toggleIsLoading(false),
+    ]);
+  });
+
+  it('should dispatch addCurrentProduct with fakeProduct when GET ?_embed=comments & HttpCode.OK', async () => {
+    mockAPI
+      .onGet(`${ApiRoute.Products}/${FAKE_ID}?_embed=comments`)
+      .reply(HttpCode.OK, fakeProduct);
+    const store = mockStore();
+    await store.dispatch(fetchCurrentProduct(FAKE_ID));
+    expect(store.getActions()).toEqual([
+      { payload: fakeProduct, type: addCurrentProduct.type },
     ]);
   });
 });

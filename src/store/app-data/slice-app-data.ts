@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Slice } from '../const';
-import { Guitar } from '../../types/data';
+import { Guitar, Product } from '../../types/data';
 import { AppData } from '../../types/state';
 
 const initialState: AppData = {
@@ -10,6 +10,7 @@ const initialState: AppData = {
   priceStart: 0,
   productsCount: null,
   isLoading: true,
+  currentProduct: {} as Product,
 };
 
 const appDataSlice = createSlice({
@@ -40,6 +41,12 @@ const appDataSlice = createSlice({
     toggleIsLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
+    addCurrentProduct: (state, action: PayloadAction<Product>) => {
+      state.currentProduct = action.payload;
+    },
+    clearCurrentProduct: (state) => {
+      state.currentProduct = initialState.currentProduct;
+    },
   },
 });
 
@@ -52,6 +59,8 @@ export const {
   addProductsCount,
   toggleIsLoading,
   clearProductsCount,
+  addCurrentProduct,
+  clearCurrentProduct,
 } = appDataSlice.actions;
 
 export default appDataSlice.reducer;

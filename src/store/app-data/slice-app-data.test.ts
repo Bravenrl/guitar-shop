@@ -1,7 +1,8 @@
 
-import { fakeProducts } from '../../mock/fakeData';
+import { CreateFakeProduct, fakeComments, fakeProducts } from '../../mock/fakeData';
+import { Product } from '../../types/data';
 import { AppData } from '../../types/state';
-import appData, { addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearProductsSearch } from './slice-app-data';
+import appData, { addCurrentProduct, addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearCurrentProduct, clearProductsSearch } from './slice-app-data';
 
 export const initialState: AppData = {
   productsSearch: [],
@@ -10,10 +11,12 @@ export const initialState: AppData = {
   priceStart: 0,
   productsCount: null,
   isLoading: true,
+  currentProduct: {} as Product,
 };
 
 const FAKE_PRICE = 1;
 const FAKE_COUNT = 10;
+const FAKE_PRODUCT = {...CreateFakeProduct(), comments: fakeComments};
 
 
 describe('Reducer: appData', () => {
@@ -46,5 +49,14 @@ describe('Reducer: appData', () => {
   it('should update comment by addProductsCount', () => {
     expect(appData(state, addProductsCount(FAKE_COUNT)))
       .toEqual({ ...state, productsCount: FAKE_COUNT });
+  });
+  it('should update currentProduct by addCurrentProduct', () => {
+    expect(appData(state, addCurrentProduct(FAKE_PRODUCT)))
+      .toEqual({ ...state, currentProduct: FAKE_PRODUCT });
+  });
+  it('should clear currentProduct by clearCurrentProduct', () => {
+    state = { ...state, currentProduct: FAKE_PRODUCT };
+    expect(appData(state, clearCurrentProduct()))
+      .toEqual(initialState);
   });
 });
