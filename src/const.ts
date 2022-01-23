@@ -7,12 +7,12 @@ export const PAGE_COUNT = 3;
 export const FIRST_PAGE_NUM = 1;
 export const STAR_NUMBERS = [1, 2, 3, 4, 5];
 export const TOAST_LIMIT = 1;
-
+export const DOCUMENT_TITLE = 'Guitar-shop';
 
 export enum Title {
   Catalog = 'Каталог гитар',
-  Product = 'Товар',
   Cart = 'Корзина',
+  Product = 'Товар',
 }
 
 export enum AppRoute {

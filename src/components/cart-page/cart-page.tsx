@@ -1,11 +1,16 @@
-import { Title } from '../../const';
+import { Helmet } from 'react-helmet';
+import { DOCUMENT_TITLE, Title } from '../../const';
 import PageContainer from '../common/page-container/page-container';
 
 function CartPage(): JSX.Element {
+  const headTitle = `${Title.Cart} - ${DOCUMENT_TITLE}`;
   return (
-    <PageContainer title={Title.Cart}>
-      <div className='cart'></div>
-    </PageContainer>
+    <>
+      <Helmet title={headTitle} />
+      <PageContainer title={Title.Cart}>
+        <div className='cart'></div>
+      </PageContainer>
+    </>
   );
 }
 

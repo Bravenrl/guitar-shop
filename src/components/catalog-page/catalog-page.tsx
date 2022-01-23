@@ -1,4 +1,4 @@
-import { Title } from '../../const';
+import { DOCUMENT_TITLE, Title } from '../../const';
 import PageContainer from '../common/page-container/page-container';
 import CatalogCards from './components/catalog-cards/catalog-cards';
 import CatalogFilter from './components/catalog-filter/catalog-filter';
@@ -11,6 +11,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { fetchFilteredProducts, fetchProductsPrice } from '../../store/api-actions';
 import { useEffect } from 'react';
 import { resetFilter, resetSort } from '../../store/app-user/slice-app-user';
+import { Helmet } from 'react-helmet';
 
 
 function CatalogPage() {
@@ -67,14 +68,17 @@ function CatalogPage() {
 
 
   return (
-    <PageContainer title={Title.Catalog}>
-      <div className='catalog'>
-        <CatalogFilter />
-        <CatalogSort />
-        <CatalogCards />
-        <Pagination page = {page}/>
-      </div>
-    </PageContainer>
+    <>
+      <Helmet title={DOCUMENT_TITLE} />
+      <PageContainer title={Title.Catalog}>
+        <div className='catalog'>
+          <CatalogFilter />
+          <CatalogSort />
+          <CatalogCards />
+          <Pagination page = {page}/>
+        </div>
+      </PageContainer>
+    </>
   );
 }
 
