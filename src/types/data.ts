@@ -18,13 +18,14 @@ export type StringType = {
 export type GuitarType = {
   id: string;
   title: string;
+  type: string
 };
 
 export type Comment = {
   id: string;
   userName: string;
-  advantages: string;
-  disadvantages: string;
+  advantage: string;
+  disadvantage: string;
   comment: string;
   rating: number;
   createAt: string;

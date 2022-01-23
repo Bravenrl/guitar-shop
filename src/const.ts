@@ -68,8 +68,8 @@ export const enum ParamsKey {
 }
 
 export const GuitarsType = new Map<string, GuitarType>([
-  ['acoustic', {id: 'acoustic', title: 'Акустические гитары'}],
-  ['electric', {id: 'electric', title: 'Электрогитары'}],
-  ['ukulele', {id: 'ukulele', title: 'Укулеле'}],
+  ['acoustic', {id: 'acoustic', title: 'Акустические гитары', type: 'Аккустическая гитара'}],
+  ['electric', {id: 'electric', title: 'Электрогитары', type: 'Электрогитара'}],
+  ['ukulele', {id: 'ukulele', title: 'Укулеле', type: 'Укулеле'}],
 ]);
 

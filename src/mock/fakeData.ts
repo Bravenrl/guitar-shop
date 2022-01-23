@@ -32,8 +32,8 @@ export const CreateFakeProduct = (): Guitar => ({
 export const CreateFakeComment = (): Comment => ({
   guitarId: COMMENT_ID,
   userName: name.firstName(),
-  advantages: lorem.word(),
-  disadvantages: lorem.word(),
+  advantage: lorem.word(),
+  disadvantage: lorem.word(),
   comment: lorem.sentences(datatype.number(3)),
   rating: datatype.float({ max: 5 }),
   createAt: date.past().toString(),

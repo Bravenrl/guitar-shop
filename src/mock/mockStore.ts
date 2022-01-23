@@ -1,3 +1,4 @@
+import { Guitar } from '../types/data';
 import { AppData, AppUser } from '../types/state';
 
 export const MockDATA: AppData = {
@@ -7,6 +8,8 @@ export const MockDATA: AppData = {
   priceStart: 0,
   productsCount: null,
   isLoading: true,
+  currentComments: [],
+  currentProduct: {} as Guitar,
 };
 
 export const MockUSER: AppUser = {

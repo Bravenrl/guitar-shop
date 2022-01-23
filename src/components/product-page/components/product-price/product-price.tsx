@@ -1,13 +1,16 @@
-import React from 'react';
+type ProductPriceProps = {
+  price: number
+}
 
-function ProductPrice(): JSX.Element  {
+
+function ProductPrice({price}: ProductPriceProps): JSX.Element  {
   return (
     <div className='product-container__price-wrapper'>
       <p className='product-container__price-info product-container__price-info--title'>
         Цена:
       </p>
       <p className='product-container__price-info product-container__price-info--value'>
-        52 000 ₽
+        {price} ₽
       </p>
       <a
         className='button button--red button--big product-container__button'

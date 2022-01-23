@@ -1,13 +1,38 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { Title } from '../../const';
 import PageContainer from '../common/page-container/page-container';
-import ProductContainer from './common/product-container/product-container';
-import ReviewsContainer from './common/reviews-container/reviews-container';
+import ProductContainer from './components/product-container/product-container';
+import ReviewsContainer from './components/reviews-container/reviews-container';
+import { getCurrentProduct } from '../../store/app-data/selectors-app-data';
+import Preloader from '../common/preloader/preloader';
+import { useParams } from 'react-router-dom';
+import { fetchCurrentProduct } from '../../store/api-actions';
+import { clearCurrentComments, clearCurrentProduct } from '../../store/app-data/slice-app-data';
+import { useEffect } from 'react';
 
 function ProductPage(): JSX.Element {
+  const currentProduct = useSelector(getCurrentProduct);
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchCurrentProduct(id));
+    }
+    return () => {
+      dispatch(clearCurrentProduct);
+      dispatch(clearCurrentComments);
+    };
+  }, [dispatch, id]);
+
+  if (!currentProduct.id) {
+    return <Preloader />;
+  }
+
   return (
     <PageContainer title={Title.Product}>
       <>
-        <ProductContainer />
+        <ProductContainer currentProduct={currentProduct}/>
         <ReviewsContainer />
       </>
     </PageContainer>
