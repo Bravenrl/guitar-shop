@@ -22,12 +22,13 @@ function ProductPage(): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (id) {
       dispatch(fetchCurrentProduct(id));
     }
     return () => {
-      dispatch(clearCurrentProduct);
-      dispatch(clearCurrentComments);
+      dispatch(clearCurrentProduct());
+      dispatch(clearCurrentComments());
     };
   }, [dispatch, id]);
 

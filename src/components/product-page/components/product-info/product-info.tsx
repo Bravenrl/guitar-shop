@@ -1,13 +1,14 @@
 import { GuitarsType } from '../../../../const';
 import { useToggle } from '../../../../hooks/use-toggle/use-toggle';
 import { Guitar } from '../../../../types/data';
+import ProductRating from '../product-rating/product-rating';
 
 type ProductInfoProps = {
   currentProduct: Guitar;
 };
 
 function ProductInfo({ currentProduct }: ProductInfoProps): JSX.Element {
-  const { name, vendorCode, type, description, stringCount } = currentProduct;
+  const { name, vendorCode, type, description, stringCount, rating } = currentProduct;
   const [isCharTab, toggleIsCharTab] = useToggle(true);
   const [isDescTab, toggleIsDescTab] = useToggle(false);
 
@@ -36,7 +37,7 @@ function ProductInfo({ currentProduct }: ProductInfoProps): JSX.Element {
       <h2 className='product-container__title title title--big title--uppercase'>
         {name}
       </h2>
-
+      <ProductRating rating = {rating}/>
       <div className='tabs'>
         <a
           onClick={handleCharButtonClick}

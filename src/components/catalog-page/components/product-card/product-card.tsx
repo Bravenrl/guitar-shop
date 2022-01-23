@@ -1,10 +1,11 @@
 
 import { memo, useEffect, useRef, useState } from 'react';
 import { generatePath, Link } from 'react-router-dom';
-import { AppRoute, STAR_NUMBERS } from '../../../../const';
+import { AppRoute, StarsSize } from '../../../../const';
 import { api } from '../../../../services/api';
 import { ApiRoute } from '../../../../services/const';
 import { Guitar } from '../../../../types/data';
+import StarsRating from '../../../common/stars-rating/stars-rating';
 
 type ProductCardProps = {
   product: Guitar;
@@ -42,14 +43,7 @@ function ProductCard({ product }: ProductCardProps): JSX.Element | null {
       <div className='product-card__info'>
         <div className='rate product-card__rate' aria-hidden='true'>
           <span className='visually-hidden'>Рейтинг:</span>
-          {STAR_NUMBERS.map((number) => (
-            <svg key={number} width='12' height='11' aria-hidden='true'>
-              <use
-                xlinkHref={number <= rating ? '#icon-full-star' : '#icon-star'}
-              >
-              </use>
-            </svg>
-          ))}
+          <StarsRating rating={rating} size = {StarsSize.ProductCard}/>
           <span className='rate__count'>{commentsCount}</span>
           <span className='rate__message'></span>
         </div>

@@ -1,5 +1,6 @@
-import { STAR_NUMBERS } from '../../../../const';
+import { StarsSize } from '../../../../const';
 import { Comment } from '../../../../types/data';
+import StarsRating from '../../../common/stars-rating/stars-rating';
 
 type ProductReviewProps = {
   review: Comment
@@ -25,14 +26,7 @@ function ProductReview({review}: ProductReviewProps): JSX.Element {
       </div>
       <div className='rate review__rating-panel' aria-hidden='true'>
         <span className='visually-hidden'>Рейтинг:</span>
-        {STAR_NUMBERS.map((number) => (
-          <svg key={number} width='16' height='16' aria-hidden='true'>
-            <use
-              xlinkHref={number <= rating ? '#icon-full-star' : '#icon-star'}
-            >
-            </use>
-          </svg>
-        ))}
+        <StarsRating rating={rating} size = {StarsSize.ProductReview} />
         <span className='rate__count'></span>
         <span className='rate__message'></span>
       </div>

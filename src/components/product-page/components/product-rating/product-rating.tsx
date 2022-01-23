@@ -1,23 +1,20 @@
-function ProductRating() {
+import { useSelector } from 'react-redux';
+import { StarsSize } from '../../../../const';
+import { getCurrentComments } from '../../../../store/app-data/selectors-app-data';
+import StarsRating from '../../../common/stars-rating/stars-rating';
+
+type ProductRatingProps = {
+  rating: number;
+};
+
+
+function ProductRating({ rating }: ProductRatingProps): JSX.Element {
+  const commentsCounst = useSelector(getCurrentComments).length;
   return (
     <div className='rate product-container__rating' aria-hidden='true'>
       <span className='visually-hidden'>Рейтинг:</span>
-      <svg width='14' height='14' aria-hidden='true'>
-        <use xlinkHref='#icon-full-star'></use>
-      </svg>
-      <svg width='14' height='14' aria-hidden='true'>
-        <use xlinkHref='#icon-full-star'></use>
-      </svg>
-      <svg width='14' height='14' aria-hidden='true'>
-        <use xlinkHref='#icon-full-star'></use>
-      </svg>
-      <svg width='14' height='14' aria-hidden='true'>
-        <use xlinkHref='#icon-full-star'></use>
-      </svg>
-      <svg width='14' height='14' aria-hidden='true'>
-        <use xlinkHref='#icon-star'></use>
-      </svg>
-      <span className='rate__count'></span>
+      <StarsRating rating={rating} size = {StarsSize.ProductInfo} />
+      <span className='rate__count'>{commentsCounst}</span>
       <span className='rate__message'></span>
     </div>
   );

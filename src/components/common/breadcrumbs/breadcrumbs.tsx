@@ -5,7 +5,8 @@ import { getCurrentProduct } from '../../../store/app-data/selectors-app-data';
 
 function Breadcrumbs(): JSX.Element {
   const { name, id } = useSelector(getCurrentProduct);
-  const productPath = generatePath(AppRoute.Product, { id: id.toString() });
+  const productID = id ?? '';
+  const productPath = generatePath(AppRoute.Product, { id: productID.toString() });
   const isCartPage = useMatch(AppRoute.Cart);
   const isProductPage = useMatch(AppRoute.Product);
   return (

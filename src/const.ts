@@ -73,3 +73,8 @@ export const GuitarsType = new Map<string, GuitarType>([
   ['ukulele', {id: 'ukulele', title: 'Укулеле', type: 'Укулеле'}],
 ]);
 
+export const StarsSize = {
+  ProductReview: {width: 16, height: 16},
+  ProductInfo: {width: 14, height: 14},
+  ProductCard: {width: 12, height: 11},
+};
