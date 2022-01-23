@@ -1,10 +1,11 @@
 import { toast } from 'react-toastify';
 import { AppRoute, FIRST_PAGE_NUM, FIRST_PRODUCT } from '../const';
 import { ApiRoute, ErrorMessage, HEADER_TOTAL_COUNT } from '../services/const';
-import { Guitar, Product } from '../types/data';
+import { Comment, CommentPost, Guitar, Product } from '../types/data';
 import { FilterState, SortState, ThunkActionResult } from '../types/state';
 import { createQuery } from '../utils';
 import {
+  addCurrentComments,
   addCurrentProduct,
   addPriceEnd,
   addPriceStart,
@@ -166,7 +167,27 @@ export const fetchCurrentProduct =
           const { data } = await api.get<Product>(
             `${ApiRoute.Products}/${id}?_embed=comments`,
           );
-          dispatch(addCurrentProduct(data));
+          const {comments, ...rest} = data;
+          dispatch(addCurrentProduct(rest));
+          dispatch(addCurrentComments(comments));
+        } catch (err) {
+          if (err instanceof Error) {
+            if  (err.message === ErrorMessage.NetworkError) {
+              toast.error(err.message);
+              toast.clearWaitingQueue();
+            }
+          }
+        }
+      };
+
+export const postComment =
+    (comment: CommentPost): ThunkActionResult =>
+      async (dispatch, getState, api): Promise<void> => {
+        try {
+          const { data } = await api.post<Comment>(
+            `${ApiRoute.Comments}`, comment);
+          // eslint-disable-next-line no-console
+          console.log(data);
         } catch (err) {
           if (err instanceof Error) {
             if  (err.message === ErrorMessage.NetworkError) {

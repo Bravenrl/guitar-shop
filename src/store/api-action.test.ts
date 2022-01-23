@@ -4,8 +4,8 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import { State } from '../types/state';
 import { ApiRoute, HEADER_TOTAL_COUNT, HttpCode } from '../services/const';
-import { fakeProduct, fakeProducts } from '../mock/fakeData';
-import { addCurrentProduct, addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearProductsCount, toggleIsLoading } from './app-data/slice-app-data';
+import { CreateFakeProduct, fakeComments, fakeProducts } from '../mock/fakeData';
+import { addCurrentComments, addCurrentProduct, addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearProductsCount, toggleIsLoading } from './app-data/slice-app-data';
 import { api } from '../services/api';
 import { setFilter, setSort } from './app-user/slice-app-user';
 import { MockUSER} from '../mock/mockStore';
@@ -35,6 +35,9 @@ describe('Async actions', () => {
   const EMPTY_DATA = [] as Guitar[];
   const FAKE_SEARCH_QUERY = true;
   const FAKE_ID = '1';
+  const FAKE_PRODUCT_INFO = CreateFakeProduct();
+  const FAKE_COMMENTS = fakeComments;
+  const FAKE_PRODUCT = {...FAKE_PRODUCT_INFO, comments: FAKE_COMMENTS};
 
   it('should dispatch addProductsSearch with fakeProductsSearch when GET /name_like & HttpCode.OK', async () => {
     mockAPI
@@ -173,14 +176,15 @@ describe('Async actions', () => {
     ]);
   });
 
-  it('should dispatch addCurrentProduct with fakeProduct when GET ?_embed=comments & HttpCode.OK', async () => {
+  it('should dispatch addCurrentProduct, addCurrentComments with fakeProduct when GET ?_embed=comments & HttpCode.OK', async () => {
     mockAPI
       .onGet(`${ApiRoute.Products}/${FAKE_ID}?_embed=comments`)
-      .reply(HttpCode.OK, fakeProduct);
+      .reply(HttpCode.OK, FAKE_PRODUCT);
     const store = mockStore();
     await store.dispatch(fetchCurrentProduct(FAKE_ID));
     expect(store.getActions()).toEqual([
-      { payload: fakeProduct, type: addCurrentProduct.type },
+      { payload: FAKE_PRODUCT_INFO, type: addCurrentProduct.type },
+      { payload: FAKE_COMMENTS, type: addCurrentComments.type },
     ]);
   });
 });

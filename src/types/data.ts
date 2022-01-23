@@ -31,4 +31,6 @@ export type Comment = {
   guitarId: number;
 };
 
+export type CommentPost = Omit<Comment, 'createAt' | 'id'>
+
 export type Product = Guitar & { comments: Comment[] };

@@ -20,5 +20,11 @@ export const getProductsCount = (state: State) =>
 export const getIsLoading = (state: State) =>
   state[Reducer.Data].isLoading;
 
+export const getCurrentProduct = (state: State) =>
+  state[Reducer.Data].currentProduct;
+
+export const getCurrentComments = (state: State) =>
+  state[Reducer.Data].currentComments;
+
 export const getSortedProductsSearch = createSelector(
   [getProductsSearch, getSearchKey], getSortedProducts);

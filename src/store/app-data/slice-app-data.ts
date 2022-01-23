@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Slice } from '../const';
-import { Guitar, Product } from '../../types/data';
+import { Comment, Guitar } from '../../types/data';
 import { AppData } from '../../types/state';
 
 const initialState: AppData = {
@@ -10,7 +10,8 @@ const initialState: AppData = {
   priceStart: 0,
   productsCount: null,
   isLoading: true,
-  currentProduct: {} as Product,
+  currentProduct: {} as Guitar,
+  currentComments: [],
 };
 
 const appDataSlice = createSlice({
@@ -41,11 +42,17 @@ const appDataSlice = createSlice({
     toggleIsLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
-    addCurrentProduct: (state, action: PayloadAction<Product>) => {
+    addCurrentProduct: (state, action: PayloadAction<Guitar>) => {
       state.currentProduct = action.payload;
     },
     clearCurrentProduct: (state) => {
       state.currentProduct = initialState.currentProduct;
+    },
+    addCurrentComments: (state, action: PayloadAction<Comment[]>) => {
+      state.currentComments = action.payload;
+    },
+    clearCurrentComments: (state) => {
+      state.currentComments = initialState.currentComments;
     },
   },
 });
@@ -61,6 +68,8 @@ export const {
   clearProductsCount,
   addCurrentProduct,
   clearCurrentProduct,
+  addCurrentComments,
+  clearCurrentComments,
 } = appDataSlice.actions;
 
 export default appDataSlice.reducer;

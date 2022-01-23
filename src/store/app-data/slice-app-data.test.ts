@@ -1,8 +1,8 @@
 
 import { CreateFakeProduct, fakeComments, fakeProducts } from '../../mock/fakeData';
-import { Product } from '../../types/data';
+import { Guitar } from '../../types/data';
 import { AppData } from '../../types/state';
-import appData, { addCurrentProduct, addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearCurrentProduct, clearProductsSearch } from './slice-app-data';
+import appData, { addCurrentComments, addCurrentProduct, addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearCurrentComments, clearCurrentProduct, clearProductsSearch } from './slice-app-data';
 
 export const initialState: AppData = {
   productsSearch: [],
@@ -11,16 +11,18 @@ export const initialState: AppData = {
   priceStart: 0,
   productsCount: null,
   isLoading: true,
-  currentProduct: {} as Product,
+  currentProduct: {} as Guitar,
+  currentComments: [],
 };
 
 const FAKE_PRICE = 1;
 const FAKE_COUNT = 10;
-const FAKE_PRODUCT = {...CreateFakeProduct(), comments: fakeComments};
+const FAKE_PRODUCT = CreateFakeProduct();
 
 
 describe('Reducer: appData', () => {
   let state = initialState;
+  beforeAll(()=>{state = initialState;});
   it('without additional parameters should return initial state', () => {
     expect(appData(void 0, { type: 'UNKNOWN_ACTION' }))
       .toEqual(state);
@@ -46,7 +48,7 @@ describe('Reducer: appData', () => {
     expect(appData(state, addPriceEnd(FAKE_PRICE)))
       .toEqual({ ...state, priceEnd: FAKE_PRICE });
   });
-  it('should update comment by addProductsCount', () => {
+  it('should update productsCount by addProductsCount', () => {
     expect(appData(state, addProductsCount(FAKE_COUNT)))
       .toEqual({ ...state, productsCount: FAKE_COUNT });
   });
@@ -55,8 +57,17 @@ describe('Reducer: appData', () => {
       .toEqual({ ...state, currentProduct: FAKE_PRODUCT });
   });
   it('should clear currentProduct by clearCurrentProduct', () => {
-    state = { ...state, currentProduct: FAKE_PRODUCT };
+    state = { ...initialState, currentProduct: FAKE_PRODUCT };
     expect(appData(state, clearCurrentProduct()))
+      .toEqual(initialState);
+  });
+  it('should update currentComments by addCurrentComments', () => {
+    expect(appData(state, addCurrentComments(fakeComments)))
+      .toEqual({ ...state, currentComments: fakeComments });
+  });
+  it('should clear currentComments by clearCurrentComments', () => {
+    state = { ...initialState, currentComments: fakeComments };
+    expect(appData(state, clearCurrentComments()))
       .toEqual(initialState);
   });
 });
