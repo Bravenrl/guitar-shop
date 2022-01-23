@@ -11,7 +11,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { fetchFilteredProducts, fetchProductsPrice } from '../../store/api-actions';
 import { useEffect } from 'react';
 import { resetFilter, resetSort } from '../../store/app-user/slice-app-user';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 
 function CatalogPage() {

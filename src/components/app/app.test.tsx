@@ -8,22 +8,33 @@ import { MockDATA, MockUSER } from '../../mock/mockStore';
 import App from './app';
 import * as Redux from 'react-redux';
 import { TestReg } from '../../const-test';
+import { fakeProduct } from '../../mock/fakeData';
+import { HelmetProvider } from 'react-helmet-async';
+
+HelmetProvider.canUseDOM = false;
 
 const dispatch = jest.fn();
 const useDispatch = jest.spyOn(Redux, 'useDispatch');
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
+
+const NAME = 'Product';
+const ID = 1;
+const fakeCurrentProduct = { ...fakeProduct, name: NAME, id: ID };
 const componentState = {
-  DATA: MockDATA,
+  DATA: { ...MockDATA, currentProduct: fakeCurrentProduct },
   USER: MockUSER,
 };
 const store = mockStore(componentState);
+
 
 const renderApp = () =>
   render(
     <Provider store={store}>
       <HistoryRouter history={history}>
-        <App />
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
       </HistoryRouter>
     </Provider>);
 
@@ -44,17 +55,18 @@ describe('Application Routing', () => {
   });
 
   it('should render ProductPage when user navigate to /product/:id', () => {
+    window.scrollTo = jest.fn();
     useDispatch.mockReturnValue(dispatch);
     history.push('/product/1');
     renderApp();
-    expect(screen.getByText(Title.Product)).toBeInTheDocument();
+    expect(screen.getAllByText(NAME).length).toEqual(3);
   });
 
   it('should render CartPage when user navigate to /cart', () => {
     useDispatch.mockReturnValue(dispatch);
     history.push('/cart');
     renderApp();
-    expect(screen.getByText(Title.Cart)).toBeInTheDocument();
+    expect(screen.getAllByText(Title.Cart).length).toEqual(2);
   });
   it('should render WipPage when user navigate to /about', () => {
     useDispatch.mockReturnValue(dispatch);

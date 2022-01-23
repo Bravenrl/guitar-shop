@@ -12,7 +12,8 @@ import {
   clearCurrentProduct
 } from '../../store/app-data/slice-app-data';
 import { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
+
 
 function ProductPage(): JSX.Element {
   const currentProduct = useSelector(getCurrentProduct);

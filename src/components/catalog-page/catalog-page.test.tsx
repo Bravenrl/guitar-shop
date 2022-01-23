@@ -15,6 +15,9 @@ import {
   fetchProductsPrice
 } from '../../store/api-actions';
 import { resetFilter, resetSort } from '../../store/app-user/slice-app-user';
+import { HelmetProvider } from 'react-helmet-async';
+
+HelmetProvider.canUseDOM = false;
 
 jest.mock('../../store/app-user/slice-app-user');
 jest.mock('../../store/api-actions');
@@ -54,13 +57,15 @@ const renderCatalogPage = (store: MockStore) =>
   render(
     <Redux.Provider store={store}>
       <HistoryRouter history={history}>
-        <Routes>
-          <Route
-            path={AppRoute.Root}
-            element={<Navigate to={AppRoute.Main} />}
-          />
-          <Route path={AppRoute.Catalog} element={<CatalogPage />} />
-        </Routes>
+        <HelmetProvider>
+          <Routes>
+            <Route
+              path={AppRoute.Root}
+              element={<Navigate to={AppRoute.Main} />}
+            />
+            <Route path={AppRoute.Catalog} element={<CatalogPage />} />
+          </Routes>
+        </HelmetProvider>
       </HistoryRouter>
     </Redux.Provider>);
 

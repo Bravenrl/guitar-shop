@@ -58,5 +58,7 @@ export const enum TestID {
   Four = '4-strings',
   Six = '6-strings',
   Seven = '7-strings',
-  Twelve = '12-strings'
+  Twelve = '12-strings',
+  Star = 'star',
+  FullStar = 'fullStar',
 }

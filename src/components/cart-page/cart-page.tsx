@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { DOCUMENT_TITLE, Title } from '../../const';
 import PageContainer from '../common/page-container/page-container';
 
