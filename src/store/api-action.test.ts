@@ -4,12 +4,12 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import { State } from '../types/state';
 import { ApiRoute, HEADER_TOTAL_COUNT, HttpCode } from '../services/const';
-import { CreateFakeProduct, fakeComments, fakeProducts } from '../mock/fakeData';
-import { addCurrentComments, addCurrentProduct, addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearProductsCount, toggleIsLoading } from './app-data/slice-app-data';
+import { CreateFakeComment, CreateFakeProduct, fakeComments, fakeProducts } from '../mock/fakeData';
+import { addCurrentComments, addCurrentProduct, addNewComment, addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearProductsCount, toggleIsLoading } from './app-data/slice-app-data';
 import { api } from '../services/api';
 import { setFilter, setSort } from './app-user/slice-app-user';
 import { MockUSER} from '../mock/mockStore';
-import { fetchCurrentProduct, fetchFilteredProducts, fetchOnPageProducts, fetchProductsPrice, fetchProductsPriceMax, fetchProductsSearch, fetchSortedProducts } from './api-actions';
+import { fetchCurrentProduct, fetchFilteredProducts, fetchOnPageProducts, fetchProductsPrice, fetchProductsPriceMax, fetchProductsSearch, fetchSortedProducts, postComment } from './api-actions';
 import { createQuery } from '../utils';
 import { AppRoute, FIRST_PRODUCT } from '../const';
 import { redirectToRoute } from './middlewares/middleware-action';
@@ -38,6 +38,15 @@ describe('Async actions', () => {
   const FAKE_PRODUCT_INFO = CreateFakeProduct();
   const FAKE_COMMENTS = fakeComments;
   const FAKE_PRODUCT = {...FAKE_PRODUCT_INFO, comments: FAKE_COMMENTS};
+  const FAKE_COMMENT = CreateFakeComment();
+  const NewComment = {
+    guitarId: 1,
+    userName: 'user',
+    advantage: 'advantage',
+    disadvantage: 'disadvantage',
+    comment: 'comment',
+    rating: 7,
+  };
 
   it('should dispatch addProductsSearch with fakeProductsSearch when GET /name_like & HttpCode.OK', async () => {
     mockAPI
@@ -185,6 +194,16 @@ describe('Async actions', () => {
     expect(store.getActions()).toEqual([
       { payload: FAKE_PRODUCT_INFO, type: addCurrentProduct.type },
       { payload: FAKE_COMMENTS, type: addCurrentComments.type },
+    ]);
+  });
+  it('should dispatch addNewComment with FAKE_COMMENT when POST /comments & HttpCode.OK', async () => {
+    mockAPI
+      .onPost(ApiRoute.Comments)
+      .reply(HttpCode.OK, FAKE_COMMENT);
+    const store = mockStore();
+    await store.dispatch(postComment(NewComment));
+    expect(store.getActions()).toEqual([
+      { payload: FAKE_COMMENT, type: addNewComment.type },
     ]);
   });
 });

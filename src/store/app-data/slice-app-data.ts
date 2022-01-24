@@ -51,6 +51,9 @@ const appDataSlice = createSlice({
     addCurrentComments: (state, action: PayloadAction<Comment[]>) => {
       state.currentComments = action.payload;
     },
+    addNewComment: (state, action: PayloadAction<Comment>) => {
+      state.currentComments = [action.payload, ...state.currentComments];
+    },
     clearCurrentComments: (state) => {
       state.currentComments = initialState.currentComments;
     },
@@ -70,6 +73,7 @@ export const {
   clearCurrentProduct,
   addCurrentComments,
   clearCurrentComments,
+  addNewComment,
 } = appDataSlice.actions;
 
 export default appDataSlice.reducer;

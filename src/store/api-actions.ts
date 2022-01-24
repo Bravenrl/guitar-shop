@@ -7,6 +7,7 @@ import { createQuery } from '../utils';
 import {
   addCurrentComments,
   addCurrentProduct,
+  addNewComment,
   addPriceEnd,
   addPriceStart,
   addProductsCount,
@@ -186,8 +187,7 @@ export const postComment =
         try {
           const { data } = await api.post<Comment>(
             `${ApiRoute.Comments}`, comment);
-          // eslint-disable-next-line no-console
-          console.log(data);
+          dispatch(addNewComment(data));
         } catch (err) {
           if (err instanceof Error) {
             if  (err.message === ErrorMessage.NetworkError) {

@@ -1,8 +1,8 @@
 
-import { CreateFakeProduct, fakeComments, fakeProducts } from '../../mock/fakeData';
+import { CreateFakeComment, CreateFakeProduct, fakeComments, fakeProducts } from '../../mock/fakeData';
 import { Guitar } from '../../types/data';
 import { AppData } from '../../types/state';
-import appData, { addCurrentComments, addCurrentProduct, addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearCurrentComments, clearCurrentProduct, clearProductsSearch } from './slice-app-data';
+import appData, { addCurrentComments, addCurrentProduct, addNewComment, addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearCurrentComments, clearCurrentProduct, clearProductsSearch } from './slice-app-data';
 
 export const initialState: AppData = {
   productsSearch: [],
@@ -18,7 +18,7 @@ export const initialState: AppData = {
 const FAKE_PRICE = 1;
 const FAKE_COUNT = 10;
 const FAKE_PRODUCT = CreateFakeProduct();
-
+const FAKE_COMMENT = CreateFakeComment();
 
 describe('Reducer: appData', () => {
   let state = initialState;
@@ -69,5 +69,10 @@ describe('Reducer: appData', () => {
     state = { ...initialState, currentComments: fakeComments };
     expect(appData(state, clearCurrentComments()))
       .toEqual(initialState);
+  });
+  it('should update currentComments by addNewComment', () => {
+    state = { ...initialState, currentComments: fakeComments };
+    expect(appData(state, addNewComment(FAKE_COMMENT)))
+      .toEqual({ ...state, currentComments: [FAKE_COMMENT, ...fakeComments] });
   });
 });
