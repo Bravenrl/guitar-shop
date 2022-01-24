@@ -1,7 +1,9 @@
+import dayjs from 'dayjs';
 import queryString from 'query-string';
 import { PRODUCT_PAGE_LIMIT } from './const';
-import { Guitar } from './types/data';
+import { Comment, Guitar } from './types/data';
 import { FilterState, SortState } from './types/state';
+import 'dayjs/locale/ru';
 
 export const createFilterQuery = (filter: FilterState) : string =>  {
   const {productTypes, stringCounts, priceMax, priceMin} = filter;
@@ -56,3 +58,7 @@ export const getSortedProducts = (products: Guitar[], key: string): Guitar[] => 
   return [...products].sort((a,b)=>a.name.toLowerCase().indexOf(searchKey)-b.name.toLowerCase().indexOf(searchKey));
 };
 
+export const getCommentsSortByDate = (comments: Comment[]): Comment[] =>
+  [...comments].sort((objA, objB) => Date.parse(objB.createAt) - Date.parse(objA.createAt));
+
+export const getFormatDate = (date: string): string => dayjs(date).locale('ru').format('D MMMM');

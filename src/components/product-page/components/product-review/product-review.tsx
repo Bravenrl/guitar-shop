@@ -1,5 +1,6 @@
 import { StarsSize } from '../../../../const';
 import { Comment } from '../../../../types/data';
+import { getFormatDate } from '../../../../utils';
 import StarsRating from '../../../common/stars-rating/stars-rating';
 
 type ProductReviewProps = {
@@ -13,16 +14,17 @@ function ProductReview({review}: ProductReviewProps): JSX.Element {
     disadvantage,
     comment,
     rating,
-    // createAt,
-    // guitarId
+    createAt,
   } = review;
+  const date = getFormatDate(createAt);
+
   return (
     <div className='review'>
       <div className='review__wrapper'>
         <h4 className='review__title review__title--author title title--lesser'>
           {userName}
         </h4>
-        <span className='review__date'>12 декабря</span>
+        <span className='review__date'>{date}</span>
       </div>
       <div className='rate review__rating-panel' aria-hidden='true'>
         <span className='visually-hidden'>Рейтинг:</span>

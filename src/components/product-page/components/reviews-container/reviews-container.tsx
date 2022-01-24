@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { getCurrentComments } from '../../../../store/app-data/selectors-app-data';
+import { getSortedComments } from '../../../../store/app-data/selectors-app-data';
 import LeaveReviewBtn from '../leave-review-btn/leave-review-btn';
 // import ModalReview from '../modal-review/modal-review';
 // import ModalSuccess from '../modal-success/modal-success';
@@ -8,7 +8,7 @@ import ScrollBtn from '../scroll-btn/scroll-btn';
 import ShowMoreBtn from '../show-more-btn/show-more-btn';
 
 function ReviewsContainer(): JSX.Element {
-  const currentComments = useSelector(getCurrentComments);
+  const currentComments = useSelector(getSortedComments);
   return (
     <section className='reviews'>
       <h3 className='reviews__title title title--bigger'>Отзывы</h3>

@@ -1,7 +1,7 @@
 import { OrderKey, ProductType, SortKey } from './const';
-import { CreateFakeProduct } from './mock/fakeData';
+import { CreateFakeComment, CreateFakeProduct } from './mock/fakeData';
 import { FilterState, SortState } from './types/state';
-import { createFilterQuery, createPageQuery, createQuery, createSortQuery, getSortedProducts } from './utils';
+import { createFilterQuery, createPageQuery, createQuery, createSortQuery, getCommentsSortByDate, getFormatDate, getSortedProducts } from './utils';
 
 const EXPECT_FILTER_QUERY = 'price_gte=10&price_lte=20&stringCount=6&stringCount=7&type=acoustic&type=electric';
 const EXPECT_PAGE_QUERY = '_end=9&_start=0';
@@ -33,6 +33,21 @@ const fakeProductsSort = [
   {...fakeProduct, name: 'somekey'},
 ];
 
+const fakeComment = CreateFakeComment();
+const fakeCommentNonSort = [
+  {...fakeComment, createAt: '2021-10-28T12:32:16.934Z'},
+  {...fakeComment, createAt: '2021-11-28T12:32:16.934Z'},
+  {...fakeComment, createAt: '2021-10-28T13:32:16.934Z'},
+];
+const fakeCommentSort = [
+  {...fakeComment, createAt: '2021-11-28T12:32:16.934Z'},
+  {...fakeComment, createAt: '2021-10-28T13:32:16.934Z'},
+  {...fakeComment, createAt: '2021-10-28T12:32:16.934Z'},
+];
+
+const DATE = '2022-01-24T12:32:16.934Z';
+const FORMAT_DATE = '24 января';
+
 
 describe('Utils function', () => {
   test('Function: createFilterQuery', () => {
@@ -59,5 +74,13 @@ describe('Utils function', () => {
   test('Function: getSortedProducts return []', () => {
     const sortedProducts = getSortedProducts(fakeProductsNonSort, '');
     expect(sortedProducts).toEqual([]);
+  });
+  test('Function: getCommentsSortByDate', () => {
+    const sortedComments = getCommentsSortByDate(fakeCommentNonSort);
+    expect(sortedComments).toEqual(fakeCommentSort);
+  });
+  test('Function: getFormatDate', () => {
+    const formatDate = getFormatDate(DATE);
+    expect(formatDate).toEqual(FORMAT_DATE);
   });
 });

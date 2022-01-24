@@ -2,7 +2,7 @@ import { Reducer } from '../const';
 import { State } from '../../types/state';
 import { createSelector } from 'reselect';
 import { getSearchKey } from '../app-user/selectors-app-user';
-import { getSortedProducts } from '../../utils';
+import { getCommentsSortByDate, getSortedProducts } from '../../utils';
 
 export const getProductsSearch = (state: State) =>
   state[Reducer.Data].productsSearch;
@@ -28,3 +28,6 @@ export const getCurrentComments = (state: State) =>
 
 export const getSortedProductsSearch = createSelector(
   [getProductsSearch, getSearchKey], getSortedProducts);
+
+export const getSortedComments  = createSelector(
+  getCurrentComments, getCommentsSortByDate);
