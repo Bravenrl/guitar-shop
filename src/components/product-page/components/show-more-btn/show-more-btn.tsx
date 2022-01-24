@@ -1,8 +1,13 @@
-import React from 'react';
+type ShowMoreBtnProps = {
+  onBtnClick: () => void;
+};
 
-function ShowMoreBtn(): JSX.Element {
+function ShowMoreBtn({ onBtnClick }: ShowMoreBtnProps): JSX.Element {
   return (
-    <button className='button button--medium reviews__more-button'>
+    <button
+      className='button button--medium reviews__more-button'
+      onClick={onBtnClick}
+    >
       Показать еще отзывы
     </button>
   );

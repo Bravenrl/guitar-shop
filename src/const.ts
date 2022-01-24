@@ -1,6 +1,7 @@
 import { GuitarType, StringType } from './types/data';
 
 export const PRODUCT_PAGE_LIMIT = 9;
+export const INIT_COMMENTS_COUNT = 3;
 export const FIRST_PRODUCT = 0;
 export const DELAY = 180;
 export const PAGE_COUNT = 3;
