@@ -25,6 +25,11 @@ export type AppUser = {
   searchKey: string,
 };
 
+export type AppProcess = {
+  isReviewOpen: boolean,
+  isSuccessOpen: boolean,
+};
+
 export type FilterState = {
   productTypes: string [],
   stringCounts: string [],

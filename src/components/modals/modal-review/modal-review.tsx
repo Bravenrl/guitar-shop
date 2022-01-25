@@ -1,16 +1,32 @@
-function ModalReview(): JSX.Element {
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentProduct } from '../../../store/app-data/selectors-app-data';
+import { getIsReviewOpen } from '../../../store/app-process/selectors-app-process';
+import { toggleIsReviewOpen } from '../../../store/app-process/slice-app-process';
+
+function ModalReview(): JSX.Element | null {
+  const dispatch = useDispatch();
+  const isOpen = useSelector(getIsReviewOpen);
+  const {name} = useSelector(getCurrentProduct);
+
+  if (!isOpen) {
+    return null;
+  }
+
   return (
-    <div className=
-      'modal is-active modal--review'
-    >
+    <div className='modal is-active modal--review'>
       <div className='modal__wrapper'>
-        <div className='modal__overlay' data-close-modal></div>
+        <div
+          className='modal__overlay'
+          data-close-modal
+          onClick={()=>{dispatch(toggleIsReviewOpen(false));}}
+        >
+        </div>
         <div className='modal__content'>
           <h2 className='modal__header modal__header--review title title--medium'>
             Оставить отзыв
           </h2>
           <h3 className='modal__product-name title title--medium-20 title--uppercase'>
-            СURT Z30 Plus
+            {name}
           </h3>
           <form className='form-review'>
             <div className='form-review__wrapper'>
@@ -143,6 +159,7 @@ function ModalReview(): JSX.Element {
             className='modal__close-btn button-cross'
             type='button'
             aria-label='Закрыть'
+            onClick={()=>{dispatch(toggleIsReviewOpen(false));}}
           >
             <span className='button-cross__icon'></span>
             <span className='modal__close-btn-interactive-area'></span>
