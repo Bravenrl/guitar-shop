@@ -79,3 +79,8 @@ export const StarsSize = {
   ProductInfo: {width: 14, height: 14},
   ProductCard: {width: 12, height: 11},
 };
+
+export enum ModalType {
+  Success = 'modal--success',
+  Review = 'modal--review',
+}

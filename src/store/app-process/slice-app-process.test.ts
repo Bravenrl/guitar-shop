@@ -1,5 +1,5 @@
 import { AppProcess } from '../../types/state';
-import appProcess, { toggleIsReviewOpen, toggleIsSuccessOpen } from './slice-app-process';
+import appProcess, { closeAllModals, toggleIsReviewOpen, toggleIsSuccessOpen } from './slice-app-process';
 
 export const initialState: AppProcess = {
   isReviewOpen: false,
@@ -20,11 +20,17 @@ describe('Reducer: appData', () => {
       isReviewOpen: true,
     });
   });
-  it('should update isSuccessOpen by toggleIsSuccessOpen', () => {
+  it('should update isSuccessOpen by closeAllModals', () => {
+    state = {isReviewOpen: true,
+      isSuccessOpen: true};
+    expect(appProcess(state, closeAllModals())).toEqual({
+      ...initialState,
+    });
+  });
+  it('should return initialState by toggleIsSuccessOpen', () => {
     expect(appProcess(state, toggleIsSuccessOpen(true))).toEqual({
       ...state,
       isSuccessOpen: true,
     });
   });
-
 });

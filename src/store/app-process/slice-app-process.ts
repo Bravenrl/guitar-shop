@@ -17,12 +17,17 @@ const appProcessSlice = createSlice({
     toggleIsSuccessOpen: (state, action: PayloadAction<boolean>) => {
       state.isSuccessOpen = action.payload;
     },
+    closeAllModals: (state) => {
+      state.isReviewOpen = initialState.isReviewOpen;
+      state.isSuccessOpen = initialState.isSuccessOpen;
+    },
   },
 });
 
 export const {
   toggleIsReviewOpen,
   toggleIsSuccessOpen,
+  closeAllModals,
 } = appProcessSlice.actions;
 
 export default appProcessSlice.reducer;
