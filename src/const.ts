@@ -10,6 +10,14 @@ export const STAR_NUMBERS = [1, 2, 3, 4, 5];
 export const TOAST_LIMIT = 1;
 export const DOCUMENT_TITLE = 'Guitar-shop';
 
+export const StarTitle: {[key:number]:string} = {
+  1: 'Ужасно',
+  2: 'Плохо',
+  3: 'Нормально',
+  4: 'Хорошо',
+  5: 'Отлично',
+};
+
 export enum Title {
   Catalog = 'Каталог гитар',
   Cart = 'Корзина',

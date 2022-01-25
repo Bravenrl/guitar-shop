@@ -1,9 +1,11 @@
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ModalType } from '../../../const';
+import { ModalType, StarTitle, STAR_NUMBERS } from '../../../const';
 import { getCurrentProduct } from '../../../store/app-data/selectors-app-data';
 import { getIsReviewOpen } from '../../../store/app-process/selectors-app-process';
 import { toggleIsReviewOpen } from '../../../store/app-process/slice-app-process';
 import ModalWrapper from '../modal-wrapper/modal-wrapper';
+import './modal-review.css';
 
 function ModalReview(): JSX.Element | null {
   const dispatch = useDispatch();
@@ -45,104 +47,65 @@ function ModalReview(): JSX.Element | null {
                   Ваша Оценка
               </span>
               <div className='rate rate--reverse'>
-                <input
-                  className='visually-hidden'
-                  type='radio'
-                  id='star-5'
-                  name='rate'
-                  value='5'
-                />
-                <label
-                  className='rate__label'
-                  htmlFor='star-5'
-                  title='Отлично'
-                >
-                </label>
-                <input
-                  className='visually-hidden'
-                  type='radio'
-                  id='star-4'
-                  name='rate'
-                  value='4'
-                />
-                <label
-                  className='rate__label'
-                  htmlFor='star-4'
-                  title='Хорошо'
-                >
-                </label>
-                <input
-                  className='visually-hidden'
-                  type='radio'
-                  id='star-3'
-                  name='rate'
-                  value='3'
-                />
-                <label
-                  className='rate__label'
-                  htmlFor='star-3'
-                  title='Нормально'
-                >
-                </label>
-                <input
-                  className='visually-hidden'
-                  type='radio'
-                  id='star-2'
-                  name='rate'
-                  value='2'
-                />
-                <label
-                  className='rate__label'
-                  htmlFor='star-2'
-                  title='Плохо'
-                >
-                </label>
-                <input
-                  className='visually-hidden'
-                  type='radio'
-                  id='star-1'
-                  name='rate'
-                  value='1'
-                />
-                <label
-                  className='rate__label'
-                  htmlFor='star-1'
-                  title='Ужасно'
-                >
-                </label>
+                {[...STAR_NUMBERS].reverse().map((starNumber)=> (
+                  <React.Fragment key = {starNumber}>
+                    <input
+                      className='visually-hidden'
+                      type='radio'
+                      id={`star-${starNumber}`}
+                      name='rate'
+                      value={starNumber}
+                    />
+                    <label
+                      className='rate__label'
+                      htmlFor={`star-${starNumber}`}
+                      title={StarTitle[starNumber]}
+                    >
+                    </label>
+                  </React.Fragment>
+                ))}
                 <span className='rate__count'></span>
                 <span className='rate__message'>Поставьте оценку</span>
               </div>
             </div>
           </div>
-          <label className='form-review__label' htmlFor='user-name'>
+          <div className='form-review__other-wrapper'>
+            <label className='form-review__label form-review__label--required' htmlFor='user-name'>
               Достоинства
-          </label>
-          <input
-            className='form-review__input'
-            id='pros'
-            type='text'
-            autoComplete='off'
-          />
-          <label className='form-review__label' htmlFor='user-name'>
+            </label>
+            <input
+              className='form-review__input form-review__input-other'
+              id='pros'
+              type='text'
+              autoComplete='off'
+            />
+            <span className='form-review__warning form-review__other-warning'>Заполните поле</span>
+          </div>
+          <div className='form-review__other-wrapper'>
+            <label className='form-review__label form-review__label--required' htmlFor='user-name'>
               Недостатки
-          </label>
-          <input
-            className='form-review__input'
-            id='user-name'
-            type='text'
-            autoComplete='off'
-          />
-          <label className='form-review__label' htmlFor='user-name'>
+            </label>
+            <input
+              className='form-review__input form-review__input-other'
+              id='user-name'
+              type='text'
+              autoComplete='off'
+            />
+            <span className='form-review__warning form-review__other-warning'>Заполните поле</span>
+          </div>
+          <div className='form-review__other-wrapper'>
+            <label className='form-review__label form-review__label--required' htmlFor='user-name'>
               Комментарий
-          </label>
-          <textarea
-            className='form-review__input form-review__input--textarea'
-            id='user-name'
-            rows={10}
-            autoComplete='off'
-          >
-          </textarea>
+            </label>
+            <textarea
+              className='form-review__input form-review__input--textarea form-review__input-other'
+              id='user-name'
+              rows={10}
+              autoComplete='off'
+            >
+            </textarea>
+            <span className='form-review__warning form-review__other-warning'>Заполните поле</span>
+          </div>
           <button
             className='button button--medium-20 form-review__button'
             type='submit'
