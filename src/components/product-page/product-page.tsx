@@ -23,7 +23,6 @@ function ProductPage(): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     if (id) {
       dispatch(fetchCurrentProduct(id));
     }

@@ -9,12 +9,14 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { TOAST_LIMIT } from './const';
 import { HelmetProvider } from 'react-helmet-async';
+import ScrollToTop from './components/common/scroll-to-top/scroll-to-top';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <HistoryRouter history={browserHistory}>
         <HelmetProvider>
+          <ScrollToTop/>
           <App />
         </HelmetProvider>
         <ToastContainer limit={TOAST_LIMIT} />
