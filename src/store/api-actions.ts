@@ -16,6 +16,7 @@ import {
   clearProductsCount,
   toggleIsLoading
 } from './app-data/slice-app-data';
+import { toggleIsReviewOpen, toggleIsSuccessOpen } from './app-process/slice-app-process';
 import { setFilter, setSort } from './app-user/slice-app-user';
 import { redirectToRoute } from './middlewares/middleware-action';
 
@@ -188,6 +189,8 @@ export const postComment =
           const { data } = await api.post<Comment>(
             `${ApiRoute.Comments}`, comment);
           dispatch(addNewComment(data));
+          dispatch(toggleIsReviewOpen(false));
+          dispatch(toggleIsSuccessOpen(true));
         } catch (err) {
           if (err instanceof Error) {
             if  (err.message === ErrorMessage.NetworkError) {

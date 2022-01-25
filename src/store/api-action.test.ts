@@ -14,6 +14,7 @@ import { createQuery } from '../utils';
 import { AppRoute, FIRST_PRODUCT } from '../const';
 import { redirectToRoute } from './middlewares/middleware-action';
 import { Guitar } from '../types/data';
+import { toggleIsReviewOpen, toggleIsSuccessOpen } from './app-process/slice-app-process';
 
 jest.mock('../utils');
 const createFakeQuery = createQuery as jest.MockedFunction<typeof createQuery>;
@@ -196,7 +197,7 @@ describe('Async actions', () => {
       { payload: FAKE_COMMENTS, type: addCurrentComments.type },
     ]);
   });
-  it('should dispatch addNewComment with FAKE_COMMENT when POST /comments & HttpCode.OK', async () => {
+  it('should dispatch toggleIsReviewOpen, toggleIsSuccessOpen, addNewComment with FAKE_COMMENT when POST /comments & HttpCode.OK', async () => {
     mockAPI
       .onPost(ApiRoute.Comments)
       .reply(HttpCode.OK, FAKE_COMMENT);
@@ -204,6 +205,8 @@ describe('Async actions', () => {
     await store.dispatch(postComment(NewComment));
     expect(store.getActions()).toEqual([
       { payload: FAKE_COMMENT, type: addNewComment.type },
+      { payload: false, type: toggleIsReviewOpen.type },
+      { payload: true, type: toggleIsSuccessOpen.type },
     ]);
   });
 });
