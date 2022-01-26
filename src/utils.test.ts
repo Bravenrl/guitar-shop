@@ -6,6 +6,7 @@ import { createFilterQuery, createPageQuery, createQuery, createSortQuery, getCo
 const EXPECT_FILTER_QUERY = 'price_gte=10&price_lte=20&stringCount=6&stringCount=7&type=acoustic&type=electric';
 const EXPECT_PAGE_QUERY = '_end=9&_start=0';
 const EXPECT_SORT_QUERY = '_order=asc&_sort=price';
+const EXPECT_EMBED_QUERY = '_embed=comments';
 const PAGE = 1;
 const Sort:SortState = {
   sortKey: SortKey.Price,
@@ -65,7 +66,7 @@ describe('Utils function', () => {
   });
   test('Function: createQuery', () => {
     const query = createQuery(PAGE, Filter, Sort);
-    expect(query).toEqual(`/?${EXPECT_PAGE_QUERY}&${EXPECT_FILTER_QUERY}&${EXPECT_SORT_QUERY}`);
+    expect(query).toEqual(`/?${EXPECT_PAGE_QUERY}&${EXPECT_FILTER_QUERY}&${EXPECT_SORT_QUERY}&${EXPECT_EMBED_QUERY}`);
   });
   test('Function: getSortedProducts', () => {
     const sortedProducts = getSortedProducts(fakeProductsNonSort, KEY);

@@ -4,15 +4,16 @@ import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { HistoryRouter } from 'react-router-dom';
 import { AppRoute, Title } from '../../const';
-import { MockDATA, MockUSER } from '../../mock/mockStore';
+import { MockAPP, MockDATA, MockUSER } from '../../mock/mockStore';
 import App from './app';
 import * as Redux from 'react-redux';
 import { TestReg } from '../../const-test';
 import { fakeProduct } from '../../mock/fakeData';
 import { HelmetProvider } from 'react-helmet-async';
+import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 
 HelmetProvider.canUseDOM = false;
-
+mockAllIsIntersecting(true);
 const dispatch = jest.fn();
 const useDispatch = jest.spyOn(Redux, 'useDispatch');
 const mockStore = configureMockStore();
@@ -24,6 +25,7 @@ const fakeCurrentProduct = { ...fakeProduct, name: NAME, id: ID };
 const componentState = {
   DATA: { ...MockDATA, currentProduct: fakeCurrentProduct },
   USER: MockUSER,
+  APP: MockAPP,
 };
 const store = mockStore(componentState);
 

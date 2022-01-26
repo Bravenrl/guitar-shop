@@ -1,6 +1,6 @@
 import { INIT_COMMENTS_COUNT } from '../const';
 import { Guitar } from '../types/data';
-import { AppData, AppUser } from '../types/state';
+import { AppData, AppProcess, AppUser } from '../types/state';
 
 export const MockDATA: AppData = {
   productsSearch: [],
@@ -27,3 +27,8 @@ export const MockUSER: AppUser = {
   },
   searchKey: '',
 };
+
+export const MockAPP: AppProcess = {
+  isReviewOpen: false,
+  isSuccessOpen: false,
+}

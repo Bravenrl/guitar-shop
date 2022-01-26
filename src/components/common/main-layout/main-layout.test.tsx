@@ -2,6 +2,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
+import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 import { Provider } from 'react-redux';
 import { HistoryRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AppRoute } from '../../../const';
@@ -18,7 +19,7 @@ const componentState = {
   USER: MockUSER,
 };
 const store = mockStore(componentState);
-
+mockAllIsIntersecting(true);
 
 const renderMainLayout = () => render(
   <Provider store = {store}>

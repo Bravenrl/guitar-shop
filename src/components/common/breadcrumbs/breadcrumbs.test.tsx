@@ -35,25 +35,35 @@ const renderBreadcrumbs = () =>
 
 describe('Component: Breadcrumbs', () => {
   it('should render correctly', () => {
-    history.push(AppRoute.Root);
+    act(() => {
+      history.push(AppRoute.Root);
+    });
     renderBreadcrumbs();
     expect(screen.getByText(TestReg.BreadcrumbsMain)).toBeInTheDocument();
     expect(screen.getByText(TestReg.BreadcrumbsCatalog)).toBeInTheDocument();
-    history.push(`/${productPath}`);
+    act(() => {
+      history.push(`/${productPath}`);
+    });
     expect(screen.getByText(TestReg.BreadcrumbsCatalog)).toBeInTheDocument();
     expect(screen.getByText(NAME)).toBeInTheDocument();
-    history.push(`/${AppRoute.Cart}`);
+    act(() => {
+      history.push(`/${AppRoute.Cart}`);
+    });
     expect(screen.getByText(TestReg.BreadcrumbsCatalog)).toBeInTheDocument();
     expect(screen.queryByText(NAME)).not.toBeInTheDocument();
     expect(screen.getByText(Title.Cart)).toBeInTheDocument();
-    history.push(AppRoute.Root);
+    act(() => {
+      history.push(AppRoute.Root);
+    });
     expect(screen.getByText(TestReg.BreadcrumbsCatalog)).toBeInTheDocument();
     expect(screen.queryByText(NAME)).not.toBeInTheDocument();
     expect(screen.queryByText(Title.Cart)).not.toBeInTheDocument();
   });
 
   it('should redirect to /root when user clicked on link', () => {
-    history.push(`/${AppRoute.Main}`);
+    act(() => {
+      history.push(`/${AppRoute.Main}`);
+    });
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>

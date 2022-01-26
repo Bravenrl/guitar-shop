@@ -3,7 +3,7 @@ import { customRenderWithProvider } from '../../render-test';
 import ProductPage from './product-page';
 import { HelmetProvider } from 'react-helmet-async';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { MockDATA, MockUSER } from '../../mock/mockStore';
+import { MockAPP, MockDATA, MockUSER } from '../../mock/mockStore';
 import { fakeProduct } from '../../mock/fakeData';
 
 HelmetProvider.canUseDOM = false;
@@ -15,6 +15,7 @@ const fakeCurrentProduct = { ...fakeProduct, name: NAME, id: ID };
 const componentState = {
   DATA: { ...MockDATA, currentProduct: fakeCurrentProduct },
   USER: MockUSER,
+  APP: MockAPP,
 };
 const store = mockStore(componentState);
 

@@ -1,9 +1,7 @@
 import { cleanup, render, screen } from '@testing-library/react';
-import { AxiosResponse } from 'axios';
 import CatalogPage from './catalog-page';
-import { api } from '../../services/api';
 import { TestID, TestReg } from '../../const-test';
-import { fakeComments, fakeGuitars } from '../../mock/fakeData';
+import { fakeGuitars, fakeProducts } from '../../mock/fakeData';
 import { configureMockStore, MockStore } from '@jedmao/redux-mock-store';
 import { MockDATA, MockUSER } from '../../mock/mockStore';
 import * as Redux from 'react-redux';
@@ -16,11 +14,13 @@ import {
 } from '../../store/api-actions';
 import { resetFilter, resetSort } from '../../store/app-user/slice-app-user';
 import { HelmetProvider } from 'react-helmet-async';
+import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 
 HelmetProvider.canUseDOM = false;
 
 jest.mock('../../store/app-user/slice-app-user');
 jest.mock('../../store/api-actions');
+mockAllIsIntersecting(true);
 
 const PRODUCTS = 50;
 const PAGE = 1;
@@ -43,10 +43,14 @@ const fakeFetchFilteredProducts = fetchFilteredProducts as jest.MockedFunction<
 const fakeResetFilter = resetFilter as jest.MockedFunction<typeof resetFilter>;
 const fakeResetSort = resetSort as jest.MockedFunction<typeof resetSort>;
 
-
 const mockStore = configureMockStore();
 const componentState = {
-  DATA: { ...MockDATA, productsShow: fakeGuitars, productsCount: PRODUCTS, isLoading: false},
+  DATA: {
+    ...MockDATA,
+    productsShow: fakeProducts,
+    productsCount: PRODUCTS,
+    isLoading: false,
+  },
   USER: MockUSER,
 };
 const history = createMemoryHistory();
@@ -71,39 +75,28 @@ const renderCatalogPage = (store: MockStore) =>
 
 describe('Component: CatalogPage', () => {
   afterEach(cleanup);
-  it('should render correctly', async () => {
+  it('should render correctly', () => {
     useDispatch.mockReturnValue(dispatch);
-    const fakeAxiosResponse = {
-      data: fakeComments,
-    } as AxiosResponse;
-    jest.spyOn(api, 'get').mockResolvedValue(fakeAxiosResponse);
     const store = mockStore(componentState);
     renderCatalogPage(store);
     expect(screen.getByText(Title.Catalog)).toBeInTheDocument();
     expect(screen.getByText(TestReg.FilterTitle)).toBeInTheDocument();
     expect(screen.getByText(TestReg.PriceTitle)).toBeInTheDocument();
     expect(screen.getByLabelText(TestReg.ByPrice)).toBeInTheDocument();
-    expect(
-      await (
-        await screen.findAllByTestId(TestID.Pagination)
-      ).length,
-    ).toEqual(PAGE_COUNT);
-    expect(
-      await (
-        await screen.findAllByText(TestReg.AboutProduct)
-      ).length,
-    ).toEqual(fakeGuitars.length);
+    expect(screen.queryAllByTestId(TestID.Pagination).length).toEqual(
+      PAGE_COUNT);
+    expect(screen.queryAllByText(TestReg.AboutProduct).length).toEqual(
+      fakeGuitars.length);
   });
   it('should dispatch async actions when mount and reset actions when unmount', async () => {
     history.push(PATH);
     useDispatch.mockReturnValue(dispatch);
-    const fakeAxiosResponse = {
-      data: fakeComments,
-    } as AxiosResponse;
-    jest.spyOn(api, 'get').mockResolvedValue(fakeAxiosResponse);
     const store = mockStore(componentState);
     const { unmount } = renderCatalogPage(store);
-    expect(fakeFetchFilteredProducts).toHaveBeenCalledWith(ExpectObject, PAGE , IS_FAKE_QUERY);
+    expect(fakeFetchFilteredProducts).toHaveBeenCalledWith(
+      ExpectObject,
+      PAGE,
+      IS_FAKE_QUERY);
     expect(fakeFetchProductsPrice).toHaveBeenCalled();
     unmount();
     expect(fakeResetFilter).toBeCalled();

@@ -1,5 +1,5 @@
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { HistoryRouter, Route, Routes } from 'react-router-dom';
@@ -48,7 +48,9 @@ describe('Component: Pagination', () => {
   afterEach(cleanup);
   it('should render correctly with Далее & Назад', () => {
     const fifthPage = 5;
-    history.replace(`/catalog/page_${fifthPage}`);
+    act(() => {
+      history.replace(`/catalog/page_${fifthPage}`);
+    });
     renderPagination(fifthPage);
     expect(screen.getAllByTestId(TestID.Pagination).length).toEqual(PAGE_COUNT);
     expect(screen.getByText(fifthPage.toString())).toBeInTheDocument();
@@ -62,7 +64,9 @@ describe('Component: Pagination', () => {
 
   it('should render correctly with Далее witout Назад', () => {
     const firstPage = 1;
-    history.replace(`/catalog/page_${firstPage}`);
+    act(() => {
+      history.replace(`/catalog/page_${firstPage}`);
+    });
     renderPagination(firstPage);
     expect(screen.getAllByTestId(TestID.Pagination).length).toEqual(PAGE_COUNT);
     expect(screen.getByText(firstPage.toString())).toBeInTheDocument();
@@ -76,7 +80,9 @@ describe('Component: Pagination', () => {
 
   it('should render correctly with Назад witout Далее', () => {
     const lastPage = 6;
-    history.replace(`/catalog/page_${lastPage}`);
+    act(() => {
+      history.replace(`/catalog/page_${lastPage}`);
+    });
     renderPagination(lastPage);
     expect(screen.getAllByTestId(TestID.Pagination).length).toEqual(PAGE_COUNT);
     expect(screen.getByText(lastPage.toString())).toBeInTheDocument();
@@ -90,22 +96,30 @@ describe('Component: Pagination', () => {
   it('should redirect correctly when click on links', () => {
     useDispatch.mockReturnValue(dispatch);
     const fifthPage = 5;
-    history.push(`/catalog/page_${fifthPage}`);
+    act(() => {
+      history.push(`/catalog/page_${fifthPage}`);
+    });
     renderPagination(fifthPage);
     expect(screen.getByText(TestReg.PrevPage)).toBeInTheDocument();
     fireEvent.click(screen.getByText(TestReg.PrevPage));
     expect(history.location.pathname).toEqual(`/catalog/page_${prevPage(fifthPage)}`);
     expect(fakeFetchOnPageProducts).toBeCalledWith(Number(prevPage(fifthPage)));
-    history.push(`/catalog/page_${fifthPage}`);
+    act(() => {
+      history.push(`/catalog/page_${fifthPage}`);
+    });
     expect(screen.getByText(TestReg.PrevPage)).toBeInTheDocument();
     fireEvent.click(screen.getByText(TestReg.NextPage));
     expect(history.location.pathname).toEqual(`/catalog/page_${nextPage(fifthPage)}`);
     expect(fakeFetchOnPageProducts).toBeCalledWith(Number(nextPage(fifthPage)));
-    history.push(`/catalog/page_${fifthPage}`);
+    act(() => {
+      history.push(`/catalog/page_${fifthPage}`);
+    });
     fireEvent.click(screen.getByText(prevPage(fifthPage)));
     expect(history.location.pathname).toEqual(`/catalog/page_${prevPage(fifthPage)}`);
     expect(fakeFetchOnPageProducts).toBeCalledWith(Number(prevPage(fifthPage)));
-    history.push(`/catalog/page_${fifthPage}`);
+    act(() => {
+      history.push(`/catalog/page_${fifthPage}`);
+    });
     fireEvent.click(screen.getByText(nextPage(fifthPage)));
     expect(history.location.pathname).toEqual(`/catalog/page_${nextPage(fifthPage)}`);
     expect(fakeFetchOnPageProducts).toBeCalledWith(Number(nextPage(fifthPage)));
