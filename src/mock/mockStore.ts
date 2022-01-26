@@ -1,3 +1,4 @@
+import { INIT_COMMENTS_COUNT } from '../const';
 import { Guitar } from '../types/data';
 import { AppData, AppUser } from '../types/state';
 
@@ -10,6 +11,7 @@ export const MockDATA: AppData = {
   isLoading: true,
   currentComments: [],
   currentProduct: {} as Guitar,
+  commentsCounter: INIT_COMMENTS_COUNT,
 };
 
 export const MockUSER: AppUser = {

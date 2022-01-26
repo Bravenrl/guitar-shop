@@ -1,12 +1,12 @@
-type ShowMoreBtnProps = {
-  onBtnClick: () => void;
-};
+import { useDispatch } from 'react-redux';
+import { incrementCommentsCounter } from '../../../../store/app-data/slice-app-data';
 
-function ShowMoreBtn({ onBtnClick }: ShowMoreBtnProps): JSX.Element {
+function ShowMoreBtn(): JSX.Element {
+  const dispatch = useDispatch();
   return (
     <button
       className='button button--medium reviews__more-button'
-      onClick={onBtnClick}
+      onClick={() => dispatch(incrementCommentsCounter())}
     >
       Показать еще отзывы
     </button>

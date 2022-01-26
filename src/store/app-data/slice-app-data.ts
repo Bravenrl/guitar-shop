@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Slice } from '../const';
 import { Comment, Guitar } from '../../types/data';
 import { AppData } from '../../types/state';
+import { INIT_COMMENTS_COUNT } from '../../const';
 
 const initialState: AppData = {
   productsSearch: [],
@@ -12,6 +13,7 @@ const initialState: AppData = {
   isLoading: true,
   currentProduct: {} as Guitar,
   currentComments: [],
+  commentsCounter: INIT_COMMENTS_COUNT,
 };
 
 const appDataSlice = createSlice({
@@ -57,6 +59,16 @@ const appDataSlice = createSlice({
     clearCurrentComments: (state) => {
       state.currentComments = initialState.currentComments;
     },
+    incrementCommentsCounter: (state) => {
+      if (state.commentsCounter > state.currentComments.length) {
+        return;
+      }
+      state.commentsCounter = state.commentsCounter + INIT_COMMENTS_COUNT;
+    },
+    resetCommentsCounter: (state) => {
+      state.commentsCounter = initialState.commentsCounter;
+    },
+
   },
 });
 
@@ -74,6 +86,8 @@ export const {
   addCurrentComments,
   clearCurrentComments,
   addNewComment,
+  incrementCommentsCounter,
+  resetCommentsCounter,
 } = appDataSlice.actions;
 
 export default appDataSlice.reducer;

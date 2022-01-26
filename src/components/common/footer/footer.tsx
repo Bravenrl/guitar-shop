@@ -1,9 +1,27 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { useDispatch } from 'react-redux';
+import { Link, useMatch } from 'react-router-dom';
 import { AppRoute } from '../../../const';
+import { incrementCommentsCounter } from '../../../store/app-data/slice-app-data';
 
 function Footer(): JSX.Element {
+  const dispatch = useDispatch();
+  const isProductPage = useMatch(AppRoute.Product);
+
+  const { ref, inView } = useInView({
+    threshold: 1,
+  });
+
+  useEffect(() => {
+    if (!inView || !isProductPage) {
+      return;
+    }
+    dispatch(incrementCommentsCounter());
+  }, [dispatch, inView, isProductPage]);
+
   return (
-    <footer className='footer'>
+    <footer className='footer' ref={ref}>
       <div className='footer__container container'>
         <Link className='footer__logo logo' to={AppRoute.Root}>
           <img

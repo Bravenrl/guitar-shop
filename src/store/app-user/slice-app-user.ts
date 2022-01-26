@@ -41,6 +41,13 @@ const appUserSlice = createSlice({
   },
 });
 
-export const { setSort, setFilter, setSearchKey, resetSort, resetFilter, resetSearchKey } = appUserSlice.actions;
+export const {
+  setSort,
+  setFilter,
+  setSearchKey,
+  resetSort,
+  resetFilter,
+  resetSearchKey,
+} = appUserSlice.actions;
 
 export default appUserSlice.reducer;

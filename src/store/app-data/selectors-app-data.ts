@@ -31,3 +31,5 @@ export const getSortedProductsSearch = createSelector(
 
 export const getSortedComments  = createSelector(
   getCurrentComments, getCommentsSortByDate);
+
+export const getCommentsCounter = (state: State) => state[Reducer.Data].commentsCounter;

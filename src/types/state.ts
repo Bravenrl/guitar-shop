@@ -17,6 +17,7 @@ export type AppData = {
   isLoading: boolean,
   currentProduct: Guitar,
   currentComments: Comment[],
+  commentsCounter: number,
 };
 
 export type AppUser = {
