@@ -1,7 +1,7 @@
 import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { RootState } from '../store/root-reducer';
-import { Comment, Guitar } from './data';
+import { Comment, Guitar, Product } from './data';
 
 
 export type State = RootState;
@@ -10,7 +10,7 @@ export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosIn
 
 export type AppData = {
   productsSearch: Guitar[];
-  productsShow: Guitar[];
+  productsShow: Product[];
   priceStart: number,
   priceEnd: number,
   productsCount: number|null,

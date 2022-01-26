@@ -4,7 +4,7 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import { State } from '../types/state';
 import { ApiRoute, HEADER_TOTAL_COUNT, HttpCode } from '../services/const';
-import { CreateFakeComment, CreateFakeProduct, fakeComments, fakeProducts } from '../mock/fakeData';
+import { CreateFakeComment, CreateFakeGuitar, fakeComments, fakeGuitars, fakeProducts } from '../mock/fakeData';
 import { addCurrentComments, addCurrentProduct, addNewComment, addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearProductsCount, toggleIsLoading } from './app-data/slice-app-data';
 import { api } from '../services/api';
 import { setFilter, setSort } from './app-user/slice-app-user';
@@ -36,7 +36,7 @@ describe('Async actions', () => {
   const EMPTY_DATA = [] as Guitar[];
   const FAKE_SEARCH_QUERY = true;
   const FAKE_ID = '1';
-  const FAKE_PRODUCT_INFO = CreateFakeProduct();
+  const FAKE_PRODUCT_INFO = CreateFakeGuitar();
   const FAKE_COMMENTS = fakeComments;
   const FAKE_PRODUCT = {...FAKE_PRODUCT_INFO, comments: FAKE_COMMENTS};
   const FAKE_COMMENT = CreateFakeComment();
@@ -52,18 +52,18 @@ describe('Async actions', () => {
   it('should dispatch addProductsSearch with fakeProductsSearch when GET /name_like & HttpCode.OK', async () => {
     mockAPI
       .onGet(`${ApiRoute.Products}?name_like=${PRODUCT_KEY}`)
-      .reply(HttpCode.OK, fakeProducts);
+      .reply(HttpCode.OK, fakeGuitars);
     const store = mockStore({USER: {...MockUSER, searchKey:PRODUCT_KEY}});
     await store.dispatch(fetchProductsSearch(PRODUCT_KEY));
     expect(store.getActions()).toEqual([
-      { payload: fakeProducts, type: addProductsSearch.type },
+      { payload: fakeGuitars, type: addProductsSearch.type },
     ]);
   });
 
   it('shouldnt dispatch addProductsSearch GET /name_like & HttpCode.OK but searchKey already is empty', async () => {
     mockAPI
       .onGet(`${ApiRoute.Products}?name_like=${PRODUCT_KEY}`)
-      .reply(HttpCode.OK, fakeProducts);
+      .reply(HttpCode.OK, fakeGuitars);
     const store = mockStore({USER: {...MockUSER, searchKey:''}});
     await store.dispatch(fetchProductsSearch(PRODUCT_KEY));
     expect(store.getActions()).toEqual([]);
@@ -162,12 +162,12 @@ describe('Async actions', () => {
       .onGet(`${ApiRoute.Products}?_sort=price&_start=${
         FAKE_COUNT - 1
       }&_end=${FAKE_COUNT}`)
-      .reply(HttpCode.OK, fakeProducts);
+      .reply(HttpCode.OK, fakeGuitars);
     const store = mockStore();
     await
     store.dispatch(fetchProductsPriceMax(FAKE_COUNT));
     expect(store.getActions()).toEqual([
-      addPriceEnd(fakeProducts[FIRST_PRODUCT].price),
+      addPriceEnd(fakeGuitars[FIRST_PRODUCT].price),
     ]);
   });
 
@@ -175,13 +175,13 @@ describe('Async actions', () => {
     mockAPI
       .onGet(`${ApiRoute.Products}?_sort=price&_start=${
         FIRST_PRODUCT}&_end=${FIRST_PRODUCT+1}`)
-      .reply(HttpCode.OK, fakeProducts, {[HEADER_TOTAL_COUNT]:FAKE_COUNT});
+      .reply(HttpCode.OK, fakeGuitars, {[HEADER_TOTAL_COUNT]:FAKE_COUNT});
     const store = mockStore();
     await
     store.dispatch(fetchProductsPrice());
     expect(store.getActions()).toEqual([
       toggleIsLoading(true),
-      addPriceStart(fakeProducts[FIRST_PRODUCT].price),
+      addPriceStart(fakeGuitars[FIRST_PRODUCT].price),
       toggleIsLoading(false),
     ]);
   });

@@ -50,7 +50,7 @@ export const fetchFilteredProducts =
       const sort = getState().USER.sort;
       const query = createQuery(currentPage, filter, sort);
       try {
-        const { data, headers } = await api.get<Guitar[]>(
+        const { data, headers } = await api.get<Product[]>(
           `${ApiRoute.Products}${query}`,
         );
         const productsTotalCount = headers[HEADER_TOTAL_COUNT];
@@ -84,7 +84,7 @@ export const fetchSortedProducts =
       const filter = getState().USER.filter;
       const query = createQuery(page, filter, sort);
       try {
-        const { data } = await api.get<Guitar[]>(`${ApiRoute.Products}${query}`);
+        const { data } = await api.get<Product[]>(`${ApiRoute.Products}${query}`);
         dispatch(addProductsShow(data));
         dispatch(setSort(sort));
       } catch (err) {
@@ -106,7 +106,7 @@ export const fetchOnPageProducts =
       const sort = getState().USER.sort;
       const query = createQuery(page, filter, sort);
       try {
-        const { data } = await api.get<Guitar[]>(`${ApiRoute.Products}${query}`);
+        const { data } = await api.get<Product[]>(`${ApiRoute.Products}${query}`);
         dispatch(addProductsShow(data));
       } catch (err) {
         if (err instanceof Error) {

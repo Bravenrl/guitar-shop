@@ -7,7 +7,7 @@ import ScrollBtn from '../scroll-btn/scroll-btn';
 import ShowMoreBtn from '../show-more-btn/show-more-btn';
 import ModalSuccess from '../../../modals/modal-success/modal-success';
 import { getCommentsCounter } from '../../../../store/app-data/selectors-app-data';
-import { resrtCommentsCounter } from '../../../../store/app-data/slice-app-data';
+import { resetCommentsCounter } from '../../../../store/app-data/slice-app-data';
 import { useEffect } from 'react';
 
 function ReviewsContainer(): JSX.Element {
@@ -16,7 +16,7 @@ function ReviewsContainer(): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => () => {
-    dispatch(resrtCommentsCounter());
+    dispatch(resetCommentsCounter());
   }, [dispatch]);
 
 

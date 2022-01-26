@@ -5,7 +5,7 @@ import { createMemoryHistory } from 'history';
 import { HistoryRouter, Route, Routes } from 'react-router-dom';
 import { AppRoute, Title } from '../../../const';
 import { TestReg } from '../../../const-test';
-import { CreateFakeProduct } from '../../../mock/fakeData';
+import { CreateFakeGuitar } from '../../../mock/fakeData';
 import { MockDATA, MockUSER } from '../../../mock/mockStore';
 import { customRenderWithProvider } from '../../../render-test';
 import { Guitar } from '../../../types/data';
@@ -49,7 +49,7 @@ const mockStore = configureMockStore();
 const productsWithFirstName = new Array(NAME_COUNT)
   .fill(null)
   .map((product, index) => {
-    product = CreateFakeProduct();
+    product = CreateFakeGuitar();
     product.name = NAME;
     product.id = index + ID;
     return product;

@@ -47,7 +47,7 @@ export const createQuery = (page: number | undefined, filter: FilterState, sort:
   const sortQuery = createSortQuery(sort);
 
   const fullQuery = [pageQuery, filterQuery, sortQuery].filter((query) => query !== '').join('&');
-  return `/?${fullQuery}`;
+  return `/?${fullQuery}&_embed=comments`;
 };
 
 export const getSortedProducts = (products: Guitar[], key: string): Guitar[] => {

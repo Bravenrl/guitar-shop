@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import CatalogPage from './catalog-page';
 import { api } from '../../services/api';
 import { TestID, TestReg } from '../../const-test';
-import { fakeComments, fakeProducts } from '../../mock/fakeData';
+import { fakeComments, fakeGuitars } from '../../mock/fakeData';
 import { configureMockStore, MockStore } from '@jedmao/redux-mock-store';
 import { MockDATA, MockUSER } from '../../mock/mockStore';
 import * as Redux from 'react-redux';
@@ -46,7 +46,7 @@ const fakeResetSort = resetSort as jest.MockedFunction<typeof resetSort>;
 
 const mockStore = configureMockStore();
 const componentState = {
-  DATA: { ...MockDATA, productsShow: fakeProducts, productsCount: PRODUCTS, isLoading: false},
+  DATA: { ...MockDATA, productsShow: fakeGuitars, productsCount: PRODUCTS, isLoading: false},
   USER: MockUSER,
 };
 const history = createMemoryHistory();
@@ -92,7 +92,7 @@ describe('Component: CatalogPage', () => {
       await (
         await screen.findAllByText(TestReg.AboutProduct)
       ).length,
-    ).toEqual(fakeProducts.length);
+    ).toEqual(fakeGuitars.length);
   });
   it('should dispatch async actions when mount and reset actions when unmount', async () => {
     history.push(PATH);

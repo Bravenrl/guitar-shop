@@ -1,13 +1,5 @@
 import { customAlphabet } from 'nanoid';
-import {
-  name,
-  random,
-  image,
-  datatype,
-  lorem,
-  date,
-  commerce
-} from 'faker';
+import { name, random, image, datatype, lorem, date, commerce } from 'faker';
 import { Comment, Guitar } from '../types/data';
 const nanoid = customAlphabet('1234567890', 5);
 
@@ -17,7 +9,7 @@ const COMMENT_ID = 1;
 const COMMENTS_LENGTH = 5;
 const PRODUCTS_LENGTH = 10;
 
-export const CreateFakeProduct = (): Guitar => ({
+export const CreateFakeGuitar = (): Guitar => ({
   id: parseInt(nanoid(), 10),
   name: name.firstName(),
   description: lorem.sentences(datatype.number(3)),
@@ -44,8 +36,12 @@ export const fakeComments = new Array(COMMENTS_LENGTH)
   .fill(null)
   .map(CreateFakeComment);
 
+export const fakeGuitars = new Array(PRODUCTS_LENGTH)
+  .fill(null)
+  .map(CreateFakeGuitar);
+
+export const fakeProduct = { ...CreateFakeGuitar(), comments: fakeComments };
+
 export const fakeProducts = new Array(PRODUCTS_LENGTH)
   .fill(null)
-  .map(CreateFakeProduct);
-
-export const fakeProduct = {...CreateFakeProduct(), comments: fakeComments};
+  .map((element) => element = { ...CreateFakeGuitar(), comments: fakeComments });

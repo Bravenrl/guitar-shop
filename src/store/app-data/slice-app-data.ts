@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Slice } from '../const';
-import { Comment, Guitar } from '../../types/data';
+import { Comment, Guitar, Product } from '../../types/data';
 import { AppData } from '../../types/state';
 import { INIT_COMMENTS_COUNT } from '../../const';
 
@@ -26,7 +26,7 @@ const appDataSlice = createSlice({
     clearProductsSearch: (state) => {
       state.productsSearch = initialState.productsSearch;
     },
-    addProductsShow: (state, action: PayloadAction<Guitar[]>) => {
+    addProductsShow: (state, action: PayloadAction<Product[]>) => {
       state.productsShow = action.payload;
     },
     addPriceStart: (state, action: PayloadAction<number>) => {

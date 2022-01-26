@@ -1,5 +1,5 @@
 import { OrderKey, ProductType, SortKey } from './const';
-import { CreateFakeComment, CreateFakeProduct } from './mock/fakeData';
+import { CreateFakeComment, fakeProduct } from './mock/fakeData';
 import { FilterState, SortState } from './types/state';
 import { createFilterQuery, createPageQuery, createQuery, createSortQuery, getCommentsSortByDate, getFormatDate, getSortedProducts } from './utils';
 
@@ -20,7 +20,7 @@ const Filter:FilterState = {
 
 const KEY = 'key';
 
-const fakeProduct = CreateFakeProduct();
+
 const fakeProductsNonSort = [
   {...fakeProduct, name: 'somekey'},
   {...fakeProduct, name: 'Keys'},

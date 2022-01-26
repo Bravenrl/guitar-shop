@@ -1,9 +1,7 @@
-import { CreateFakeProduct, fakeComments } from '../../../../mock/fakeData';
-import { api } from '../../../../services/api';
-import { Guitar } from '../../../../types/data';
+import { fakeComments, fakeProduct } from '../../../../mock/fakeData';
+import { Product } from '../../../../types/data';
 import ProductCard from './product-card';
 import { render, screen} from '@testing-library/react';
-import { AxiosResponse } from 'axios';
 import { TestReg, WIP } from '../../../../const-test';
 import userEvent from '@testing-library/user-event';
 import { AppRoute } from '../../../../const';
@@ -16,8 +14,8 @@ const ID = 5;
 const PRICE = 100;
 const COUNT = fakeComments.length.toString();
 
-const product: Guitar = {
-  ...CreateFakeProduct(),
+const product: Product = {
+  ...fakeProduct,
   rating: RATING,
   name: NAME,
   price: PRICE,
@@ -29,10 +27,6 @@ describe('Component: ProductCard', () => {
     jest.restoreAllMocks();
   });
   it('should render correctly', async () => {
-    const fakeAxiosResponse = {
-      data: fakeComments,
-    } as AxiosResponse;
-    jest.spyOn(api, 'get').mockResolvedValue(fakeAxiosResponse);
     render(
       <BrowserRouter>
         <Routes>

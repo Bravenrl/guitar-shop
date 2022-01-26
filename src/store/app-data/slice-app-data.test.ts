@@ -1,8 +1,9 @@
 import { INIT_COMMENTS_COUNT } from '../../const';
 import {
   CreateFakeComment,
-  CreateFakeProduct,
+  CreateFakeGuitar,
   fakeComments,
+  fakeGuitars,
   fakeProducts
 } from '../../mock/fakeData';
 import { Guitar } from '../../types/data';
@@ -37,7 +38,7 @@ export const initialState: AppData = {
 
 const FAKE_PRICE = 1;
 const FAKE_COUNT = 10;
-const FAKE_PRODUCT = CreateFakeProduct();
+const FAKE_PRODUCT = CreateFakeGuitar();
 const FAKE_COMMENT = CreateFakeComment();
 const FAKE_COMMENT_COUNTER = 6;
 
@@ -50,13 +51,13 @@ describe('Reducer: appData', () => {
     expect(appData(void 0, { type: 'UNKNOWN_ACTION' })).toEqual(state);
   });
   it('should update productsSearch by addProductsSearch', () => {
-    expect(appData(state, addProductsSearch(fakeProducts))).toEqual({
+    expect(appData(state, addProductsSearch(fakeGuitars))).toEqual({
       ...state,
-      productsSearch: fakeProducts,
+      productsSearch: fakeGuitars,
     });
   });
   it('should clear productsSearch by clearProductsSearch', () => {
-    state = { ...state, productsSearch: fakeProducts };
+    state = { ...state, productsSearch: fakeGuitars };
     expect(appData(state, clearProductsSearch())).toEqual(initialState);
   });
   it('should update productsShow by addProductsShow', () => {
