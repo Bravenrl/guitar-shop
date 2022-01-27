@@ -9,12 +9,12 @@ type ProductRatingProps = {
 
 
 function ProductRating({ rating }: ProductRatingProps): JSX.Element {
-  const commentsCounst = useSelector(getCurrentComments).length;
+  const commentsCount = useSelector(getCurrentComments).length;
   return (
     <div className='rate product-container__rating' aria-hidden='true'>
       <span className='visually-hidden'>Рейтинг:</span>
       <StarsRating rating={rating} size = {StarsSize.ProductInfo} />
-      <span className='rate__count'>{commentsCounst}</span>
+      <span className='rate__count'>{commentsCount}</span>
       <span className='rate__message'></span>
     </div>
   );

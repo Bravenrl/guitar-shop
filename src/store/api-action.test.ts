@@ -15,7 +15,10 @@ import { AppRoute, FIRST_PRODUCT } from '../const';
 import { redirectToRoute } from './middlewares/middleware-action';
 import { Guitar } from '../types/data';
 import { toggleIsReviewOpen, toggleIsSuccessOpen } from './app-process/slice-app-process';
+import { toast } from 'react-toastify';
 
+
+const spyToastWarning = jest.spyOn(toast, 'warning');
 jest.mock('../utils');
 const createFakeQuery = createQuery as jest.MockedFunction<typeof createQuery>;
 describe('Async actions', () => {
@@ -208,5 +211,15 @@ describe('Async actions', () => {
       { payload: false, type: toggleIsReviewOpen.type },
       { payload: true, type: toggleIsSuccessOpen.type },
     ]);
+  });
+
+  it('should call toast if POST /comments & HttpCode.BadRequest', async () => {
+    mockAPI
+      .onPost(ApiRoute.Comments)
+      .reply(HttpCode.BadRequest, FAKE_COMMENT);
+    const store = mockStore();
+    await store.dispatch(postComment(NewComment));
+    expect(store.getActions()).toEqual([]);
+    expect(spyToastWarning).toBeCalled();
   });
 });

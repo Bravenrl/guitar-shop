@@ -40,6 +40,16 @@ export const TestReg = {
   FilterTitle: new RegExp('Фильтр', 'i'),
   Preloader: new RegExp('Loading', 'i'),
   NoProduct: new RegExp('Нет гитар с заданными параметрами', 'i'),
+  LeaveReviewBtn: new RegExp('Оставить отзыв', 'i'),
+  ShowMoreBtn: new RegExp('Показать еще отзывы', 'i'),
+  ScrollBtn: new RegExp('Наверх', 'i'),
+  AddCartBtn: new RegExp('Добавить в корзину', 'i'),
+  Price: new RegExp('Цена', 'i'),
+  Rating: new RegExp('Рейтинг', 'i'),
+  Characteristics: new RegExp('Характеристики', 'i'),
+  Description: new RegExp('Описание', 'i'),
+  Reviews: new RegExp('Отзывы', 'i'),
+  Comment: new RegExp('Комментарий', 'i'),
 };
 
 export const ROOT = `${TestReg.Root}`;

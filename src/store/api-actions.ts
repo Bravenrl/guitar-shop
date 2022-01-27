@@ -197,6 +197,10 @@ export const postComment =
               toast.error(err.message);
               toast.clearWaitingQueue();
             }
+            if (err.message === ErrorMessage.BadRequest) {
+              toast.warning(ErrorMessage.Incorrect);
+              toast.clearWaitingQueue();
+            }
           }
         }
       };

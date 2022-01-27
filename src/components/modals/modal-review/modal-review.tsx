@@ -19,7 +19,6 @@ function ModalReview(): JSX.Element | null {
     register,
     formState: {
       errors,
-      // isValid
     },
     handleSubmit,
     reset,
@@ -35,8 +34,6 @@ function ModalReview(): JSX.Element | null {
   });
 
   const onSubmit: SubmitHandler<CommentData> = (comment) => {
-    // eslint-disable-next-line no-console
-    console.log(comment);
     dispatch(
       postComment({
         ...comment,

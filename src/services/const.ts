@@ -5,6 +5,8 @@ export const HEADER_TOTAL_COUNT = 'x-total-count';
 export enum ErrorMessage {
   NetworkError = 'Network Error',
   Redirect = 'Redirect',
+  BadRequest = 'Request failed with status code 400',
+  Incorrect = 'Incorrect data entered',
 }
 
 export enum ApiRoute {
@@ -15,4 +17,5 @@ export enum ApiRoute {
 export const enum HttpCode {
   NotFound = 404,
   OK = 200,
+  BadRequest = 400,
 }
