@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { TOAST_LIMIT } from './const';
 import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from './components/common/scroll-to-top/scroll-to-top';
-import ModalContainer from './components/modals/modal-container/modal-container';
+import ModalContainer from './components/common/modal-container/modal-container';
 
 ReactDOM.render(
   <React.StrictMode>

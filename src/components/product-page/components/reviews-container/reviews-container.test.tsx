@@ -16,10 +16,10 @@ const NAME = 'user';
 const NAME_FIRST = 'user 1';
 const NAME_THIRD = 'user 3';
 const fakeComments = [
-  { ...fakeComment, createAt: '2021-10-27T12:32:16.934Z', userName: NAME_THIRD },
-  { ...fakeComment, createAt: '2021-11-28T12:32:16.934Z', userName: NAME_FIRST  },
-  { ...fakeComment, createAt: '2021-10-28T13:32:16.934Z', userName: NAME },
-  { ...fakeComment, createAt: '2021-09-28T13:32:16.934Z', userName: NAME },
+  { ...fakeComment, id: 1, createAt: '2021-10-27T12:32:16.934Z', userName: NAME_THIRD },
+  { ...fakeComment, id: 2, createAt: '2021-11-28T12:32:16.934Z', userName: NAME_FIRST  },
+  { ...fakeComment, id: 3, createAt: '2021-10-28T13:32:16.934Z', userName: NAME },
+  { ...fakeComment, id: 4, createAt: '2021-09-28T13:32:16.934Z', userName: NAME },
 ];
 
 const componentState = {

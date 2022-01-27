@@ -1,5 +1,5 @@
-import ModalReview from '../modal-review/modal-review';
-import ModalSuccess from '../modal-success/modal-success';
+import ModalReview from '../../modals/modal-review/modal-review';
+import ModalSuccess from '../../modals/modal-success/modal-success';
 
 function ModalContainer(): JSX.Element {
   return (

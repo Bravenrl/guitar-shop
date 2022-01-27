@@ -50,6 +50,10 @@ export const TestReg = {
   Description: new RegExp('Описание', 'i'),
   Reviews: new RegExp('Отзывы', 'i'),
   Comment: new RegExp('Комментарий', 'i'),
+  SuccessBtn: new RegExp('К покупкам!', 'i'),
+  SubmitBtn: new RegExp('Отправить отзыв', 'i'),
+  ValidErrorText: new RegExp('Заполните поле', 'i'),
+  ValidErrorStar: new RegExp('Поставьте оценку', 'i'),
 };
 
 export const ROOT = `${TestReg.Root}`;
@@ -71,4 +75,12 @@ export const enum TestID {
   Twelve = '12-strings',
   Star = 'star',
   FullStar = 'fullStar',
+  ModalCloseBtn = 'modalCloseBtn',
+  InputName = 'userName',
+  InputStar = 'star',
+  InputAdv = 'adv',
+  InputDisadv = 'disadv',
+  InputComment = 'comment',
+  ModalOverlay = 'modalOverlay',
+  ModalWrap = 'modalWrap',
 }

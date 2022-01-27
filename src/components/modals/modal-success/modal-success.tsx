@@ -2,11 +2,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ModalType } from '../../../const';
 import { getIsSuccessOpen } from '../../../store/app-process/selectors-app-process';
 import { toggleIsSuccessOpen } from '../../../store/app-process/slice-app-process';
-import ModalWrapper from '../modal-wrapper/modal-wrapper';
+import ModalCloseBtn from '../../common/modal-close-btn/modal-close-btn';
+import ModalWrapper from '../../common/modal-wrapper/modal-wrapper';
 
 function ModalSuccess(): JSX.Element | null {
   const isOpen = useSelector(getIsSuccessOpen);
   const dispatch = useDispatch();
+
+  const handleOnCloseClick = () => dispatch(toggleIsSuccessOpen(false));
 
   if (!isOpen) {
     return null;
@@ -22,20 +25,12 @@ function ModalSuccess(): JSX.Element | null {
         <div className='modal__button-container modal__button-container--review'>
           <button
             className='button button--small modal__button modal__button--review'
-            onClick={() => dispatch(toggleIsSuccessOpen(false))}
+            onClick={handleOnCloseClick}
           >
             К покупкам!
           </button>
         </div>
-        <button
-          className='modal__close-btn button-cross'
-          type='button'
-          aria-label='Закрыть'
-          onClick={() => dispatch(toggleIsSuccessOpen(false))}
-        >
-          <span className='button-cross__icon'></span>
-          <span className='modal__close-btn-interactive-area'></span>
-        </button>
+        <ModalCloseBtn onClick={handleOnCloseClick} />
       </div>
     </ModalWrapper>
   );

@@ -26,7 +26,7 @@ describe('Component: ProductCard', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
-  it('should render correctly', async () => {
+  it('should render correctly', () => {
     render(
       <BrowserRouter>
         <Routes>
@@ -34,10 +34,9 @@ describe('Component: ProductCard', () => {
           <Route path={`/product/${ID}`} element={<h1>{WIP}</h1>}/>
         </Routes>
       </BrowserRouter>);
-    expect(screen.queryByText(NAME)).not.toBeInTheDocument();
-    expect(await screen.findByText(NAME)).toBeInTheDocument();
-    expect(await screen.findByText(COUNT)).toBeInTheDocument();
-    expect(await screen.findByText(TestReg.AboutProduct)).toBeInTheDocument();
+    expect(screen.getByText(NAME)).toBeInTheDocument();
+    expect(screen.getByText(COUNT)).toBeInTheDocument();
+    expect(screen.getByText(TestReg.AboutProduct)).toBeInTheDocument();
     userEvent.click(screen.getByText(TestReg.AboutProduct));
     expect(screen.getByText(TestReg.WipPage)).toBeInTheDocument();
   });

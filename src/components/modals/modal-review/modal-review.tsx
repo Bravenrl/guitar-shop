@@ -2,18 +2,22 @@ import React, { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalType, StarTitle, STAR_NUMBERS } from '../../../const';
+import { TestID } from '../../../const-test';
 import { postComment } from '../../../store/api-actions';
 import { getCurrentProduct } from '../../../store/app-data/selectors-app-data';
 import { getIsReviewOpen } from '../../../store/app-process/selectors-app-process';
 import { toggleIsReviewOpen } from '../../../store/app-process/slice-app-process';
 import { CommentData } from '../../../types/data';
-import ModalWrapper from '../modal-wrapper/modal-wrapper';
+import ModalCloseBtn from '../../common/modal-close-btn/modal-close-btn';
+import ModalWrapper from '../../common/modal-wrapper/modal-wrapper';
 import './modal-review.css';
 
 function ModalReview(): JSX.Element | null {
   const dispatch = useDispatch();
   const isOpen = useSelector(getIsReviewOpen);
   const {name, id} = useSelector(getCurrentProduct);
+
+  const handleOnCloseClick = () => dispatch(toggleIsReviewOpen(false));
 
   const {
     register,
@@ -77,6 +81,7 @@ function ModalReview(): JSX.Element | null {
                 className='form-review__input form-review__input--name'
                 id='user-name'
                 type='text'
+                data-testid = {TestID.InputName}
                 autoComplete='off'
                 {...register('userName', {
                   required: true,
@@ -98,6 +103,7 @@ function ModalReview(): JSX.Element | null {
                       className='visually-hidden'
                       type='radio'
                       id={`star-${starNumber}`}
+                      data-testid = {TestID.Star}
                       value = {starNumber}
                       {...register('rating', {
                         required: true,
@@ -129,6 +135,7 @@ function ModalReview(): JSX.Element | null {
               className='form-review__input form-review__input-other'
               id='pros'
               type='text'
+              data-testid = {TestID.InputAdv}
               autoComplete='off'
               {...register('advantage', {
                 required: true,
@@ -147,6 +154,7 @@ function ModalReview(): JSX.Element | null {
               className='form-review__input form-review__input-other'
               id='user-name'
               type='text'
+              data-testid = {TestID.InputDisadv}
               autoComplete='off'
               {...register('disadvantage', {
                 required: true,
@@ -164,6 +172,7 @@ function ModalReview(): JSX.Element | null {
             <textarea
               className='form-review__input form-review__input--textarea form-review__input-other'
               id='user-name'
+              data-testid = {TestID.InputComment}
               rows={10}
               autoComplete='off'
               {...register('comment', {
@@ -183,15 +192,7 @@ function ModalReview(): JSX.Element | null {
               Отправить отзыв
           </button>
         </form>
-        <button
-          className='modal__close-btn button-cross'
-          type='button'
-          aria-label='Закрыть'
-          onClick={()=>{dispatch(toggleIsReviewOpen(false));}}
-        >
-          <span className='button-cross__icon'></span>
-          <span className='modal__close-btn-interactive-area'></span>
-        </button>
+        <ModalCloseBtn onClick={handleOnCloseClick}/>
       </div>
     </ModalWrapper>
   );

@@ -4,6 +4,7 @@ import { closeAllModals } from '../../../store/app-process/slice-app-process';
 import { RemoveScroll } from 'react-remove-scroll';
 import FocusLock from 'react-focus-lock';
 import { isEscEvent } from '../../../utils';
+import { TestID } from '../../../const-test';
 
 type ModalWrapperProps = {
   modalType: string;
@@ -30,10 +31,13 @@ function ModalWrapper({ modalType, children }: ModalWrapperProps) {
   return (
     <RemoveScroll>
       <FocusLock>
-        <div className={`modal is-active ${modalType}`}>
+        <div className={`modal is-active ${modalType}`}
+          data-testid = {TestID.ModalWrap}
+        >
           <div className='modal__wrapper'>
             <div
               className='modal__overlay'
+              data-testid = {TestID.ModalOverlay}
               data-close-modal
               onClick={() => {
                 dispatch(closeAllModals());
