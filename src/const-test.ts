@@ -83,4 +83,5 @@ export const enum TestID {
   InputComment = 'comment',
   ModalOverlay = 'modalOverlay',
   ModalWrap = 'modalWrap',
+  Submit = 'submit'
 }

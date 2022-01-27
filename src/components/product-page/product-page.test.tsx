@@ -8,7 +8,7 @@ import { fetchCurrentProduct } from '../../store/api-actions';
 import * as Redux from 'react-redux';
 import {
   clearCurrentComments,
-  clearCurrentProduct,
+  clearCurrentProduct
 } from '../../store/app-data/slice-app-data';
 import { createMemoryHistory } from 'history';
 import { HistoryRouter, Route, Routes } from 'react-router-dom';

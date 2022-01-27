@@ -103,8 +103,8 @@ function ModalReview(): JSX.Element | null {
                       className='visually-hidden'
                       type='radio'
                       id={`star-${starNumber}`}
-                      data-testid = {TestID.Star}
                       value = {starNumber}
+                      data-testid = {TestID.Star}
                       {...register('rating', {
                         required: true,
                         value: starNumber,
@@ -188,6 +188,7 @@ function ModalReview(): JSX.Element | null {
           <button
             className='button button--medium-20 form-review__button'
             type='submit'
+            data-testid = {TestID.Submit}
           >
               Отправить отзыв
           </button>

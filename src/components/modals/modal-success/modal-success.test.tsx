@@ -38,4 +38,11 @@ describe('Component: ModalSuccess', () => {
       type: toggleIsSuccessOpen.type,
     });
   });
+
+  it('should not render if isSuccessOpen: false', () => {
+    const store = mockStore({...componentState, APP: {isSuccessOpen: false}});
+    customRenderWithProvider(<ModalSuccess />, store);
+    expect(screen.queryByText(TestReg.SuccessBtn)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(TestID.ModalCloseBtn)).not.toBeInTheDocument();
+  });
 });
