@@ -222,4 +222,13 @@ describe('Async actions', () => {
     expect(store.getActions()).toEqual([]);
     expect(spyToastWarning).toBeCalled();
   });
+
+  it('should redirect to 404 page when GET ?_embed=comments & HttpCode.NotFound', async () => {
+    mockAPI
+      .onGet(`${ApiRoute.Products}/${FAKE_ID}?_embed=comments`)
+      .reply(HttpCode.NotFound);
+    const store = mockStore();
+    await store.dispatch(fetchCurrentProduct(FAKE_ID));
+    expect(store.getActions()).toEqual([redirectToRoute(AppRoute.NotFoundPage)]);
+  });
 });

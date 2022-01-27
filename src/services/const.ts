@@ -7,6 +7,7 @@ export enum ErrorMessage {
   Redirect = 'Redirect',
   BadRequest = 'Request failed with status code 400',
   Incorrect = 'Incorrect data entered',
+  NotFound = 'Request failed with status code 404',
 }
 
 export enum ApiRoute {

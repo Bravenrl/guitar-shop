@@ -178,6 +178,9 @@ export const fetchCurrentProduct =
               toast.error(err.message);
               toast.clearWaitingQueue();
             }
+            if (err.message === ErrorMessage.NotFound) {
+              dispatch(redirectToRoute(AppRoute.NotFoundPage));
+            }
           }
         }
       };
