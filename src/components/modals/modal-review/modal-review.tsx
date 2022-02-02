@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+/* eslint-disable no-console */
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalType, StarTitle, STAR_NUMBERS } from '../../../const';
@@ -12,10 +13,12 @@ import ModalCloseBtn from '../../common/modal-close-btn/modal-close-btn';
 import ModalWrapper from '../../common/modal-wrapper/modal-wrapper';
 import './modal-review.css';
 
+
 function ModalReview(): JSX.Element | null {
   const dispatch = useDispatch();
   const isOpen = useSelector(getIsReviewOpen);
   const {name, id} = useSelector(getCurrentProduct);
+  const [rating, setRating] = useState(0);
 
   const handleOnCloseClick = () => dispatch(toggleIsReviewOpen(false));
 
@@ -24,6 +27,7 @@ function ModalReview(): JSX.Element | null {
     formState: {
       errors,
     },
+    watch,
     handleSubmit,
     reset,
   } = useForm<CommentData>({
@@ -52,6 +56,7 @@ function ModalReview(): JSX.Element | null {
     }
   }, [isOpen, reset]);
 
+  const ratingValue = watch('rating');
 
   if (!isOpen) {
     return null;
@@ -96,11 +101,12 @@ function ModalReview(): JSX.Element | null {
               <span className='form-review__label form-review__label--required'>
                   Ваша Оценка
               </span>
-              <div className='rate rate--reverse'>
-                {[...STAR_NUMBERS].reverse().map((starNumber)=> (
+              <div className='new-rate'>
+                {[...STAR_NUMBERS].map((starNumber)=> (
                   <React.Fragment key = {starNumber}>
                     <input
                       className='visually-hidden'
+                      style={{order:starNumber}}
                       type='radio'
                       id={`star-${starNumber}`}
                       value = {starNumber}
@@ -109,11 +115,15 @@ function ModalReview(): JSX.Element | null {
                         required: true,
                         value: starNumber,
                       })}
+                      // eslint-disable-next-line no-console
+                      onFocus={()=>setRating(starNumber)}
                     />
                     <label
-                      className='rate__label'
+                      className={`new-rate__label ${(starNumber>rating)?'new-rate--star' : 'new-rate--fullstar'}`}
                       htmlFor={`star-${starNumber}`}
                       title={StarTitle[starNumber]}
+                      onMouseEnter={()=>setRating(starNumber)}
+                      onMouseLeave={()=>setRating(ratingValue)}
                     >
                     </label>
                   </React.Fragment>
