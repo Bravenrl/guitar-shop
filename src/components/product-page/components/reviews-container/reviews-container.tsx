@@ -20,7 +20,7 @@ function ReviewsContainer(): JSX.Element {
 
   return (
     <section className='reviews'>
-      <h3 className='reviews__title title title--bigger'> {currentComments.length===0 ? 'Отзывов еще нет' : 'Отзывы'}</h3>
+      <h3 className='reviews__title title title--bigger'> {currentComments.length===0 ? 'Отзывов ещё нет' : 'Отзывы'}</h3>
 
       <LeaveReviewBtn />
       {currentComments.slice(0, commentsCounter).map((comment) => (

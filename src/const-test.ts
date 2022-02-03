@@ -49,6 +49,7 @@ export const TestReg = {
   Characteristics: new RegExp('Характеристики', 'i'),
   Description: new RegExp('Описание', 'i'),
   Reviews: new RegExp('Отзывы', 'i'),
+  NoReviews: new RegExp('Отзывов ещё нет', 'i'),
   Comment: new RegExp('Комментарий', 'i'),
   SuccessBtn: new RegExp('К покупкам!', 'i'),
   SubmitBtn: new RegExp('Отправить отзыв', 'i'),

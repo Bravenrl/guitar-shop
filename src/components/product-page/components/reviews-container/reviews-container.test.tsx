@@ -22,16 +22,14 @@ const fakeComments = [
   { ...fakeComment, id: 4, createAt: '2021-09-28T13:32:16.934Z', userName: NAME },
 ];
 
-const componentState = {
-  DATA: { ...MockDATA, currentComments: fakeComments },
-  USER: MockUSER,
-  APP: MockAPP,
-};
-const store = mockStore(componentState);
-
-
 describe('Component: ReviewsContainer', () => {
   it('should render correctly', () => {
+    const componentState = {
+      DATA: { ...MockDATA, currentComments: fakeComments },
+      USER: MockUSER,
+      APP: MockAPP,
+    };
+    const store = mockStore(componentState);
     customRenderWithProvider(<ReviewsContainer />, store);
     expect(screen.getByText(TestReg.LeaveReviewBtn)).toBeInTheDocument();
     expect(screen.getByText(TestReg.ScrollBtn)).toBeInTheDocument();
@@ -39,5 +37,19 @@ describe('Component: ReviewsContainer', () => {
     expect(screen.getAllByText(user).length).toEqual(INIT_COMMENTS_COUNT);
     expect(screen.getAllByText(user)[0]).toHaveTextContent(NAME_FIRST);
     expect(screen.getAllByText(user)[2]).toHaveTextContent(NAME_THIRD);
+  });
+
+  it('should not render ScrollBtn & ShowMoreBtn without comments', () => {
+    const componentState = {
+      DATA: MockDATA,
+      USER: MockUSER,
+      APP: MockAPP,
+    };
+    const store = mockStore(componentState);
+    customRenderWithProvider(<ReviewsContainer />, store);
+    expect(screen.getByText(TestReg.LeaveReviewBtn)).toBeInTheDocument();
+    expect(screen.queryByText(TestReg.ScrollBtn)).not.toBeInTheDocument();
+    expect(screen.queryByText(TestReg.ShowMoreBtn)).not.toBeInTheDocument();
+    expect(screen.getByText(TestReg.NoReviews)).toBeInTheDocument();
   });
 });
