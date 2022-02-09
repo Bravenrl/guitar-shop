@@ -5,6 +5,9 @@ import { Slice } from '../const';
 const initialState: AppProcess = {
   isReviewOpen: false,
   isSuccessOpen: false,
+  isCartAddOpen: false,
+  isCartDeleteOpen: false,
+  isCartSuccessOpen: false,
 };
 
 const appProcessSlice = createSlice({
@@ -17,16 +20,25 @@ const appProcessSlice = createSlice({
     toggleIsSuccessOpen: (state, action: PayloadAction<boolean>) => {
       state.isSuccessOpen = action.payload;
     },
-    closeAllModals: (state) => {
-      state.isReviewOpen = initialState.isReviewOpen;
-      state.isSuccessOpen = initialState.isSuccessOpen;
+    toggleIsCartAddOpen: (state, action: PayloadAction<boolean>) => {
+      state.isCartAddOpen = action.payload;
     },
+    toggleIsCartDeleteOpen: (state, action: PayloadAction<boolean>) => {
+      state.isCartDeleteOpen = action.payload;
+    },
+    toggleIsCartSuccessOpen: (state, action: PayloadAction<boolean>) => {
+      state.isCartSuccessOpen = action.payload;
+    },
+    closeAllModals: () => initialState,
   },
 });
 
 export const {
   toggleIsReviewOpen,
   toggleIsSuccessOpen,
+  toggleIsCartAddOpen,
+  toggleIsCartDeleteOpen,
+  toggleIsCartSuccessOpen,
   closeAllModals,
 } = appProcessSlice.actions;
 

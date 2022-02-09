@@ -29,6 +29,9 @@ export type AppUser = {
 export type AppProcess = {
   isReviewOpen: boolean,
   isSuccessOpen: boolean,
+  isCartAddOpen: boolean,
+  isCartDeleteOpen: boolean,
+  isCartSuccessOpen: boolean,
 };
 
 export type FilterState = {

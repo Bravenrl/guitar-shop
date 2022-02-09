@@ -1,6 +1,19 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { getIsCartDeleteOpen } from '../../../store/app-process/selectors-app-process';
+import { toggleIsCartDeleteOpen } from '../../../store/app-process/slice-app-process';
+import ModalCloseBtn from '../../common/modal-close-btn/modal-close-btn';
 import ModalWrapper from '../../common/modal-wrapper/modal-wrapper';
 
-function ModalCartDelete(): JSX.Element {
+function ModalCartDelete(): JSX.Element | null {
+  const isOpen = useSelector(getIsCartDeleteOpen);
+  const dispatch = useDispatch();
+
+  const handleOnCloseClick = () => dispatch(toggleIsCartDeleteOpen(false));
+
+  if (!isOpen) {
+    return null;
+  }
+
   return (
     <ModalWrapper modalType=''>
       <div className='modal__content'>
@@ -37,14 +50,7 @@ function ModalCartDelete(): JSX.Element {
             Продолжить покупки
           </button>
         </div>
-        <button
-          className='modal__close-btn button-cross'
-          type='button'
-          aria-label='Закрыть'
-        >
-          <span className='button-cross__icon'></span>
-          <span className='modal__close-btn-interactive-area'></span>
-        </button>
+        <ModalCloseBtn onClick={handleOnCloseClick} />
       </div>
     </ModalWrapper>
   );
