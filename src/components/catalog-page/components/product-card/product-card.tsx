@@ -4,6 +4,7 @@ import { generatePath, Link } from 'react-router-dom';
 import { AppRoute, StarsSize } from '../../../../const';
 import { Product } from '../../../../types/data';
 import StarsRating from '../../../common/stars-rating/stars-rating';
+import ButtonAddCart from '../button-add-cart/button-add-cart';
 
 type ProductCardProps = {
   product: Product;
@@ -33,12 +34,7 @@ function ProductCard({ product }: ProductCardProps): JSX.Element | null {
         <Link className='button button--mini' to={`/${productInfoPath}`}>
           Подробнее
         </Link>
-        <a
-          className='button button--red button--mini button--add-to-cart'
-          href='todo'
-        >
-          Купить
-        </a>
+        <ButtonAddCart />
       </div>
     </div>
   );
