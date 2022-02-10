@@ -14,6 +14,7 @@ const initialState: AppData = {
   currentProduct: {} as Guitar,
   currentComments: [],
   commentsCounter: INIT_COMMENTS_COUNT,
+  tempItemCart: {} as Guitar,
 };
 
 const appDataSlice = createSlice({
@@ -68,7 +69,12 @@ const appDataSlice = createSlice({
     resetCommentsCounter: (state) => {
       state.commentsCounter = initialState.commentsCounter;
     },
-
+    addTempItemCart: (state, action: PayloadAction<Guitar>) => {
+      state.tempItemCart = action.payload;
+    },
+    resetTempItemCart: (state) => {
+      state.tempItemCart = initialState.tempItemCart;
+    },
   },
 });
 
@@ -88,6 +94,8 @@ export const {
   addNewComment,
   incrementCommentsCounter,
   resetCommentsCounter,
+  addTempItemCart,
+  resetTempItemCart,
 } = appDataSlice.actions;
 
 export default appDataSlice.reducer;

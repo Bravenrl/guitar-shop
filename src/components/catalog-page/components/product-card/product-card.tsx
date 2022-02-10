@@ -1,10 +1,12 @@
-
 import { memo } from 'react';
+import { useSelector } from 'react-redux';
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute, StarsSize } from '../../../../const';
+import { getInCart } from '../../../../store/app-user/selectors-app-user';
 import { Product } from '../../../../types/data';
 import StarsRating from '../../../common/stars-rating/stars-rating';
 import ButtonAddCart from '../button-add-cart/button-add-cart';
+import ButtonInCart from '../button-in-cart/button-in-cart';
 
 type ProductCardProps = {
   product: Product;
@@ -12,7 +14,7 @@ type ProductCardProps = {
 function ProductCard({ product }: ProductCardProps): JSX.Element | null {
   const { name, previewImg, price, id, rating, comments } = product;
   const productInfoPath = generatePath(AppRoute.Product, { id: id.toString() });
-
+  const inCart = useSelector(getInCart);
 
   return (
     <div className='product-card'>
@@ -20,7 +22,7 @@ function ProductCard({ product }: ProductCardProps): JSX.Element | null {
       <div className='product-card__info'>
         <div className='rate product-card__rate' aria-hidden='true'>
           <span className='visually-hidden'>Рейтинг:</span>
-          <StarsRating rating={rating} size = {StarsSize.ProductCard}/>
+          <StarsRating rating={rating} size={StarsSize.ProductCard} />
           <span className='rate__count'>{comments.length}</span>
           <span className='rate__message'></span>
         </div>
@@ -34,7 +36,7 @@ function ProductCard({ product }: ProductCardProps): JSX.Element | null {
         <Link className='button button--mini' to={`/${productInfoPath}`}>
           Подробнее
         </Link>
-        <ButtonAddCart />
+        {id in inCart ? <ButtonInCart /> : <ButtonAddCart product={product} />}
       </div>
     </div>
   );

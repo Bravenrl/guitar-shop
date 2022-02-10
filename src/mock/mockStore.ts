@@ -12,6 +12,7 @@ export const MockDATA: AppData = {
   currentComments: [],
   currentProduct: {} as Guitar,
   commentsCounter: INIT_COMMENTS_COUNT,
+  tempItemCart: {} as Guitar,
 };
 
 export const MockUSER: AppUser = {
@@ -26,9 +27,13 @@ export const MockUSER: AppUser = {
     priceMax: '',
   },
   searchKey: '',
+  inCart: {},
 };
 
 export const MockAPP: AppProcess = {
   isReviewOpen: false,
   isSuccessOpen: false,
-}
+  isCartAddOpen: false,
+  isCartDeleteOpen: false,
+  isCartSuccessOpen: false,
+};

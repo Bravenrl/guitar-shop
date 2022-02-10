@@ -18,12 +18,16 @@ export type AppData = {
   currentProduct: Guitar,
   currentComments: Comment[],
   commentsCounter: number,
+  tempItemCart: Guitar;
 };
 
 export type AppUser = {
   sort: SortState,
   filter: FilterState,
   searchKey: string,
+  inCart: {
+    [key: string]: number[]
+  },
 };
 
 export type AppProcess = {

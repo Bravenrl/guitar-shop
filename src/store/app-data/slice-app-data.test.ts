@@ -17,11 +17,13 @@ import appData, {
   addProductsCount,
   addProductsSearch,
   addProductsShow,
+  addTempItemCart,
   clearCurrentComments,
   clearCurrentProduct,
   clearProductsSearch,
   incrementCommentsCounter,
-  resetCommentsCounter
+  resetCommentsCounter,
+  resetTempItemCart
 } from './slice-app-data';
 
 export const initialState: AppData = {
@@ -34,6 +36,7 @@ export const initialState: AppData = {
   currentProduct: {} as Guitar,
   currentComments: [],
   commentsCounter: INIT_COMMENTS_COUNT,
+  tempItemCart: {} as Guitar,
 };
 
 const FAKE_PRICE = 1;
@@ -131,4 +134,16 @@ describe('Reducer: appData', () => {
       ...initialState,
     });
   });
+  it('should update tempItemCart by addTempItemCart', () => {
+    expect(appData(state, addTempItemCart(FAKE_PRODUCT))).toEqual({
+      ...state,
+      tempItemCart: FAKE_PRODUCT,
+    });
+  });
+  it('should reset tempItemCart by resetTempItemCart', () => {
+    state = { ...initialState, tempItemCart: FAKE_PRODUCT };
+    expect(appData(state, resetTempItemCart())).toEqual(initialState);
+  });
 });
+
+
