@@ -5,11 +5,11 @@ import MockAdapter from 'axios-mock-adapter';
 import { State } from '../types/state';
 import { ApiRoute, HEADER_TOTAL_COUNT, HttpCode } from '../services/const';
 import { CreateFakeComment, CreateFakeGuitar, fakeComments, fakeGuitars, fakeProducts } from '../mock/fakeData';
-import { addCurrentComments, addCurrentProduct, addNewComment, addPriceEnd, addPriceStart, addProductsCount, addProductsSearch, addProductsShow, clearProductsCount, toggleIsLoading } from './app-data/slice-app-data';
+import { addCurrentComments, addCurrentProduct, addNewComment, addPriceEnd, addPriceStart, addProductsCount, addProductsInCart, addProductsSearch, addProductsShow, clearProductsCount, toggleIsLoading } from './app-data/slice-app-data';
 import { api } from '../services/api';
 import { setFilter, setSort } from './app-user/slice-app-user';
 import { MockUSER} from '../mock/mockStore';
-import { fetchCurrentProduct, fetchFilteredProducts, fetchOnPageProducts, fetchProductsPrice, fetchProductsPriceMax, fetchProductsSearch, fetchSortedProducts, postComment } from './api-actions';
+import { fetchCartProducts, fetchCurrentProduct, fetchFilteredProducts, fetchOnPageProducts, fetchProductsPrice, fetchProductsPriceMax, fetchProductsSearch, fetchSortedProducts, postComment } from './api-actions';
 import { createQuery } from '../utils';
 import { AppRoute, FIRST_PRODUCT } from '../const';
 import { redirectToRoute } from './middlewares/middleware-action';
@@ -230,5 +230,23 @@ describe('Async actions', () => {
     const store = mockStore();
     await store.dispatch(fetchCurrentProduct(FAKE_ID));
     expect(store.getActions()).toEqual([redirectToRoute(AppRoute.NotFoundPage)]);
+  });
+
+  it('should dispatch addProductsInCart when GET page & HttpCode.OK', async () => {
+    mockAPI
+      .onGet(`${ApiRoute.Products}/1`)
+      .reply(HttpCode.OK, FAKE_PRODUCT_INFO)
+      .onGet(`${ApiRoute.Products}/2`)
+      .reply(HttpCode.OK, FAKE_PRODUCT_INFO)
+      .onGet(`${ApiRoute.Products}/3`)
+      .reply(HttpCode.OK, FAKE_PRODUCT_INFO);
+    const store = mockStore();
+    await
+    store.dispatch(fetchCartProducts(['1','2','3']));
+    expect(store.getActions()).toEqual([
+      toggleIsLoading(true),
+      addProductsInCart([FAKE_PRODUCT_INFO, FAKE_PRODUCT_INFO, FAKE_PRODUCT_INFO]),
+      toggleIsLoading(false),
+    ]);
   });
 });
