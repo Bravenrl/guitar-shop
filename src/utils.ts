@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import queryString from 'query-string';
 import { PRODUCT_PAGE_LIMIT } from './const';
 import { Comment, Guitar } from './types/data';
-import { FilterState, SortState } from './types/state';
+import { FilterState, InCart, SortState } from './types/state';
 import 'dayjs/locale/ru';
 
 export const createFilterQuery = (filter: FilterState) : string =>  {
@@ -65,3 +65,10 @@ export const getFormatDate = (date: string): string => dayjs(date).locale('ru').
 
 export const isEscEvent = (evt: KeyboardEvent): boolean =>
   evt.key === 'Escape' || evt.key === 'Esc';
+
+export const getSumValues = (object: InCart): number => {
+  const values = Object.values(object);
+  return values.length !==0
+    ? values.reduce((sum, item) => sum = sum+item)
+    : 0;
+};

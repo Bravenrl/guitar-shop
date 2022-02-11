@@ -25,9 +25,7 @@ export type AppUser = {
   sort: SortState,
   filter: FilterState,
   searchKey: string,
-  inCart: {
-    [key: string]: number
-  },
+  inCart: InCart,
 };
 
 export type AppProcess = {
@@ -50,3 +48,6 @@ export type SortState = {
   orderKey: string,
 }
 
+export type InCart = {
+  [key: string]: number
+}

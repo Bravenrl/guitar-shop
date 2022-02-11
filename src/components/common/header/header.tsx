@@ -1,8 +1,11 @@
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { AppRoute, HeaderLinks } from '../../../const';
+import { getTotalInCart } from '../../../store/app-user/selectors-app-user';
 import FormSearch from '../form-search/form-search';
 
 function Header(): JSX.Element {
+  const totalInCart = useSelector(getTotalInCart);
   const { pathname } = useLocation();
   return (
     <header className='header' id='header'>
@@ -52,6 +55,7 @@ function Header(): JSX.Element {
             <use xlinkHref='#icon-basket'></use>
           </svg>
           <span className='visually-hidden'>Перейти в корзину</span>
+          {!!totalInCart&&<span className="header__cart-count">{totalInCart}</span>}
         </Link>
       </div>
     </header>
