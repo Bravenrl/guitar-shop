@@ -19,6 +19,7 @@ export type AppData = {
   currentComments: Comment[],
   commentsCounter: number,
   tempItemCart: Guitar;
+  productsInCart: Guitar[];
 };
 
 export type AppUser = {

@@ -8,7 +8,8 @@ import appUser, {
   resetSearchKey,
   setSearchKey,
   addToCart,
-  removeFromCart
+  removeFromCart,
+  deleteFromCart
 } from './slice-app-user';
 
 const initialState: AppUser = {
@@ -120,6 +121,21 @@ describe('Reducer: appUser', () => {
       ...initialState,
       inCart: {
         '1': 1,
+        '2': 1,
+      },
+    });
+  });
+  it('should delete inCart by deleteFromCart', () => {
+    state = {
+      ...initialState,
+      inCart: {
+        '1': 2,
+        '2': 1,
+      },
+    };
+    expect(appUser(state, deleteFromCart(1))).toEqual({
+      ...initialState,
+      inCart: {
         '2': 1,
       },
     });

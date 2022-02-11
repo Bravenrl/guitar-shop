@@ -15,9 +15,11 @@ import appData, {
   addPriceEnd,
   addPriceStart,
   addProductsCount,
+  addProductsInCart,
   addProductsSearch,
   addProductsShow,
   addTempItemCart,
+  clearCart,
   clearCurrentComments,
   clearCurrentProduct,
   clearProductsSearch,
@@ -37,6 +39,7 @@ export const initialState: AppData = {
   currentComments: [],
   commentsCounter: INIT_COMMENTS_COUNT,
   tempItemCart: {} as Guitar,
+  productsInCart: [],
 };
 
 const FAKE_PRICE = 1;
@@ -143,6 +146,16 @@ describe('Reducer: appData', () => {
   it('should reset tempItemCart by resetTempItemCart', () => {
     state = { ...initialState, tempItemCart: FAKE_PRODUCT };
     expect(appData(state, resetTempItemCart())).toEqual(initialState);
+  });
+  it('should update productsInCart by addProductsInCart', () => {
+    expect(appData(state, addProductsInCart(fakeGuitars))).toEqual({
+      ...state,
+      productsInCart: fakeGuitars,
+    });
+  });
+  it('should clear productsInCart by clearProductsSearch', () => {
+    state = { ...state, productsInCart: fakeGuitars };
+    expect(appData(state, clearCart())).toEqual(initialState);
   });
 });
 

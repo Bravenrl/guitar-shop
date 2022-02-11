@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { toast } from 'react-toastify';
 import { AppRoute, FIRST_PAGE_NUM, FIRST_PRODUCT } from '../const';
 import { ApiRoute, ErrorMessage, HEADER_TOTAL_COUNT } from '../services/const';
@@ -11,6 +12,7 @@ import {
   addPriceEnd,
   addPriceStart,
   addProductsCount,
+  addProductsInCart,
   addProductsSearch,
   addProductsShow,
   clearProductsCount,
@@ -164,7 +166,7 @@ export const fetchProductsPriceMax =
 
 export const fetchCurrentProduct =
     (id: string): ThunkActionResult =>
-      async (dispatch, getState, api): Promise<void> => {
+      async (dispatch, _getState, api): Promise<void> => {
         try {
           const { data } = await api.get<Product>(
             `${ApiRoute.Products}/${id}?_embed=comments`,
@@ -187,7 +189,7 @@ export const fetchCurrentProduct =
 
 export const postComment =
     (comment: CommentPost): ThunkActionResult =>
-      async (dispatch, getState, api): Promise<void> => {
+      async (dispatch, _getState, api): Promise<void> => {
         try {
           const { data } = await api.post<Comment>(
             `${ApiRoute.Comments}`, comment);
@@ -206,4 +208,25 @@ export const postComment =
             }
           }
         }
+      };
+
+export const fetchCartProducts =
+    (productsIds: string[]): ThunkActionResult =>
+      async (dispatch, _getState, api): Promise<void> => {
+        dispatch(toggleIsLoading(true));
+        try {
+          const response = await
+          axios.all(productsIds.map((id) =>
+            api.get<Product>(`${ApiRoute.Products}/${id}`)));
+          const products = response.map((resp) => resp.data);
+          dispatch(addProductsInCart(products));
+        } catch (err) {
+          if (err instanceof Error) {
+            if  (err.message === ErrorMessage.NetworkError) {
+              toast.error(err.message);
+              toast.clearWaitingQueue();
+            }
+          }
+        }
+        dispatch(toggleIsLoading(false));
       };

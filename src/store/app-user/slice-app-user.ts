@@ -50,6 +50,9 @@ const appUserSlice = createSlice({
         delete state.inCart[action.payload];
       }
     },
+    deleteFromCart: (state, action: PayloadAction<number>) => {
+      delete state.inCart[action.payload];
+    },
   },
 });
 
@@ -62,6 +65,7 @@ export const {
   resetSearchKey,
   addToCart,
   removeFromCart,
+  deleteFromCart,
 } = appUserSlice.actions;
 
 export default appUserSlice.reducer;

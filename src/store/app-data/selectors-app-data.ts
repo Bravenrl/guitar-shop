@@ -35,3 +35,6 @@ export const getSortedComments  = createSelector(
 export const getCommentsCounter = (state: State) => state[Reducer.Data].commentsCounter;
 
 export const getTempItemCart = (state: State) => state[Reducer.Data].tempItemCart;
+
+export const getProductsInCart = (state: State) =>
+  state[Reducer.Data].productsInCart;

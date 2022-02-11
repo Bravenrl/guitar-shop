@@ -13,6 +13,7 @@ export const MockDATA: AppData = {
   currentProduct: {} as Guitar,
   commentsCounter: INIT_COMMENTS_COUNT,
   tempItemCart: {} as Guitar,
+  productsInCart: [],
 };
 
 export const MockUSER: AppUser = {
