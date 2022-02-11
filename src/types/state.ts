@@ -26,7 +26,7 @@ export type AppUser = {
   filter: FilterState,
   searchKey: string,
   inCart: {
-    [key: string]: number[]
+    [key: string]: number
   },
 };
 

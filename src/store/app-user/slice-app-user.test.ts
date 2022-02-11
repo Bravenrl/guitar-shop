@@ -76,19 +76,19 @@ describe('Reducer: appUser', () => {
   });
 
   it('should update inCart by addToCart', () => {
-    state = { ...initialState, inCart: { '1': [1] } };
+    state = { ...initialState, inCart: { '1': 1 } };
     expect(appUser(state, addToCart(1))).toEqual({
       ...initialState,
-      inCart: { '1': [1, 1] },
+      inCart: { '1': 2 },
     });
   });
   it('should add new key inCart by addToCart', () => {
-    state = { ...initialState, inCart: { '1': [1] } };
+    state = { ...initialState, inCart: { '1': 1 } };
     expect(appUser(state, addToCart(2))).toEqual({
       ...initialState,
       inCart: {
-        '1': [1],
-        '2': [2],
+        '1': 1,
+        '2': 1,
       },
     });
   });
@@ -97,14 +97,14 @@ describe('Reducer: appUser', () => {
     state = {
       ...initialState,
       inCart: {
-        '1': [1],
-        '2': [2],
+        '1': 1,
+        '2': 1,
       },
     };
     expect(appUser(state, removeFromCart(2))).toEqual({
       ...initialState,
       inCart: {
-        '1': [1],
+        '1': 1,
       },
     });
   });
@@ -112,15 +112,15 @@ describe('Reducer: appUser', () => {
     state = {
       ...initialState,
       inCart: {
-        '1': [1, 1],
-        '2': [2],
+        '1': 2,
+        '2': 1,
       },
     };
     expect(appUser(state, removeFromCart(1))).toEqual({
       ...initialState,
       inCart: {
-        '1': [1],
-        '2': [2],
+        '1': 1,
+        '2': 1,
       },
     });
   });

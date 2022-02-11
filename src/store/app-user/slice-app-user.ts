@@ -40,15 +40,13 @@ const appUserSlice = createSlice({
       state.searchKey = initialState.searchKey;
     },
     addToCart: (state, action: PayloadAction<number>) => {
-      if (action.payload in state.inCart) {
-        state.inCart[action.payload].push(action.payload);
-      } else {
-        state.inCart[action.payload]=[action.payload];
-      }
+      state.inCart[action.payload]
+        ? (state.inCart[action.payload] = state.inCart[action.payload] + 1)
+        : (state.inCart[action.payload] = 1);
     },
     removeFromCart: (state, action: PayloadAction<number>) => {
-      state.inCart[action.payload].pop();
-      if (state.inCart[action.payload].length === 0) {
+      state.inCart[action.payload] = state.inCart[action.payload] - 1;
+      if (state.inCart[action.payload] < 1) {
         delete state.inCart[action.payload];
       }
     },
