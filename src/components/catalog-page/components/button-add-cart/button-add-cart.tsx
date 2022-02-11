@@ -9,12 +9,15 @@ type ButtonAddCartProps = {
 function ButtonAddCart({ product }: ButtonAddCartProps): JSX.Element {
   const { comments, ...guitar } = product;
   const dispatch = useDispatch();
+
+  const handleOnAddBtnClick = () => {
+    dispatch(addTempItemCart(guitar));
+    dispatch(toggleIsCartAddOpen(true));
+  };
+
   return (
     <button
-      onClick={() => {
-        dispatch(addTempItemCart(guitar));
-        dispatch(toggleIsCartAddOpen(true));
-      }}
+      onClick={handleOnAddBtnClick}
       className='button button--red button--mini button--add-to-cart'
     >
       Купить

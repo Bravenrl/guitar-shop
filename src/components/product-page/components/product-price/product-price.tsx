@@ -1,23 +1,35 @@
+import { useDispatch } from 'react-redux';
+import { addTempItemCart } from '../../../../store/app-data/slice-app-data';
+import { toggleIsCartAddOpen } from '../../../../store/app-process/slice-app-process';
+import { Guitar } from '../../../../types/data';
+
 type ProductPriceProps = {
-  price: number
+  product: Guitar;
 }
 
 
-function ProductPrice({price}: ProductPriceProps): JSX.Element  {
+function ProductPrice({product}: ProductPriceProps): JSX.Element  {
+  const dispatch = useDispatch();
+
+  const handleOnAddBtnClick = () => {
+    dispatch(addTempItemCart(product));
+    dispatch(toggleIsCartAddOpen(true));
+  };
+
   return (
     <div className='product-container__price-wrapper'>
       <p className='product-container__price-info product-container__price-info--title'>
         Цена:
       </p>
       <p className='product-container__price-info product-container__price-info--value'>
-        {price} ₽
+        {product.price} ₽
       </p>
-      <a
+      <button
+        onClick = {handleOnAddBtnClick}
         className='button button--red button--big product-container__button'
-        href='todo'
       >
         Добавить в корзину
-      </a>
+      </button>
     </div>
   );
 }

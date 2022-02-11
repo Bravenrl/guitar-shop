@@ -1,15 +1,39 @@
+import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ModalType } from '../../../const';
+import { useLocation, useMatch, useNavigate } from 'react-router-dom';
+import { AppRoute, ModalType } from '../../../const';
 import { getIsCartSuccessOpen } from '../../../store/app-process/selectors-app-process';
 import { toggleIsCartSuccessOpen } from '../../../store/app-process/slice-app-process';
 import ModalCloseBtn from '../../common/modal-close-btn/modal-close-btn';
 import ModalWrapper from '../../common/modal-wrapper/modal-wrapper';
 
-function ModalCartSuccess(): JSX.Element | null{
+function ModalCartSuccess(): JSX.Element | null {
   const isOpen = useSelector(getIsCartSuccessOpen);
   const dispatch = useDispatch();
+  const isCatalogPage = useMatch(AppRoute.Catalog);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const navigatePathname = useMemo(() => {
+    const state = location.state as { from: string };
+    if (state && state.from) {
+      return state.from;
+    }
+    return `/${AppRoute.Main}}`;
+  }, [location]);
 
   const handleOnCloseClick = () => dispatch(toggleIsCartSuccessOpen(false));
+
+  const handleOnCartBtnClick = () => {
+    dispatch(toggleIsCartSuccessOpen(false));
+    navigate(`/${AppRoute.Cart}`);
+  };
+  const handleOnResumeBtnClick = () => {
+    dispatch(toggleIsCartSuccessOpen(false));
+    if (!isCatalogPage) {
+      navigate(`${navigatePathname}`);
+    }
+  };
 
   if (!isOpen) {
     return null;
@@ -23,10 +47,16 @@ function ModalCartSuccess(): JSX.Element | null{
         </svg>
         <p className='modal__message'>Товар успешно добавлен в корзину</p>
         <div className='modal__button-container modal__button-container--add'>
-          <button className='button button--small modal__button'>
+          <button
+            onClick={handleOnCartBtnClick}
+            className='button button--small modal__button'
+          >
             Перейти в корзину
           </button>
-          <button className='button button--black-border button--small modal__button modal__button--right'>
+          <button
+            onClick={handleOnResumeBtnClick}
+            className='button button--black-border button--small modal__button modal__button--right'
+          >
             Продолжить покупки
           </button>
         </div>

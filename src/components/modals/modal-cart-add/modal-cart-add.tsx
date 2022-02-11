@@ -1,8 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { GuitarsType } from '../../../const';
 import { getTempItemCart } from '../../../store/app-data/selectors-app-data';
+import { resetTempItemCart } from '../../../store/app-data/slice-app-data';
 import { getIsCartAddOpen } from '../../../store/app-process/selectors-app-process';
-import { toggleIsCartAddOpen, toggleIsCartSuccessOpen } from '../../../store/app-process/slice-app-process';
+import {
+  toggleIsCartAddOpen,
+  toggleIsCartSuccessOpen
+} from '../../../store/app-process/slice-app-process';
 import { addToCart } from '../../../store/app-user/slice-app-user';
 import ModalCloseBtn from '../../common/modal-close-btn/modal-close-btn';
 import ModalWrapper from '../../common/modal-wrapper/modal-wrapper';
@@ -13,7 +17,10 @@ function ModalCartAdd(): JSX.Element | null {
     useSelector(getTempItemCart);
   const dispatch = useDispatch();
   const productType = GuitarsType.get(type)?.type;
-  const handleOnCloseClick = () => dispatch(toggleIsCartAddOpen(false));
+  const handleOnCloseClick = () => {
+    dispatch(resetTempItemCart());
+    dispatch(toggleIsCartAddOpen(false));
+  };
 
   if (!isOpen) {
     return null;
@@ -53,6 +60,7 @@ function ModalCartAdd(): JSX.Element | null {
           <button
             onClick={() => {
               dispatch(addToCart(id));
+              dispatch(resetTempItemCart());
               dispatch(toggleIsCartAddOpen(false));
               dispatch(toggleIsCartSuccessOpen(true));
             }}

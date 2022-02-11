@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { generatePath, Link } from 'react-router-dom';
+import { generatePath, Link, useLocation } from 'react-router-dom';
 import { AppRoute, StarsSize } from '../../../../const';
 import { getInCart } from '../../../../store/app-user/selectors-app-user';
 import { Product } from '../../../../types/data';
@@ -12,6 +12,7 @@ type ProductCardProps = {
   product: Product;
 };
 function ProductCard({ product }: ProductCardProps): JSX.Element | null {
+  const location = useLocation();
   const { name, previewImg, price, id, rating, comments } = product;
   const productInfoPath = generatePath(AppRoute.Product, { id: id.toString() });
   const inCart = useSelector(getInCart);
@@ -33,7 +34,11 @@ function ProductCard({ product }: ProductCardProps): JSX.Element | null {
         </p>
       </div>
       <div className='product-card__buttons'>
-        <Link className='button button--mini' to={`/${productInfoPath}`}>
+        <Link
+          state={{ from: location.pathname+location.search }}
+          className='button button--mini'
+          to={`/${productInfoPath}`}
+        >
           Подробнее
         </Link>
         {id in inCart ? <ButtonInCart /> : <ButtonAddCart product={product} />}

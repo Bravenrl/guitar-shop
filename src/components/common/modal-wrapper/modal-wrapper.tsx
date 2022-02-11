@@ -5,6 +5,7 @@ import { RemoveScroll } from 'react-remove-scroll';
 import FocusLock from 'react-focus-lock';
 import { isEscEvent } from '../../../utils';
 import { TestID } from '../../../const-test';
+import { resetTempItemCart } from '../../../store/app-data/slice-app-data';
 
 type ModalWrapperProps = {
   modalType: string;
@@ -17,6 +18,7 @@ function ModalWrapper({ modalType, children }: ModalWrapperProps) {
   const handleKeydown = (evt: KeyboardEvent) => {
     if (isEscEvent(evt)) {
       evt.preventDefault();
+      dispatch(resetTempItemCart());
       dispatch(closeAllModals());
     }
   };
@@ -40,6 +42,7 @@ function ModalWrapper({ modalType, children }: ModalWrapperProps) {
               data-testid = {TestID.ModalOverlay}
               data-close-modal
               onClick={() => {
+                dispatch(resetTempItemCart());
                 dispatch(closeAllModals());
               }}
             >

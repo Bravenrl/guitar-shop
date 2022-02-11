@@ -7,7 +7,7 @@ type ProductContainerProps = {
 }
 
 function ProductContainer({currentProduct}: ProductContainerProps): JSX.Element {
-  const {name, previewImg, price} = currentProduct;
+  const {name, previewImg } = currentProduct;
   return (
     <div className='product-container'>
       <img
@@ -18,7 +18,7 @@ function ProductContainer({currentProduct}: ProductContainerProps): JSX.Element 
         alt={name}
       />
       <ProductInfo currentProduct = {currentProduct}/>
-      <ProductPrice price = {price}/>
+      <ProductPrice product = {currentProduct}/>
     </div>
   );
 }
