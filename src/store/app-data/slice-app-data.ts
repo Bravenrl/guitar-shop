@@ -79,6 +79,9 @@ const appDataSlice = createSlice({
     addProductsInCart: (state, action: PayloadAction<Guitar[]>) => {
       state.productsInCart = action.payload;
     },
+    deleteProductFromCart: (state, action: PayloadAction<number>) => {
+      state.productsInCart = state.productsInCart.filter((product) => product.id !== action.payload);
+    },
     clearCart: (state) => {
       state.productsInCart = initialState.productsInCart;
     },
@@ -104,6 +107,7 @@ export const {
   addTempItemCart,
   resetTempItemCart,
   addProductsInCart,
+  deleteProductFromCart,
   clearCart,
 } = appDataSlice.actions;
 

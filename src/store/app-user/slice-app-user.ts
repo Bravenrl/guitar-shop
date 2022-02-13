@@ -44,11 +44,8 @@ const appUserSlice = createSlice({
         ? (state.inCart[action.payload] = state.inCart[action.payload] + 1)
         : (state.inCart[action.payload] = 1);
     },
-    removeFromCart: (state, action: PayloadAction<number>) => {
-      state.inCart[action.payload] = state.inCart[action.payload] - 1;
-      if (state.inCart[action.payload] < 1) {
-        delete state.inCart[action.payload];
-      }
+    setQuantityCart: (state, action: PayloadAction<{id:number, quantity: number}>) => {
+      state.inCart[action.payload.id] = action.payload.quantity;
     },
     deleteFromCart: (state, action: PayloadAction<number>) => {
       delete state.inCart[action.payload];
@@ -64,7 +61,7 @@ export const {
   resetFilter,
   resetSearchKey,
   addToCart,
-  removeFromCart,
+  setQuantityCart,
   deleteFromCart,
 } = appUserSlice.actions;
 

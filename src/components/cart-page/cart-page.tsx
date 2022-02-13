@@ -16,9 +16,11 @@ function CartPage(): JSX.Element {
 
   const productsIds = useMemo(() => Object.keys(inCart), [inCart]);
 
+
   useEffect(() => {
     dispatch(fetchCartProducts(productsIds));
-  }, [dispatch, productsIds]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const headTitle = `${Title.Cart} - ${DOCUMENT_TITLE}`;
   return (

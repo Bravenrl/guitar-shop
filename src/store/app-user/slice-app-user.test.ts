@@ -8,7 +8,6 @@ import appUser, {
   resetSearchKey,
   setSearchKey,
   addToCart,
-  removeFromCart,
   deleteFromCart
 } from './slice-app-user';
 
@@ -94,37 +93,6 @@ describe('Reducer: appUser', () => {
     });
   });
 
-  it('should remove key from inCart by removeFromCart', () => {
-    state = {
-      ...initialState,
-      inCart: {
-        '1': 1,
-        '2': 1,
-      },
-    };
-    expect(appUser(state, removeFromCart(2))).toEqual({
-      ...initialState,
-      inCart: {
-        '1': 1,
-      },
-    });
-  });
-  it('should update inCart by removeFromCart', () => {
-    state = {
-      ...initialState,
-      inCart: {
-        '1': 2,
-        '2': 1,
-      },
-    };
-    expect(appUser(state, removeFromCart(1))).toEqual({
-      ...initialState,
-      inCart: {
-        '1': 1,
-        '2': 1,
-      },
-    });
-  });
   it('should delete inCart by deleteFromCart', () => {
     state = {
       ...initialState,
