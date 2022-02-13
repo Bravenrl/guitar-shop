@@ -29,6 +29,7 @@ export const MockUSER: AppUser = {
   },
   searchKey: '',
   inCart: {},
+  totalPrice: {},
 };
 
 export const MockAPP: AppProcess = {

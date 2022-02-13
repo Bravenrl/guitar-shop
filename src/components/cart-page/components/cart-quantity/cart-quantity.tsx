@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MAX_IN_CART } from '../../../../const';
 import { addTempItemCart } from '../../../../store/app-data/slice-app-data';
 import { toggleIsCartDeleteOpen } from '../../../../store/app-process/slice-app-process';
-import { getInCart } from '../../../../store/app-user/selectors-app-user';
+import { getInCart, getTotalPrice } from '../../../../store/app-user/selectors-app-user';
 import {
-  setQuantityCart
+  setQuantityCart, setTotalPrice
 } from '../../../../store/app-user/slice-app-user';
 import { Guitar } from '../../../../types/data';
 
@@ -16,6 +16,7 @@ type CartQuantityProps = {
 function CartQuantity({ product }: CartQuantityProps) {
   const { id, price } = product;
   const productCount = useSelector(getInCart)[id];
+  const totalPrice = useSelector(getTotalPrice)[id];
   const dispatch = useDispatch();
   const [quant, setQuant] = useState(productCount.toString());
 
@@ -24,7 +25,8 @@ function CartQuantity({ product }: CartQuantityProps) {
       return;
     }
     dispatch(setQuantityCart({ id, quantity: +quant }));
-  }, [dispatch, id, quant]);
+    dispatch(setTotalPrice({id, price: +quant*price}));
+  }, [dispatch, id, price, quant]);
 
   const handleInputOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const count = evt.target.validity.valid ? evt.target.value : quant;
@@ -82,7 +84,7 @@ function CartQuantity({ product }: CartQuantityProps) {
         </button>
       </div>
 
-      <div className='cart-item__price-total'>{productCount * price} ₽</div>
+      <div className='cart-item__price-total'>{totalPrice} ₽</div>
     </>
   );
 }

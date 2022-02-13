@@ -19,7 +19,7 @@ import appData, {
   addProductsSearch,
   addProductsShow,
   addTempItemCart,
-  clearCart,
+  clearProductsInCart,
   clearCurrentComments,
   clearCurrentProduct,
   clearProductsSearch,
@@ -158,9 +158,9 @@ describe('Reducer: appData', () => {
       productsInCart: fakeGuitars,
     });
   });
-  it('should clear productsInCart by clearCart', () => {
+  it('should clear productsInCart by clearProductsInCart', () => {
     state = { ...state, productsInCart: fakeGuitars };
-    expect(appData(state, clearCart())).toEqual(initialState);
+    expect(appData(state, clearProductsInCart())).toEqual(initialState);
   });
   it('should delete product from productsInCart by deleteProductFromCart', () => {
     state = { ...state, productsInCart: [fakeFirstGuitar, fakeSecondGuitar]};

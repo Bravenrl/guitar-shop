@@ -15,6 +15,7 @@ const initialState: AppUser = {
   },
   searchKey: '',
   inCart: {},
+  totalPrice: {},
 };
 
 const appUserSlice = createSlice({
@@ -49,6 +50,14 @@ const appUserSlice = createSlice({
     },
     deleteFromCart: (state, action: PayloadAction<number>) => {
       delete state.inCart[action.payload];
+      delete state.totalPrice[action.payload];
+    },
+    clearCart: (state) => {
+      state.inCart = initialState.inCart;
+      state.totalPrice = initialState.totalPrice;
+    },
+    setTotalPrice: (state, action: PayloadAction<{id:number, price: number}>) => {
+      state.totalPrice[action.payload.id] = action.payload.price;
     },
   },
 });
@@ -63,6 +72,8 @@ export const {
   addToCart,
   setQuantityCart,
   deleteFromCart,
+  clearCart,
+  setTotalPrice,
 } = appUserSlice.actions;
 
 export default appUserSlice.reducer;
