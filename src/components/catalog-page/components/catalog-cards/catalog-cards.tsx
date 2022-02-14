@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   getIsLoading,
@@ -10,12 +11,18 @@ import ProductCard from '../product-card/product-card';
 function CatalogCards(): JSX.Element {
   const productsShow = useSelector(getProductsShow);
   const isLoading = useSelector(getIsLoading);
+  const [isCurrentLoading, setIsCurrentLoading] = useState(true);
 
-  if (isLoading) {
+  useEffect(() => {
+    setIsCurrentLoading(isLoading);
+    return () => setIsCurrentLoading(true);
+  }, [isLoading]);
+
+  if (isCurrentLoading) {
     return <Preloader />;
   }
 
-  if ((productsShow.length === 0)&&(!isLoading)) {
+  if (productsShow.length === 0 && !isCurrentLoading) {
     return <NoProduct />;
   }
 
