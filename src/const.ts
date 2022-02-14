@@ -108,3 +108,8 @@ export const CouponError = {
   value: 'error',
   discount: 0,
 };
+
+export const CouponInit = {
+  value: null,
+  discount: 0,
+};

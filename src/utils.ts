@@ -72,3 +72,11 @@ export const getSumValues = (object: InCart): number => {
     ? values.reduce((sum, item) => sum = sum+item)
     : 0;
 };
+
+export const getAllIds = (object: InCart): number[] =>
+  Object.entries(object)
+    .reduce((allIds: number[], [key, value]) => {
+      const currentIds = new Array(value).fill(Number(key));
+      return [...allIds, ...currentIds];
+    }, [] as number[]);
+

@@ -237,7 +237,7 @@ export const postCoupon =
       async (dispatch, _getState, api): Promise<void> => {
         try {
           const { data } = await api.post<number>(
-            `${ApiRoute.Coupons}`, value);
+            `${ApiRoute.Coupons}`, {coupon: value});
           dispatch(addCoupon({value, discount: data}));
         } catch (err) {
           if (err instanceof Error) {
@@ -260,9 +260,9 @@ export const postOrder =
           try {
             await api.post<number>(
               `${ApiRoute.Orders}`, order);
+            dispatch(clearProductsInCart());
             dispatch(clearCoupon());
             dispatch(clearCart());
-            dispatch(clearProductsInCart());
           } catch (err) {
             if (err instanceof Error) {
               if  (err.message === ErrorMessage.NetworkError) {

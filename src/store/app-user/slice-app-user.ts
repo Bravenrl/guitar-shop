@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CouponInit } from '../../const';
 import { AppUser, Coupon, FilterState, SortState } from '../../types/state';
 import { Slice } from '../const';
 
@@ -16,10 +17,7 @@ const initialState: AppUser = {
   searchKey: '',
   inCart: {},
   totalPrice: {},
-  coupon: {
-    value: null,
-    discount: 0,
-  },
+  coupon: CouponInit,
 };
 
 const appUserSlice = createSlice({

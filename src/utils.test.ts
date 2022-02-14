@@ -1,7 +1,7 @@
 import { OrderKey, ProductType, SortKey } from './const';
 import { CreateFakeComment, fakeProduct } from './mock/fakeData';
 import { FilterState, SortState } from './types/state';
-import { createFilterQuery, createPageQuery, createQuery, createSortQuery, getCommentsSortByDate, getFormatDate, getSortedProducts, getSumValues } from './utils';
+import { createFilterQuery, createPageQuery, createQuery, createSortQuery, getAllIds, getCommentsSortByDate, getFormatDate, getSortedProducts, getSumValues } from './utils';
 
 const EXPECT_FILTER_QUERY = 'price_gte=10&price_lte=20&stringCount=6&stringCount=7&type=acoustic&type=electric';
 const EXPECT_PAGE_QUERY = '_end=9&_start=0';
@@ -49,9 +49,10 @@ const fakeCommentSort = [
 const DATE = '2022-01-24T12:32:16.934Z';
 const FORMAT_DATE = '24 января';
 const FAKE_IN_CART = {
-  '1': 5,
-  '10': 20,
+  '1': 1,
+  '10': 4,
 };
+const FAKE_ORDER = [1, 10, 10, 10, 10];
 
 describe('Utils function', () => {
   test('Function: createFilterQuery', () => {
@@ -89,6 +90,12 @@ describe('Utils function', () => {
   });
   test('Function: getSumValues', () => {
     const totalInCart = getSumValues(FAKE_IN_CART);
-    expect(totalInCart).toEqual(25);
+    expect(totalInCart).toEqual(5);
   });
+  test('Function: getAllIds', () => {
+    const allIds = getAllIds(FAKE_IN_CART);
+    expect(allIds.length).toEqual(5);
+    expect(allIds).toEqual(FAKE_ORDER);
+  });
+
 });
