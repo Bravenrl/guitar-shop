@@ -5,15 +5,15 @@ import MockAdapter from 'axios-mock-adapter';
 import { State } from '../types/state';
 import { ApiRoute, HEADER_TOTAL_COUNT, HttpCode } from '../services/const';
 import { CreateFakeComment, CreateFakeGuitar, fakeComments, fakeGuitars, fakeProducts } from '../mock/fakeData';
-import { addCurrentComments, addCurrentProduct, addNewComment, addPriceEnd, addPriceStart, addProductsCount, addProductsInCart, addProductsSearch, addProductsShow, clearProductsCount, toggleIsLoading } from './app-data/slice-app-data';
+import { addCurrentComments, addCurrentProduct, addNewComment, addPriceEnd, addPriceStart, addProductsCount, addProductsInCart, addProductsSearch, addProductsShow, clearProductsCount, clearProductsInCart, toggleIsLoading } from './app-data/slice-app-data';
 import { api } from '../services/api';
-import { setFilter, setSort } from './app-user/slice-app-user';
+import { addCoupon, clearCart, clearCoupon, setFilter, setSort } from './app-user/slice-app-user';
 import { MockUSER} from '../mock/mockStore';
-import { fetchCartProducts, fetchCurrentProduct, fetchFilteredProducts, fetchOnPageProducts, fetchProductsPrice, fetchProductsPriceMax, fetchProductsSearch, fetchSortedProducts, postComment } from './api-actions';
+import { fetchCartProducts, fetchCurrentProduct, fetchFilteredProducts, fetchOnPageProducts, fetchProductsPrice, fetchProductsPriceMax, fetchProductsSearch, fetchSortedProducts, postComment, postCoupon, postOrder } from './api-actions';
 import { createQuery } from '../utils';
-import { AppRoute, FIRST_PRODUCT } from '../const';
+import { AppRoute, CouponError, FIRST_PRODUCT } from '../const';
 import { redirectToRoute } from './middlewares/middleware-action';
-import { Guitar } from '../types/data';
+import { Guitar, Order } from '../types/data';
 import { toggleIsReviewOpen, toggleIsSuccessOpen } from './app-process/slice-app-process';
 import { toast } from 'react-toastify';
 
@@ -43,6 +43,13 @@ describe('Async actions', () => {
   const FAKE_COMMENTS = fakeComments;
   const FAKE_PRODUCT = {...FAKE_PRODUCT_INFO, comments: FAKE_COMMENTS};
   const FAKE_COMMENT = CreateFakeComment();
+  const FAKE_VALUE = 'coupon';
+  const FAKE_DISCOUNT = 50;
+  const FAKE_ORDER: Order = {
+    guitarsIds: [1, 1],
+    coupon: FAKE_VALUE,
+  };
+
   const NewComment = {
     guitarId: 1,
     userName: 'user',
@@ -247,6 +254,41 @@ describe('Async actions', () => {
       toggleIsLoading(true),
       addProductsInCart([FAKE_PRODUCT_INFO, FAKE_PRODUCT_INFO, FAKE_PRODUCT_INFO]),
       toggleIsLoading(false),
+    ]);
+  });
+
+  it('should dispatch addCoupon with {FAKE_COMMENT when POST /coupons & HttpCode.OK', async () => {
+    mockAPI
+      .onPost(ApiRoute.Coupons)
+      .reply(HttpCode.OK, FAKE_DISCOUNT);
+    const store = mockStore();
+    await store.dispatch(postCoupon(FAKE_VALUE));
+    expect(store.getActions()).toEqual([
+      { payload: {value: FAKE_VALUE, discount: FAKE_DISCOUNT}, type: addCoupon.type },
+    ]);
+  });
+
+  it('should dispatch addCoupon with CouponError when POST /coupons & HttpCode.BadRequest', async () => {
+    mockAPI
+      .onPost(ApiRoute.Coupons)
+      .reply(HttpCode.BadRequest);
+    const store = mockStore();
+    await store.dispatch(postCoupon(FAKE_VALUE));
+    expect(store.getActions()).toEqual([
+      { payload: CouponError, type: addCoupon.type },
+    ]);
+  });
+
+  it('should dispatch clearCoupon, clearCart, clearProductsInCart when POST /orders & HttpCode.OK', async () => {
+    mockAPI
+      .onPost(ApiRoute.Orders)
+      .reply(HttpCode.OK);
+    const store = mockStore();
+    await store.dispatch(postOrder(FAKE_ORDER));
+    expect(store.getActions()).toEqual([
+      { type: clearCoupon.type },
+      { type: clearCart.type },
+      { type: clearProductsInCart.type },
     ]);
   });
 });

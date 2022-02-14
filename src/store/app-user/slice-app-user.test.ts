@@ -11,7 +11,9 @@ import appUser, {
   deleteFromCart,
   clearCart,
   setQuantityCart,
-  setTotalPrice
+  setTotalPrice,
+  clearCoupon,
+  addCoupon
 } from './slice-app-user';
 
 const initialState: AppUser = {
@@ -28,6 +30,10 @@ const initialState: AppUser = {
   searchKey: '',
   inCart: {},
   totalPrice: {},
+  coupon: {
+    value: null,
+    discount: 0,
+  },
 };
 
 const FAKE_SORT = {
@@ -40,9 +46,16 @@ const FAKE_FILTER = {
   priceMin: '1',
   priceMax: '10',
 };
+
+const FAKE_COUPON = {
+  value: 'light-333',
+  discount: 15,
+};
+
 const FAKE_KEY = 'key';
 const FAKE_PRICE = 10;
 const FAKE_QUANTITY = 10;
+
 describe('Reducer: appUser', () => {
   let state = initialState;
   it('without additional parameters should return initial state', () => {
@@ -147,5 +160,16 @@ describe('Reducer: appUser', () => {
         totalPrice: { '1': FAKE_PRICE },
       },
     );
+  });
+  it('should clear coupon by clearCoupon', () => {
+    state = { ...initialState, coupon: FAKE_COUPON };
+    expect(appUser(state, clearCoupon())).toEqual(initialState);
+  });
+  it('should add coupon by addCoupon', () => {
+    state = initialState;
+    expect(appUser(state, addCoupon(FAKE_COUPON))).toEqual({
+      ...initialState,
+      coupon: FAKE_COUPON,
+    });
   });
 });

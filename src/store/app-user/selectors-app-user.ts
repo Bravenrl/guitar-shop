@@ -8,6 +8,7 @@ export const getFilter = (state: State) => state[Reducer.User].filter;
 export const getSearchKey = (state: State) => state[Reducer.User].searchKey;
 export const getInCart = (state: State) => state[Reducer.User].inCart;
 export const getTotalPrice = (state: State) => state[Reducer.User].totalPrice;
+export const getCoupon = (state: State) => state[Reducer.User].coupon;
 
 export const getTotalInCart = createSelector(getInCart, getSumValues);
 

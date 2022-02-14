@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppUser, FilterState, SortState } from '../../types/state';
+import { AppUser, Coupon, FilterState, SortState } from '../../types/state';
 import { Slice } from '../const';
 
 const initialState: AppUser = {
@@ -16,6 +16,10 @@ const initialState: AppUser = {
   searchKey: '',
   inCart: {},
   totalPrice: {},
+  coupon: {
+    value: null,
+    discount: 0,
+  },
 };
 
 const appUserSlice = createSlice({
@@ -59,6 +63,12 @@ const appUserSlice = createSlice({
     setTotalPrice: (state, action: PayloadAction<{id:number, price: number}>) => {
       state.totalPrice[action.payload.id] = action.payload.price;
     },
+    addCoupon: (state, action: PayloadAction<Coupon>) => {
+      state.coupon = action.payload;
+    },
+    clearCoupon: (state) => {
+      state.coupon = initialState.coupon;
+    },
   },
 });
 
@@ -74,6 +84,8 @@ export const {
   deleteFromCart,
   clearCart,
   setTotalPrice,
+  addCoupon,
+  clearCoupon,
 } = appUserSlice.actions;
 
 export default appUserSlice.reducer;

@@ -13,6 +13,8 @@ export enum ErrorMessage {
 export enum ApiRoute {
   Products = '/guitars',
   Comments = '/comments',
+  Coupons = '/coupons',
+  Orders = '/orders',
 }
 
 export const enum HttpCode {

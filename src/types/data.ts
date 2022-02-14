@@ -37,3 +37,8 @@ export type CommentPost = Omit<Comment, 'createAt' | 'id'>
 export type CommentData = Omit<CommentPost, 'guitarId'>
 
 export type Product = Guitar & { comments: Comment[] };
+
+export type Order = {
+  guitarsIds: number[],
+  coupon: null | string
+};

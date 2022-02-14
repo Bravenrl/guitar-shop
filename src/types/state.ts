@@ -28,6 +28,7 @@ export type AppUser = {
   searchKey: string,
   inCart: InCart,
   totalPrice: TotalPrice,
+  coupon: Coupon,
 };
 
 export type AppProcess = {
@@ -56,4 +57,9 @@ export type InCart = {
 
 export type TotalPrice = {
   [key: string]: number
+}
+
+export type Coupon = {
+  value: string | null,
+  discount: number,
 }

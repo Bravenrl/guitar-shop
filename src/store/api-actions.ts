@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { AppRoute, FIRST_PAGE_NUM, FIRST_PRODUCT } from '../const';
+import { AppRoute, CouponError, FIRST_PAGE_NUM, FIRST_PRODUCT } from '../const';
 import { ApiRoute, ErrorMessage, HEADER_TOTAL_COUNT } from '../services/const';
-import { Comment, CommentPost, Guitar, Product } from '../types/data';
+import { Comment, CommentPost, Guitar, Order, Product } from '../types/data';
 import { FilterState, SortState, ThunkActionResult } from '../types/state';
 import { createQuery } from '../utils';
 import {
@@ -16,10 +16,11 @@ import {
   addProductsSearch,
   addProductsShow,
   clearProductsCount,
+  clearProductsInCart,
   toggleIsLoading
 } from './app-data/slice-app-data';
 import { toggleIsReviewOpen, toggleIsSuccessOpen } from './app-process/slice-app-process';
-import { setFilter, setSort } from './app-user/slice-app-user';
+import { addCoupon, clearCart, clearCoupon, setFilter, setSort } from './app-user/slice-app-user';
 import { redirectToRoute } from './middlewares/middleware-action';
 
 export const fetchProductsSearch =
@@ -230,3 +231,49 @@ export const fetchCartProducts =
         }
         dispatch(toggleIsLoading(false));
       };
+
+export const postCoupon =
+    (value: string): ThunkActionResult =>
+      async (dispatch, _getState, api): Promise<void> => {
+        try {
+          const { data } = await api.post<number>(
+            `${ApiRoute.Coupons}`, value);
+          dispatch(addCoupon({value, discount: data}));
+        } catch (err) {
+          if (err instanceof Error) {
+            if  (err.message === ErrorMessage.NetworkError) {
+              toast.error(err.message);
+              toast.clearWaitingQueue();
+            }
+            if (err.message === ErrorMessage.BadRequest) {
+              dispatch(addCoupon(CouponError));
+              toast.warning(ErrorMessage.Incorrect);
+              toast.clearWaitingQueue();
+            }
+          }
+        }
+      };
+
+export const postOrder =
+      (order: Order): ThunkActionResult =>
+        async (dispatch, getState, api): Promise<void> => {
+          try {
+            await api.post<number>(
+              `${ApiRoute.Orders}`, order);
+            dispatch(clearCoupon());
+            dispatch(clearCart());
+            dispatch(clearProductsInCart());
+          } catch (err) {
+            if (err instanceof Error) {
+              if  (err.message === ErrorMessage.NetworkError) {
+                toast.error(err.message);
+                toast.clearWaitingQueue();
+              }
+              if (err.message === ErrorMessage.BadRequest) {
+                dispatch(addCoupon(CouponError));
+                toast.warning(ErrorMessage.Incorrect);
+                toast.clearWaitingQueue();
+              }
+            }
+          }
+        };

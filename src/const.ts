@@ -11,7 +11,7 @@ export const TOAST_LIMIT = 1;
 export const DOCUMENT_TITLE = 'Guitar-shop';
 export const MAX_IN_CART = 99;
 
-export const StarTitle: {[key:number]:string} = {
+export const StarTitle: { [key: number]: string } = {
   1: 'Ужасно',
   2: 'Плохо',
   3: 'Нормально',
@@ -34,13 +34,13 @@ export enum AppRoute {
   Main = 'catalog/page_1',
   About = 'about',
   Where = 'where',
-  NotFoundPage = 'page404'
+  NotFoundPage = 'page404',
 }
 
 export const HeaderLinks = new Map([
   ['catalog', { title: 'Каталог', link: `/${AppRoute.Main}` }],
-  ['where', { title: 'Где купить?', link: `/${AppRoute.Where}`}],
-  ['about', { title: 'О компании', link: `/${AppRoute.About }`}],
+  ['where', { title: 'Где купить?', link: `/${AppRoute.Where}` }],
+  ['about', { title: 'О компании', link: `/${AppRoute.About}` }],
 ]);
 
 export enum SortKey {
@@ -78,18 +78,33 @@ export const enum ParamsKey {
 }
 
 export const GuitarsType = new Map<string, GuitarType>([
-  ['acoustic', {id: 'acoustic', title: 'Акустические гитары', type: 'Аккустическая гитара'}],
-  ['electric', {id: 'electric', title: 'Электрогитары', type: 'Электрогитара'}],
-  ['ukulele', {id: 'ukulele', title: 'Укулеле', type: 'Укулеле'}],
+  [
+    'acoustic',
+    {
+      id: 'acoustic',
+      title: 'Акустические гитары',
+      type: 'Аккустическая гитара',
+    },
+  ],
+  [
+    'electric',
+    { id: 'electric', title: 'Электрогитары', type: 'Электрогитара' },
+  ],
+  ['ukulele', { id: 'ukulele', title: 'Укулеле', type: 'Укулеле' }],
 ]);
 
 export const StarsSize = {
-  ProductReview: {width: 16, height: 16},
-  ProductInfo: {width: 14, height: 14},
-  ProductCard: {width: 12, height: 11},
+  ProductReview: { width: 16, height: 16 },
+  ProductInfo: { width: 14, height: 14 },
+  ProductCard: { width: 12, height: 11 },
 };
 
 export enum ModalType {
   Success = 'modal--success',
   Review = 'modal--review',
 }
+
+export const CouponError = {
+  value: 'error',
+  discount: 0,
+};
