@@ -1,4 +1,8 @@
+import { useMatch } from 'react-router-dom';
+import { AppRoute } from '../../../const';
+
 function NoProduct(): JSX.Element | null {
+  const isCartPage = useMatch(AppRoute.Cart);
   return (
     <div
       style={{
@@ -10,7 +14,11 @@ function NoProduct(): JSX.Element | null {
         height: '500px',
       }}
     >
-      <h2>Нет гитар с заданными параметрами</h2>
+      {isCartPage ? (
+        <h2>В Вашей корзине нет гитар</h2>
+      ) : (
+        <h2>Нет гитар с заданными параметрами</h2>
+      )}
     </div>
   );
 }

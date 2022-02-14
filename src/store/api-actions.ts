@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { AppRoute, CouponError, FIRST_PAGE_NUM, FIRST_PRODUCT } from '../const';
-import { ApiRoute, ErrorMessage, HEADER_TOTAL_COUNT } from '../services/const';
+import { ApiRoute, ErrorMessage, HEADER_TOTAL_COUNT, SUCCESS_MESSAGE } from '../services/const';
 import { Comment, CommentPost, Guitar, Order, Product } from '../types/data';
 import { FilterState, SortState, ThunkActionResult } from '../types/state';
 import { createQuery } from '../utils';
@@ -263,6 +263,7 @@ export const postOrder =
             dispatch(clearProductsInCart());
             dispatch(clearCoupon());
             dispatch(clearCart());
+            toast.success(SUCCESS_MESSAGE);
           } catch (err) {
             if (err instanceof Error) {
               if  (err.message === ErrorMessage.NetworkError) {
