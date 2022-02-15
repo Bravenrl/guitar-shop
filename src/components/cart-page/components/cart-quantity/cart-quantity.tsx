@@ -1,6 +1,6 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MAX_IN_CART } from '../../../../const';
+import { DELAY_QUANT, MAX_IN_CART } from '../../../../const';
 import { addTempItemCart } from '../../../../store/app-data/slice-app-data';
 import { toggleIsCartDeleteOpen } from '../../../../store/app-process/slice-app-process';
 import { getInCart, getTotalPrice } from '../../../../store/app-user/selectors-app-user';
@@ -19,13 +19,19 @@ function CartQuantity({ product }: CartQuantityProps) {
   const totalPrice = useSelector(getTotalPrice)[id];
   const dispatch = useDispatch();
   const [quant, setQuant] = useState(productCount.toString());
+  const timeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    if (timeout.current) {
+      clearTimeout(timeout.current);
+    }
     if (quant === '') {
       return;
     }
-    dispatch(setQuantityCart({ id, quantity: +quant }));
-    dispatch(setTotalPrice({id, price: +quant*price}));
+    timeout.current = setTimeout(() => {
+      dispatch(setQuantityCart({ id, quantity: +quant }));
+      dispatch(setTotalPrice({id, price: +quant*price}));
+    }, DELAY_QUANT);
   }, [dispatch, id, price, quant]);
 
   const handleInputOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -90,3 +96,4 @@ function CartQuantity({ product }: CartQuantityProps) {
 }
 
 export default CartQuantity;
+

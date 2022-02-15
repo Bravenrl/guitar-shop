@@ -4,6 +4,7 @@ export const PRODUCT_PAGE_LIMIT = 9;
 export const INIT_COMMENTS_COUNT = 3;
 export const FIRST_PRODUCT = 0;
 export const DELAY = 180;
+export const DELAY_QUANT = 240;
 export const PAGE_COUNT = 3;
 export const FIRST_PAGE_NUM = 1;
 export const STAR_NUMBERS = [1, 2, 3, 4, 5];
