@@ -55,6 +55,14 @@ export const TestReg = {
   SubmitBtn: new RegExp('Отправить отзыв', 'i'),
   ValidErrorText: new RegExp('Заполните поле', 'i'),
   ValidErrorStar: new RegExp('Поставьте оценку', 'i'),
+  ToCart: new RegExp('Перейти в корзину', 'i'),
+  CartSuccessMessage: new RegExp('Товар успешно добавлен в корзину', 'i'),
+  CartSuccessRedirect: new RegExp('Перейти в корзину', 'i'),
+  CartResume: new RegExp('Продолжить покупки', 'i'),
+  CartAddTitle: new RegExp('Добавить товар в корзину', 'i'),
+  CartAddBtn: new RegExp('Добавить в корзину', 'i'),
+  CartDeleteTitle: new RegExp('Удалить этот товар?', 'i'),
+  CartDeleteRemove: new RegExp('Удалить товар', 'i'),
 };
 
 export const ROOT = `${TestReg.Root}`;

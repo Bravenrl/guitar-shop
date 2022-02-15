@@ -4,6 +4,7 @@ import { ROOT, TestID } from '../../../const-test';
 import ModalWrapper from './modal-wrapper';
 import * as Redux from 'react-redux';
 import { closeAllModals } from '../../../store/app-process/slice-app-process';
+import { resetTempItemCart } from '../../../store/app-data/slice-app-data';
 
 const dispatch = jest.fn();
 const useDispatch = jest.spyOn(Redux, 'useDispatch');
@@ -20,7 +21,8 @@ describe('Component: ModalWrapper', () => {
     expect(screen.getByTestId(TestID.ModalOverlay)).toBeInTheDocument();
     userEvent.click(screen.getByTestId(TestID.ModalOverlay));
     fireEvent.keyDown(screen.getByTestId(TestID.ModalWrap), {key:'Esc'});
-    expect(dispatch).toBeCalledWith({type: closeAllModals.type});
-    expect(dispatch).toBeCalledTimes(2);
+    expect(dispatch).toBeCalledWith(closeAllModals());
+    expect(dispatch).toBeCalledWith(resetTempItemCart());
+    expect(dispatch).toBeCalledTimes(4);
   });
 });

@@ -19,7 +19,7 @@ function ModalCartSuccess(): JSX.Element | null {
     if (state && state.from) {
       return state.from;
     }
-    return `/${AppRoute.Main}}`;
+    return `/${AppRoute.Main}`;
   }, [location]);
 
   const handleOnCloseClick = () => dispatch(toggleIsCartSuccessOpen(false));
