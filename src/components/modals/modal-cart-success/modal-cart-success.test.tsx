@@ -13,7 +13,6 @@ import { HistoryRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import { AppRoute } from '../../../const';
-import { AnyAction } from '@reduxjs/toolkit';
 
 const dispatch = jest.fn();
 const useDispatch = jest.spyOn(Redux, 'useDispatch');
@@ -24,7 +23,7 @@ const componentState = {
 };
 const history = createMemoryHistory();
 
-const renderModalCartSuccess = (store: MockStore<any, AnyAction>) =>
+const renderModalCartSuccess = (store: MockStore) =>
   render(
     <Provider store={store}>
       <HistoryRouter history={history}>
@@ -35,7 +34,7 @@ const renderModalCartSuccess = (store: MockStore<any, AnyAction>) =>
     </Provider>);
 
 
-describe('Component: ModalCartDelete', () => {
+describe('Component: ModalCartSuccess', () => {
   afterAll(cleanup);
   it('should not render', () => {
     const store = mockStore({...componentState, APP: {isCartSuccessOpen: false}});

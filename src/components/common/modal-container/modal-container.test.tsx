@@ -21,6 +21,9 @@ describe('Component: ModalReview', () => {
     customRenderWithProvider(<ModalContainer />, store);
     expect(screen.queryByText(TestReg.SubmitBtn)).not.toBeInTheDocument();
     expect(screen.queryByText(TestReg.SuccessBtn)).not.toBeInTheDocument();
+    expect(screen.queryByText(TestReg.CartAddTitle)).not.toBeInTheDocument();
+    expect(screen.queryByText(TestReg.CartDeleteTitle)).not.toBeInTheDocument();
+    expect(screen.queryByText(TestReg.CartSuccessMessage)).not.toBeInTheDocument();
   });
   it('should render ModalReview', () => {
     const store = mockStore({ ...componentState, APP: { isReviewOpen: true } });
@@ -34,5 +37,29 @@ describe('Component: ModalReview', () => {
     });
     customRenderWithProvider(<ModalContainer />, store);
     expect(screen.getByText(TestReg.SuccessBtn)).toBeInTheDocument();
+  });
+  it('should render ModalCartAdd', () => {
+    const store = mockStore({
+      ...componentState,
+      APP: { isCartAddOpen: true },
+    });
+    customRenderWithProvider(<ModalContainer />, store);
+    expect(screen.getByText(TestReg.CartAddTitle)).toBeInTheDocument();
+  });
+  it('should render ModalCartDelete', () => {
+    const store = mockStore({
+      ...componentState,
+      APP: { isCartDeleteOpen: true },
+    });
+    customRenderWithProvider(<ModalContainer />, store);
+    expect(screen.getByText(TestReg.CartDeleteTitle)).toBeInTheDocument();
+  });
+  it('should render ModalCartSuccess', () => {
+    const store = mockStore({
+      ...componentState,
+      APP: { isCartSuccessOpen: true },
+    });
+    customRenderWithProvider(<ModalContainer />, store);
+    expect(screen.getByText(TestReg.CartSuccessMessage)).toBeInTheDocument();
   });
 });
