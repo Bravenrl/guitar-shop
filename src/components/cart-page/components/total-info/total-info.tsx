@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { TestID } from '../../../../const-test';
 import { postOrder } from '../../../../store/api-actions';
 import {
   getCoupon,
@@ -23,6 +24,7 @@ function TotalInfo(): JSX.Element {
       <p className='cart__total-item'>
         <span className='cart__total-value-name'>Скидка:</span>
         <span
+          data-testid = {TestID.Discount}
           className={`cart__total-value ${
             !!totalDiscount && 'cart__total-value--bonus'
           }`}

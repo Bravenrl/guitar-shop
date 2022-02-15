@@ -63,6 +63,9 @@ export const TestReg = {
   CartAddBtn: new RegExp('Добавить в корзину', 'i'),
   CartDeleteTitle: new RegExp('Удалить этот товар?', 'i'),
   CartDeleteRemove: new RegExp('Удалить товар', 'i'),
+  OrderBtn: new RegExp('Оформить заказ', 'i'),
+  QuantAdd: new RegExp('Увеличить количество', 'i'),
+  QuantRemove: new RegExp('Уменьшить количество', 'i'),
 };
 
 export const ROOT = `${TestReg.Root}`;
@@ -92,5 +95,7 @@ export const enum TestID {
   InputComment = 'comment',
   ModalOverlay = 'modalOverlay',
   ModalWrap = 'modalWrap',
-  Submit = 'submit'
+  Submit = 'submit',
+  Discount = 'discount',
+  Quantity = 'quantity'
 }

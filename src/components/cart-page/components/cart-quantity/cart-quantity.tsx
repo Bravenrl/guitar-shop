@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DELAY_QUANT, MAX_IN_CART } from '../../../../const';
+import { TestID } from '../../../../const-test';
 import { addTempItemCart } from '../../../../store/app-data/slice-app-data';
 import { toggleIsCartDeleteOpen } from '../../../../store/app-process/slice-app-process';
 import { getInCart, getTotalPrice } from '../../../../store/app-user/selectors-app-user';
@@ -39,7 +40,7 @@ function CartQuantity({ product }: CartQuantityProps) {
     setQuant(count);
   };
 
-  const handleInputOnBlur = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleInputOnBlur = () => {
     if (quant === '') {
       setQuant(productCount.toString());
     }
@@ -73,6 +74,7 @@ function CartQuantity({ product }: CartQuantityProps) {
           name='2-count'
           pattern='[1-9]|[1-9][0-9]'
           value={quant}
+          data-testid={TestID.Quantity}
         />
         <button
           onClick={() => {
