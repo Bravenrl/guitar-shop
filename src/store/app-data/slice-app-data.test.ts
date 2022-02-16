@@ -159,11 +159,11 @@ describe('Reducer: appData', () => {
     });
   });
   it('should clear productsInCart by clearProductsInCart', () => {
-    state = { ...state, productsInCart: fakeGuitars };
+    state = { ...initialState, productsInCart: fakeGuitars };
     expect(appData(state, clearProductsInCart())).toEqual(initialState);
   });
   it('should delete product from productsInCart by deleteProductFromCart', () => {
-    state = { ...state, productsInCart: [fakeFirstGuitar, fakeSecondGuitar]};
+    state = { ...initialState, productsInCart: [fakeFirstGuitar, fakeSecondGuitar]};
     expect(appData(state, deleteProductFromCart(FAKE_ID))).toEqual({ ...state, productsInCart: [fakeFirstGuitar]});
   });
 });
