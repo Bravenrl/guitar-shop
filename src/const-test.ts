@@ -66,6 +66,12 @@ export const TestReg = {
   OrderBtn: new RegExp('Оформить заказ', 'i'),
   QuantAdd: new RegExp('Увеличить количество', 'i'),
   QuantRemove: new RegExp('Уменьшить количество', 'i'),
+  CartDeleteBtn: new RegExp('Удалить', 'i'),
+  CouponTitle: new RegExp('Промокод на скидку', 'i'),
+  CouponRight: new RegExp('Промокод принят', 'i'),
+  CouponWrong: new RegExp('неверный промокод', 'i'),
+  CouponBtn: new RegExp('Применить', 'i'),
+  CartNoProduct: new RegExp('В Вашей корзине нет гитар', 'i'),
 };
 
 export const ROOT = `${TestReg.Root}`;
@@ -97,5 +103,6 @@ export const enum TestID {
   ModalWrap = 'modalWrap',
   Submit = 'submit',
   Discount = 'discount',
-  Quantity = 'quantity'
+  Quantity = 'quantity',
+  InputCoupon = 'coupon',
 }

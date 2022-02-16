@@ -23,7 +23,7 @@ const NAME = 'Product';
 const ID = 1;
 const fakeCurrentProduct = { ...fakeProduct, name: NAME, id: ID };
 const componentState = {
-  DATA: { ...MockDATA, currentProduct: fakeCurrentProduct },
+  DATA: { ...MockDATA, currentProduct: fakeCurrentProduct, isLoading: false },
   USER: MockUSER,
   APP: MockAPP,
 };

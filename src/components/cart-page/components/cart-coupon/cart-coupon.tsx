@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CouponError } from '../../../../const';
+import { TestID } from '../../../../const-test';
 import { postCoupon } from '../../../../store/api-actions';
 import { getCoupon } from '../../../../store/app-user/selectors-app-user';
 import { clearCoupon } from '../../../../store/app-user/slice-app-user';
@@ -40,6 +41,7 @@ function CartCoupon(): JSX.Element {
             id='coupon'
             name='coupon'
             value={coupon}
+            data-testid = {TestID.InputCoupon}
           />
           {couponValue !== null && couponValue !== CouponError.value && (
             <p className='form-input__message form-input__message--success'>
